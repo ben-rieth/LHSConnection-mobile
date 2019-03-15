@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'placeholder_widget.dart';
+import 'search_widget.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final List<Widget> _children = [
     PlaceholderWidget(Colors.white),
-    PlaceholderWidget(Colors.deepOrange),
+    Search(),
     PlaceholderWidget(Colors.green),
   ];
 
@@ -40,8 +41,8 @@ class _HomeState extends State<Home> {
               text: "Search",
             ),
             Tab(
-              icon: new Icon(Icons.question_answer),
-              text: "Something",
+              icon: new Icon(Icons.whatshot),
+              text: "News",
             ),
           ],
           labelColor: Colors.yellow,
