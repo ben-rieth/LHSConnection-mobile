@@ -7,6 +7,9 @@ class PlaceholderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    FocusScope.of(context).requestFocus(new FocusNode());
+
     return Container(
       color: color,
     );
