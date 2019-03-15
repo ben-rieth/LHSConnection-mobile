@@ -10,6 +10,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   List<String> _filteredItems = List<String>();
   final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
+  String dropdownValue = "Any";
 
   TextEditingController editingController = new TextEditingController();
 
@@ -22,6 +23,7 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Container (
+      //color: Colors.greenAccent,
       child: Column (
         children: <Widget>[
 
@@ -31,10 +33,44 @@ class _SearchState extends State<Search> {
               onChanged: _onSearchChange,
               controller: editingController,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 hintText: "Search",
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25.0))),
+              ),
+            ),
+          ),
+
+          Center(
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String> (
+                value: dropdownValue,
+                onChanged: _newFilter,
+                items: <DropdownMenuItem<String>>[
+
+                  DropdownMenuItem<String>(
+                    value: "Any",
+                    child: Text("Any"),
+                  ),
+
+                  DropdownMenuItem<String>(
+                    value: "Classes",
+                    child: Text("Classes"),
+                  ),
+
+                  DropdownMenuItem<String>(
+                    value: "Clubs",
+                    child: Text("Clubs"),
+                  ),
+
+                  DropdownMenuItem<String>(
+                    value: "People",
+                    child: Text("People"),
+                  ),
+
+                ],
               ),
             ),
           ),
@@ -54,6 +90,12 @@ class _SearchState extends State<Search> {
         ],
       ),
     );
+  }
+
+  void _newFilter(String newValue) {
+    setState(() {
+      dropdownValue = newValue;
+    });
   }
 
   void _onSearchChange(String query) {
