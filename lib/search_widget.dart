@@ -11,6 +11,7 @@ class _SearchState extends State<Search> {
   List<String> _filteredItems = List<String>();
   final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
   String dropdownValue = "Any";
+  bool _resultsAreVisible = false;
 
   TextEditingController editingController = new TextEditingController();
 
@@ -48,44 +49,29 @@ class _SearchState extends State<Search> {
               child: DropdownButton<String> (
                 value: dropdownValue,
                 onChanged: _newFilter,
-                items: <DropdownMenuItem<String>>[
-
-                  DropdownMenuItem<String>(
-                    value: "Any",
-                    child: Text("Any"),
-                  ),
-
-                  DropdownMenuItem<String>(
-                    value: "Classes",
-                    child: Text("Classes"),
-                  ),
-
-                  DropdownMenuItem<String>(
-                    value: "Clubs",
-                    child: Text("Clubs"),
-                  ),
-
-                  DropdownMenuItem<String>(
-                    value: "People",
-                    child: Text("People"),
-                  ),
-
-                ],
+                items: <String>["Any", "Classes", "Clubs", "People"]
+                  .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                }).toList(),
               ),
             ),
           ),
 
-          Expanded(
+          _resultsAreVisible ? Expanded(
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: _filteredItems.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text('${_filteredItems[index]}'),
+
                 );
               },
             ),
-          ),
+          ) : new Container(),
 
         ],
       ),
@@ -115,12 +101,14 @@ class _SearchState extends State<Search> {
       });
 
       setState(() {
+        _resultsAreVisible = true;
         _filteredItems.clear();
         _filteredItems.addAll(dummyListData);
       });
 
     } else {
       setState(() {
+        _resultsAreVisible = false;
         items.clear();
         items.addAll(duplicateItems);
       });
