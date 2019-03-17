@@ -14,7 +14,7 @@ class AccountPage extends StatelessWidget {
 
     FocusScope.of(context).requestFocus(new FocusNode());
 
-    return new Container(
+    return Container(
       child: Padding(
         padding: const EdgeInsets.only(top: 16.0),
         child: Column(
