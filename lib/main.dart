@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'home_widget.dart';
+import 'package:lhs_connections/Widgets/home_widget.dart';
 
 void main() => runApp(App());
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'placeholder_widget.dart';
-import 'account_widget.dart';
-import 'search_widget.dart';
+import 'package:lhs_connections/Widgets/BottomNavBar/placeholder_widget.dart';
+import 'package:lhs_connections/Widgets/BottomNavBar/account_widget.dart';
+import 'package:lhs_connections/Widgets/BottomNavBar/search_widget.dart';
 
 class Home extends StatefulWidget {
   @override
