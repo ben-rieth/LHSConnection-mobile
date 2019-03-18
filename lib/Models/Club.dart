@@ -6,6 +6,7 @@ class Club {
   String description;
   String sponsor;
   Icon icon;
+  List<String> tags;
 
-  Club(this.name, this.description, this.icon, this.sponsor);
+  Club({this.name, this.description, this.icon, this.sponsor, this.tags});
 }
