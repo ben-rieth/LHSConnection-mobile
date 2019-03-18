@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-final items = List<String>.generate(10000, (i) => "Item $i");
+import 'package:lhs_connections/Models/Club.dart';
+import 'package:lhs_connections/Models/DummyData/dummy_clubs.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -8,8 +9,8 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  List<String> _filteredItems = List<String>();
-  final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
+  List<Club> clubs;
+  List<Club> _filteredItems = List<Club>();
   String dropdownValue = "Any";
   bool _resultsAreVisible = false;
 
@@ -17,7 +18,8 @@ class _SearchState extends State<Search> {
 
   @override
   void initState() {
-    _filteredItems.addAll(duplicateItems);
+    clubs = DummyClubs().dummyClubs;
+    _filteredItems.addAll(clubs);
     super.initState();
   }
 
@@ -32,7 +34,7 @@ class _SearchState extends State<Search> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               autofocus: true,
-              onChanged: _onSearchChange,
+              onChanged:  _onSearchChange,
               controller: editingController,
               decoration: InputDecoration(
                 filled: true,
@@ -66,10 +68,7 @@ class _SearchState extends State<Search> {
               shrinkWrap: true,
               itemCount: _filteredItems.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text('${_filteredItems[index]}'),
-
-                );
+                return makeCard(_filteredItems[index]);
               },
             ),
           ) : new Container(),
@@ -79,6 +78,36 @@ class _SearchState extends State<Search> {
     );
   }
 
+  Card makeCard(Club club) => Card(
+      elevation: 8.0,
+      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      child: Container(
+        decoration: BoxDecoration(color: Colors.lightGreen),
+
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+
+          leading: Container(
+            padding: EdgeInsets.only(right: 12.0),
+            decoration: new BoxDecoration(
+              border: new Border(
+                right: new BorderSide(width: 1.0, color: Colors.blueGrey))),
+            child: Icon(club.icon, color: Colors.blueGrey),
+          ),
+
+          title: Text(
+              club.name,
+              style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
+          ),
+
+          trailing:
+            Icon(Icons.keyboard_arrow_right, color: Colors.blueGrey, size: 30.0),
+
+        ),
+      ),
+  );
+
+
   void _newFilter(String newValue) {
     setState(() {
       dropdownValue = newValue;
@@ -86,19 +115,39 @@ class _SearchState extends State<Search> {
   }
 
   void _onSearchChange(String query) {
-    _filterSearchResults(query);
+    query = query.toLowerCase();
+    query = query.trim();
+
+    if(query.length > 2) {
+      _filterSearchResults(query);
+    }
   }
 
   void _filterSearchResults (String query) {
-    List<String> dummySearchList = List<String>();
-    dummySearchList.addAll(duplicateItems);
+    List<Club> dummySearchList = List<Club>();
+    dummySearchList.addAll(clubs);
+
+
 
     if(query.isNotEmpty) {
-      List<String> dummyListData = List<String>();
-      dummySearchList.forEach((item) {
-        if(item.contains(query)) {
-          dummyListData.add(item);
+      List<Club> dummyListData = List<Club>();
+      dummySearchList.forEach((club) {
+
+        String name = club.name.toLowerCase();
+
+        if(name.contains(query)) {
+          dummyListData.add(club);
         }
+
+        club.tags.forEach((tag) {
+
+          String currTag = tag.toLowerCase();
+
+          if(currTag.contains(query)) {
+            dummyListData.add(club);
+          }
+        });
+
       });
 
       setState(() {
@@ -110,10 +159,11 @@ class _SearchState extends State<Search> {
     } else {
       setState(() {
         _resultsAreVisible = false;
-        items.clear();
-        items.addAll(duplicateItems);
+        clubs.clear();
+        clubs.addAll(dummySearchList);
       });
     }
   }
+
 
 }

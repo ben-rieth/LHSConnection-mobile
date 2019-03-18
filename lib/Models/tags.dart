@@ -21,5 +21,11 @@ class Tags {
   static const String sci = "Science";
   static const String soc_stud = "Social Studies";
 
+  static const String tech = "Technology";
+  static const String engineering = "Engineering";
+  static const String robot = "Robots";
+
+  static const String construction = "Construction";
+
 
 }
