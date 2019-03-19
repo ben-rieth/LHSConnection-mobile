@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 
-class Club {
+import 'package:lhs_connections/Models/Activity.dart';
 
-  String name;
-  String description;
+class Club extends Activity {
+
   String sponsor;
-  IconData icon;
-  List<String> tags;
 
-  Club({this.name, this.description, this.icon, this.sponsor, this.tags});
+  Club(String name, String sponsor, IconData icon, List<String> tags) {
+    this.name = name;
+    this.sponsor = sponsor;
+    this.icon = icon;
+    this.tags = tags;
+  }
+
+  Club.description(String name, String description, String sponsor, IconData icon,
+      List<String> tags) {
+    this.name = name;
+    this.description = description;
+    this.sponsor = sponsor;
+    this.icon = icon;
+    this.tags = tags;
+  }
 }

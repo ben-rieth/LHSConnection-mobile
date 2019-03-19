@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 
-class Class {
-  String name;
-  String description;
-  Icon classIcon;
+import 'package:lhs_connections/Models/Activity.dart';
+
+class Class extends Activity {
   double numCredit;
-  List<String> tags;
 
+  Class(String name, double numCredit, IconData icon, List<String> tags) {
+    this.name = name;
+    this.numCredit = numCredit;
+    this.icon = icon;
+    this.tags = tags;
+  }
 
-  Class({this.name, this.description, this.numCredit, this.classIcon, this.tags});
+  Class.description(String name, String description, double numCredit, IconData icon,
+      List<String> tags) {
+    this.name = name;
+    this.description = description;
+    this.numCredit = numCredit;
+    this.icon = icon;
+    this.tags = tags;
+  }
 
 }
