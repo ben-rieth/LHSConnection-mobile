@@ -8,7 +8,7 @@ import 'package:lhs_connections/Models/DummyData/dummy_classes.dart';
 
 class Search extends StatefulWidget {
   @override
-  State<Search> createState() =>  _SearchState();
+  State<Search> createState() => _SearchState();
 }
 
 class _SearchState extends State<Search> {
@@ -42,85 +42,99 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    return Container (
-      //color: Colors.greenAccent,
-      child: Column (
-        children: <Widget>[
+    return CustomScrollView(
+      slivers: <Widget>[
 
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              autofocus: true,
-              onChanged: _onSearchChange,
-              controller: editingController,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                hintText: "Search",
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0))),
+        SliverAppBar(
+          //title: Text("Search", style: TextStyle(color: Colors.black)),
+          floating: true,
+          expandedHeight: 140.0,
+          backgroundColor: Colors.green,
+          flexibleSpace: Column(
+            children: <Widget>[
+
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0, bottom: 8.0, left: 8.0, right: 8.0),
+                child: TextField(
+                  autofocus: true,
+                  onChanged: _onSearchChange,
+                  controller: editingController,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    hintText: "Search",
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0))),
+                  ),
+                ),
               ),
-            ),
+
+              Center(
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    onChanged: _newFilter,
+                    items: <String>["Any", "Classes", "Clubs", "People"]
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+
+            ],
           ),
+        ),
 
-          Center(
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String> (
-                value: dropdownValue,
-                onChanged: _newFilter,
-                items: <String>["Any", "Classes", "Clubs", "People"]
-                  .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                }).toList(),
-              ),
-            ),
+        _areClassesVisible && _resultsAreVisible ?
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              makeHeader("Classes"),
+              _noClassesFound ? makeNothingFoundStatement("Classes", editingController.text) : new Container(),
+            ],
           ),
+        ) : SliverList(delegate: SliverChildListDelegate([])),
 
-          _resultsAreVisible && _areClassesVisible ? makeHeader("Classes")
-              : new Container(),
+        _areClassesVisible && _resultsAreVisible && !_noClassesFound ?
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return makeCard(_filteredClasses[index]);
+            },
+            childCount: _filteredClasses.length,
+          ),
+        ): SliverList(delegate: SliverChildListDelegate([])),
 
-          _resultsAreVisible && _areClassesVisible && _noClassesFound ?
-              makeNothingFoundStatement("No classes found") : new Container(),
+        _areClubsVisible && _resultsAreVisible ?
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              makeHeader("Clubs"),
+              _noClubsFound ? makeNothingFoundStatement("Clubs", editingController.text) : new Container(),
+            ],
+          ),
+        ) : SliverList(delegate: SliverChildListDelegate([])),
 
-          _resultsAreVisible && _areClassesVisible && !_noClassesFound ?
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: _filteredClasses.length,
-                itemBuilder: (context, index) {
-                  return makeCard(_filteredClasses[index]);
-                },
-              ),
-            ) : new Container(),
+        _areClubsVisible && _resultsAreVisible && !_noClubsFound ?
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return makeCard(_filteredClubs[index]);
+            },
+            childCount: _filteredClubs.length,
+          ),
+        ) : SliverList(delegate: SliverChildListDelegate([])),
 
-          _resultsAreVisible && _areClubsVisible ? makeHeader("Clubs")
-              : new Container(),
-
-          _resultsAreVisible && _areClassesVisible && _noClubsFound ?
-          makeNothingFoundStatement("No clubs found") : new Container(),
-
-          _resultsAreVisible && _areClubsVisible && !_noClubsFound ?
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: _filteredClubs.length,
-                itemBuilder: (context, index) {
-                  return makeCard(_filteredClubs[index]);
-                },
-              ),
-            ) : new Container(),
-
-        ],
-      ),
+      ],
     );
   }
 
   Card makeCard(Activity act) {
-
     String tagSubtitle = "";
 
     act.tags.forEach((tag) {
@@ -128,7 +142,7 @@ class _SearchState extends State<Search> {
     });
 
     tagSubtitle = tagSubtitle.trim();
-    tagSubtitle = tagSubtitle.substring(0, tagSubtitle.length-2);
+    tagSubtitle = tagSubtitle.substring(0, tagSubtitle.length - 1);
 
     return Card(
       elevation: 8.0,
@@ -137,9 +151,8 @@ class _SearchState extends State<Search> {
         decoration: BoxDecoration(color: Colors.lightGreen),
 
         child: ListTile(
-          contentPadding: EdgeInsets.symmetric(
-              horizontal: 20.0, vertical: 10.0),
-
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           leading: Container(
             padding: EdgeInsets.only(right: 12.0),
             decoration: new BoxDecoration(
@@ -150,29 +163,27 @@ class _SearchState extends State<Search> {
 
           title: Text(
             act.name,
-            style: TextStyle(
-                color: Colors.blueGrey, fontWeight: FontWeight.bold),
+            style:
+                TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
           ),
 
           subtitle: Text(
-              tagSubtitle,
-              style: TextStyle(color: Colors.blueGrey),
+            tagSubtitle,
+            style: TextStyle(color: Colors.blueGrey),
           ),
 
-          trailing:
-          Icon(Icons.keyboard_arrow_right, color: Colors.blueGrey, size: 30.0),
-
+          trailing: Icon(Icons.keyboard_arrow_right,
+              color: Colors.blueGrey, size: 30.0),
         ),
       ),
     );
   }
 
-
   void _newFilter(String newValue) {
     setState(() {
       dropdownValue = newValue;
 
-      if(newValue == "Classes") {
+      if (newValue == "Classes") {
         _areClassesVisible = true;
         _areClubsVisible = false;
       } else if (newValue == "Clubs") {
@@ -182,7 +193,6 @@ class _SearchState extends State<Search> {
         _areClassesVisible = true;
         _areClubsVisible = true;
       }
-
     });
   }
 
@@ -193,49 +203,43 @@ class _SearchState extends State<Search> {
     _searchSort(query);
   }
 
-  void _searchSort (String query) {
-    if(_areClubsVisible && _areClassesVisible) {
+  void _searchSort(String query) {
+    if (_areClubsVisible && _areClassesVisible) {
       _filterSearchResults(query, clubs);
       _filterSearchResults(query, classes);
-    }
 
-    else if(_areClassesVisible && !_areClubsVisible)
+    } else if (_areClassesVisible && !_areClubsVisible)
       _filterSearchResults(query, classes);
 
-    else if(!_areClassesVisible && _areClubsVisible)
+    else if (!_areClassesVisible && _areClubsVisible)
       _filterSearchResults(query, clubs);
-
   }
 
-
-  void _filterSearchResults (String query, List<Activity> currList) {
+  void _filterSearchResults(String query, List<Activity> currList) {
     List<Activity> dummySearchList = List<Activity>();
     dummySearchList.addAll(currList);
 
-    if(query.isNotEmpty) {
+    if (query.isNotEmpty) {
       List<Activity> dummyListData = List<Activity>();
       dummySearchList.forEach((activity) {
-
         String name = activity.name.toLowerCase();
 
-        if(name.contains(query)) {
+        if (name.contains(query)) {
           dummyListData.add(activity);
         }
 
         activity.tags.forEach((tag) {
-
           String currTag = tag.toLowerCase();
 
-          if(currTag.contains(query)) {
+          if (currTag.contains(query)) {
             dummyListData.add(activity);
           }
         });
-
       });
 
       setState(() {
         _resultsAreVisible = true;
-        if(dummyListData.length == 0) {
+        if (dummyListData.length == 0) {
           if (dummySearchList[0] is Class) {
             _noClassesFound = true;
           } else if (dummySearchList[0] is Club) {
@@ -253,10 +257,8 @@ class _SearchState extends State<Search> {
             _filteredClubs.clear();
             _filteredClubs.addAll(dummyListData);
           }
-
         }
       });
-
     } else {
       setState(() {
         _resultsAreVisible = false;
@@ -265,28 +267,28 @@ class _SearchState extends State<Search> {
   }
 
   Center makeHeader(String heading) => Center(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Text(
-        heading,
-        style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 20.0),
-      ),
-    ),
-  );
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text(
+            heading,
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0),
+          ),
+        ),
+      );
 
-  Center makeNothingFoundStatement(String heading) => Center(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Text(
-        "No clubs found",
-        style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w300,
-            fontSize: 20.0),
-      ),
-    ),
-  );
+  Center makeNothingFoundStatement(String heading, String query) => Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text(
+            "No $heading found under \'$query\'",
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w300,
+                fontSize: 20.0),
+          ),
+        ),
+      );
 }
