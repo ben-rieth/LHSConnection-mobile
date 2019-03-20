@@ -141,8 +141,12 @@ class _SearchState extends State<Search> {
     return Card(
       elevation: 8.0,
       margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      color: Colors.transparent,
       child: Container(
-        decoration: BoxDecoration(color: Colors.lightGreenAccent),
+        decoration: BoxDecoration(
+            color: Colors.lightGreenAccent,
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
 
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -150,7 +154,7 @@ class _SearchState extends State<Search> {
             padding: EdgeInsets.only(right: 12.0),
             decoration: new BoxDecoration(
                 border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.white))),
+                    right: new BorderSide(width: 1.0, color: Colors.grey))),
             child: Icon(act.icon, color: Colors.grey),
           ),
 
