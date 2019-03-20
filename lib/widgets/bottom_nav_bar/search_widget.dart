@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:lhs_connections/Models/Club.dart';
-import 'package:lhs_connections/Models/Class.dart';
-import 'package:lhs_connections/Models/Activity.dart';
-import 'package:lhs_connections/Models/DummyData/dummy_clubs.dart';
-import 'package:lhs_connections/Models/DummyData/dummy_classes.dart';
+import 'package:lhs_connections/models/Club.dart';
+import 'package:lhs_connections/models/Class.dart';
+import 'package:lhs_connections/models/dummy_data/dummy_clubs.dart';
+import 'package:lhs_connections/models/dummy_data/dummy_classes.dart';
+import 'package:lhs_connections/widgets/class_clubs_widgets/potential_class_widget.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -12,11 +12,11 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  List<Activity> clubs;
-  List<Activity> classes;
+  List<Club> clubs;
+  List<Class> classes;
 
-  List<Activity> _filteredClubs = List<Activity>();
-  List<Activity> _filteredClasses = List<Activity>();
+  List<Club> _filteredClubs = List<Club>();
+  List<Class> _filteredClasses = List<Class>();
 
   //List<Widget> _filteredItems = List<Widget>();
 
@@ -49,7 +49,7 @@ class _SearchState extends State<Search> {
           //title: Text("Search", style: TextStyle(color: Colors.black)),
           floating: true,
           expandedHeight: 140.0,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.grey,
           flexibleSpace: Column(
             children: <Widget>[
 
@@ -134,46 +134,46 @@ class _SearchState extends State<Search> {
     );
   }
 
-  Card makeCard(Activity act) {
-    String tagSubtitle = "";
+  Card makeCard(dynamic act) {
 
-    act.tags.forEach((tag) {
-      tagSubtitle += "$tag, ";
-    });
-
-    tagSubtitle = tagSubtitle.trim();
-    tagSubtitle = tagSubtitle.substring(0, tagSubtitle.length - 1);
+    String tagSubtitle = makeTagSubtitle(act);
 
     return Card(
       elevation: 8.0,
       margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       child: Container(
-        decoration: BoxDecoration(color: Colors.lightGreen),
+        decoration: BoxDecoration(color: Colors.lightGreenAccent),
 
         child: ListTile(
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           leading: Container(
             padding: EdgeInsets.only(right: 12.0),
             decoration: new BoxDecoration(
                 border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.blueGrey))),
-            child: Icon(act.icon, color: Colors.blueGrey),
+                    right: new BorderSide(width: 1.0, color: Colors.white))),
+            child: Icon(act.icon, color: Colors.grey),
           ),
 
           title: Text(
             act.name,
             style:
-                TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
           ),
 
           subtitle: Text(
             tagSubtitle,
-            style: TextStyle(color: Colors.blueGrey),
+            style: TextStyle(color: Colors.grey),
           ),
 
           trailing: Icon(Icons.keyboard_arrow_right,
-              color: Colors.blueGrey, size: 30.0),
+              color: Colors.grey, size: 30.0),
+
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PotentialClassPage(potentialClass: act)));
+          },
         ),
       ),
     );
@@ -205,90 +205,140 @@ class _SearchState extends State<Search> {
 
   void _searchSort(String query) {
     if (_areClubsVisible && _areClassesVisible) {
-      _filterSearchResults(query, clubs);
-      _filterSearchResults(query, classes);
+      _filterClasses(query);
+      _filterClubs(query);
 
     } else if (_areClassesVisible && !_areClubsVisible)
-      _filterSearchResults(query, classes);
+      _filterClasses(query);
 
     else if (!_areClassesVisible && _areClubsVisible)
-      _filterSearchResults(query, clubs);
+      _filterClubs(query);
   }
 
-  void _filterSearchResults(String query, List<Activity> currList) {
-    List<Activity> dummySearchList = List<Activity>();
-    dummySearchList.addAll(currList);
+  void _filterClasses(String query) {
+    List<Class> dummySearchList = List<Class>();
+    dummySearchList.addAll(classes);
 
-    if (query.isNotEmpty) {
-      List<Activity> dummyListData = List<Activity>();
-      dummySearchList.forEach((activity) {
-        String name = activity.name.toLowerCase();
+    if(query.isNotEmpty) {
+      List<Class> dummyListData = List<Class>();
+      dummySearchList.forEach((classOption) {
+        String name = classOption.name.toLowerCase();
 
-        if (name.contains(query)) {
-          dummyListData.add(activity);
+        if(name.contains(query)) {
+          dummyListData.add(classOption);
         }
 
-        activity.tags.forEach((tag) {
+        classOption.tags.forEach((tag) {
           String currTag = tag.toLowerCase();
 
           if (currTag.contains(query)) {
-            dummyListData.add(activity);
+            if(!dummyListData.contains(classOption)) {
+              dummyListData.add(classOption);
+            }
           }
         });
-      });
 
-      setState(() {
-        _resultsAreVisible = true;
-        if (dummyListData.length == 0) {
-          if (dummySearchList[0] is Class) {
+        setState(() {
+          _resultsAreVisible = true;
+          if(dummyListData.length == 0) {
             _noClassesFound = true;
-          } else if (dummySearchList[0] is Club) {
-            _noClubsFound = true;
-          }
-        } else {
-          if (dummyListData[0] is Class) {
+          } else {
             _noClassesFound = false;
 
             _filteredClasses.clear();
             _filteredClasses.addAll(dummyListData);
-          } else if (dummyListData[0] is Club) {
+          }
+        });
+      });
+    } else {
+      setState(() {
+        _resultsAreVisible = false;
+        classes.clear();
+        classes.addAll(dummySearchList);
+      });
+    }
+  }
+
+  void _filterClubs(String query) {
+    List<Club> dummySearchList = List<Club>();
+    dummySearchList.addAll(clubs);
+
+    if(query.isNotEmpty) {
+      List<Club> dummyListData = List<Club>();
+      dummySearchList.forEach((clubOption) {
+        String name = clubOption.name.toLowerCase();
+
+        if(name.contains(query)) {
+          dummyListData.add(clubOption);
+        }
+
+        clubOption.tags.forEach((tag) {
+          String currTag = tag.toLowerCase();
+
+          if (currTag.contains(query)) {
+            if(!dummyListData.contains(clubOption))
+              dummyListData.add(clubOption);
+          }
+        });
+
+        setState(() {
+          _resultsAreVisible = true;
+          if(dummyListData.length == 0) {
+            _noClubsFound = true;
+          } else {
             _noClubsFound = false;
 
             _filteredClubs.clear();
             _filteredClubs.addAll(dummyListData);
           }
-        }
+        });
       });
     } else {
       setState(() {
         _resultsAreVisible = false;
+        clubs.clear();
+        clubs.addAll(dummySearchList);
       });
     }
   }
 
-  Center makeHeader(String heading) => Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Text(
-            heading,
-            style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0),
-          ),
-        ),
-      );
+  Container makeHeader(String heading) => Container(
+    alignment: Alignment.center,
+    padding: const EdgeInsets.symmetric(vertical: 10.0),
+    color: Colors.grey[350],
+    child: Text(
+      heading,
+      style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontSize: 20.0),
+    ),
+  );
 
-  Center makeNothingFoundStatement(String heading, String query) => Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Text(
-            "No $heading found under \'$query\'",
-            style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w300,
-                fontSize: 20.0),
-          ),
-        ),
-      );
+
+  Container makeNothingFoundStatement(String heading, String query) =>
+    Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Text(
+        "No $heading found under \'$query\'",
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w300,
+            fontSize: 20.0),
+      ),
+    );
+
+  String makeTagSubtitle(dynamic act) {
+    String tagSubtitle = "";
+
+    act.tags.forEach((tag) {
+      tagSubtitle += "$tag, ";
+    });
+
+    tagSubtitle = tagSubtitle.trim();
+    tagSubtitle = tagSubtitle.substring(0, tagSubtitle.length - 1);
+
+    return tagSubtitle;
+  }
 }
