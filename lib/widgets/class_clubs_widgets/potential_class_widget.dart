@@ -36,7 +36,7 @@ class PotentialClassPage extends StatelessWidget {
         ),
         Container(
           width: 90.0,
-          child: new Divider(color: Colors.green),
+          child: new Divider(color: Colors.yellowAccent),
         ),
         SizedBox(height: 10.0),
         Text(
@@ -62,15 +62,24 @@ class PotentialClassPage extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.5,
           decoration: new BoxDecoration(
               image: new DecorationImage(
-                image: new AssetImage("HighSchoolClassroom1401.png"),
+                image: new AssetImage("assets/desks.png"),
                 fit: BoxFit.cover,)),
+        ),
+
+        Opacity(
+          opacity: .7,
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            padding: EdgeInsets.all(40.0),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(color: Colors.green),
+          ),
         ),
 
         Container(
           height: MediaQuery.of(context).size.height * 0.5,
           padding: EdgeInsets.all(40.0),
           width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(color: Colors.lightGreenAccent),
           child: Center(
             child: topContentText,
           ),

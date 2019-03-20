@@ -5,6 +5,7 @@ import 'package:lhs_connections/models/Class.dart';
 import 'package:lhs_connections/models/dummy_data/dummy_clubs.dart';
 import 'package:lhs_connections/models/dummy_data/dummy_classes.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/potential_class_widget.dart';
+import 'package:lhs_connections/widgets/class_clubs_widgets/potential_club_widget.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -144,7 +145,7 @@ class _SearchState extends State<Search> {
       color: Colors.transparent,
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.lightGreenAccent,
+            color: Colors.green,
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
 
@@ -154,29 +155,38 @@ class _SearchState extends State<Search> {
             padding: EdgeInsets.only(right: 12.0),
             decoration: new BoxDecoration(
                 border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.grey))),
-            child: Icon(act.icon, color: Colors.grey),
+                    right: new BorderSide(width: 1.0, color: Colors.grey[350]))),
+            child: Icon(act.icon, color: Colors.grey[350]),
           ),
 
           title: Text(
             act.name,
             style:
-                TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
+                TextStyle(color: Colors.grey[350], fontWeight: FontWeight.bold),
           ),
 
           subtitle: Text(
             tagSubtitle,
-            style: TextStyle(color: Colors.grey),
+            style: TextStyle(color: Colors.grey[350]),
           ),
 
           trailing: Icon(Icons.keyboard_arrow_right,
-              color: Colors.grey, size: 30.0),
+              color: Colors.grey[350], size: 30.0),
 
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PotentialClassPage(potentialClass: act)));
+            if(act is Class) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        PotentialClassPage(potentialClass: act)));
+            } else {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          PotentialClubPage(potentialClub: act)));
+            }
           },
         ),
       ),
@@ -309,13 +319,13 @@ class _SearchState extends State<Search> {
   Container makeHeader(String heading) => Container(
     alignment: Alignment.center,
     padding: const EdgeInsets.symmetric(vertical: 10.0),
-    color: Colors.grey[350],
+    //color: Colors.grey[350],
     child: Text(
       heading,
       style: TextStyle(
           color: Colors.black,
-          fontWeight: FontWeight.bold,
-          fontSize: 20.0),
+          fontWeight: FontWeight.w300,
+          fontSize: 30.0),
     ),
   );
 

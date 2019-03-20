@@ -22,7 +22,7 @@ class DummyClasses {
         tags: [Tags.comp, Tags.prac_art, Tags.comp_eng, Tags.tech]),
     Class(name: "AP Computer Science Principles", numCredit: 1, icon: Icons.computer,
         tags: [Tags.ap, Tags.comp, Tags.code, Tags.tech]),
-    Class(name: "COmputer Science Applications", numCredit: .5, icon: Icons.computer,
+    Class(name: "Computer Science Applications", numCredit: .5, icon: Icons.computer,
         tags: [Tags.code, Tags.comp, Tags.tech]),
     Class(name: "AP Computer Science 1", numCredit: 1, icon: Icons.computer,
         tags: [Tags.ap, Tags.code, Tags.comp, Tags.tech]),
@@ -30,12 +30,12 @@ class DummyClasses {
 
   List<Class> get dummyClasses => _dummyClasses;
 
-  static const String apLitDescrip = "This is a literature, discussion, and composition" +
-  "course. After students read classic and modern" +
-  "literature, they will discuss the material and write" +
-  "short or extensive papers on the works. The texts" +
-  "are supplemented by outside readings and critical" +
-  "sections. This course also serves as the second" +
+  static const String apLitDescrip = "This is a literature, discussion, and composition " +
+  "course. After students read classic and modern " +
+  "literature, they will discuss the material and write " +
+  "short or extensive papers on the works. The texts " +
+  "are supplemented by outside readings and critical " +
+  "sections. This course also serves as the second " +
   "year in the IB Diploma Program.";
 
 }

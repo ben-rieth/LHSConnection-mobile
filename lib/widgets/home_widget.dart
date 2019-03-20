@@ -46,11 +46,11 @@ class _HomeState extends State<Home> {
               text: "News",
             ),
           ],
-          labelColor: Colors.yellow,
-          unselectedLabelColor: Colors.blue,
+          labelColor: Colors.green,
+          unselectedLabelColor: Colors.grey,
           indicatorSize: TabBarIndicatorSize.tab,
           indicatorPadding: EdgeInsets.all(5.0),
-          indicatorColor: Colors.red,
+          indicatorColor: Colors.yellowAccent,
         )
       )
     );
