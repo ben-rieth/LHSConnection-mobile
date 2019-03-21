@@ -68,43 +68,12 @@ class _SearchState extends State<Search>
             labelColor: Colors.green,
             unselectedLabelColor: Colors.white,
             tabs: <Widget>[
-              Tab(text: "ANY"),
+              Tab(text: "EVERYTHING"),
               Tab(text: "CLASSES"),
               Tab(text: "CLUBS"),
             ],
           ),
-          /*flexibleSpace: Column(
-            children: <Widget>[
-
-
-
-              /*Center(
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: dropdownValue,
-                    onChanged: _newFilter,
-                    items: <String>["Any", "Classes", "Clubs", "People"]
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),*/
-
-            ],
-          ),*/
         ),
-
-        /*SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              makeSearchBar();
-            ]
-          ),
-        ),*/
 
         _areClassesVisible && _resultsAreVisible ?
         SliverList(
