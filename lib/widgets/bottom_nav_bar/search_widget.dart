@@ -12,7 +12,8 @@ class Search extends StatefulWidget {
   State<Search> createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchState extends State<Search>
+    with SingleTickerProviderStateMixin{
   List<Club> clubs;
   List<Class> classes;
 
@@ -30,6 +31,9 @@ class _SearchState extends State<Search> {
 
   TextEditingController editingController = new TextEditingController();
 
+  TabController _tabController;
+  ScrollController _scrollController;
+
   @override
   void initState() {
     clubs = DummyClubs().dummyClubs;
@@ -38,40 +42,43 @@ class _SearchState extends State<Search> {
     classes = DummyClasses().dummyClasses;
     _filteredClasses.addAll(classes);
 
+    _tabController = TabController(length: 3, vsync: this);
+    _scrollController = ScrollController(initialScrollOffset: 0.0);
+    _scrollController.addListener(_onScroll);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      controller: _scrollController,
       slivers: <Widget>[
 
         SliverAppBar(
-          //title: Text("Search", style: TextStyle(color: Colors.black)),
+          title: makeSearchBar(),
           floating: true,
-          expandedHeight: 140.0,
-          backgroundColor: Colors.grey,
-          flexibleSpace: Column(
+          expandedHeight: 120.0,
+          backgroundColor: Colors.grey[350],
+          pinned: true,
+          primary: true,
+          snap: true,
+          bottom: TabBar(
+            controller: _tabController,
+            onTap: _newFilter,
+            labelColor: Colors.green,
+            unselectedLabelColor: Colors.white,
+            tabs: <Widget>[
+              Tab(text: "ANY"),
+              Tab(text: "CLASSES"),
+              Tab(text: "CLUBS"),
+            ],
+          ),
+          /*flexibleSpace: Column(
             children: <Widget>[
 
-              Padding(
-                padding: const EdgeInsets.only(top: 16.0, bottom: 8.0, left: 8.0, right: 8.0),
-                child: TextField(
-                  autofocus: true,
-                  onChanged: _onSearchChange,
-                  controller: editingController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: "Search",
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0))),
-                  ),
-                ),
-              ),
 
-              Center(
+
+              /*Center(
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
                     value: dropdownValue,
@@ -85,17 +92,25 @@ class _SearchState extends State<Search> {
                     }).toList(),
                   ),
                 ),
-              ),
+              ),*/
 
             ],
-          ),
+          ),*/
         ),
+
+        /*SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              makeSearchBar();
+            ]
+          ),
+        ),*/
 
         _areClassesVisible && _resultsAreVisible ?
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              makeHeader("Classes"),
+              _areClubsVisible ? makeHeader("Classes") : new Container(),
               _noClassesFound ? makeNothingFoundStatement("Classes", editingController.text) : new Container(),
             ],
           ),
@@ -115,7 +130,7 @@ class _SearchState extends State<Search> {
         SliverList(
           delegate: SliverChildListDelegate(
             [
-              makeHeader("Clubs"),
+              _areClassesVisible ? makeHeader("Clubs") : new Container(),
               _noClubsFound ? makeNothingFoundStatement("Clubs", editingController.text) : new Container(),
             ],
           ),
@@ -193,14 +208,16 @@ class _SearchState extends State<Search> {
     );
   }
 
-  void _newFilter(String newValue) {
-    setState(() {
-      dropdownValue = newValue;
+  void _onScroll() {
 
-      if (newValue == "Classes") {
+  }
+
+  void _newFilter(int index) {
+    setState(() {
+      if (index == 1) {
         _areClassesVisible = true;
         _areClubsVisible = false;
-      } else if (newValue == "Clubs") {
+      } else if (index == 2) {
         _areClassesVisible = false;
         _areClubsVisible = true;
       } else {
@@ -314,6 +331,31 @@ class _SearchState extends State<Search> {
         clubs.addAll(dummySearchList);
       });
     }
+  }
+
+  Padding makeSearchBar() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0),
+      child: TextField(
+        autofocus: true,
+        onChanged: _onSearchChange,
+        controller: editingController,
+        style: TextStyle(
+          fontSize: 20.0,
+          //height: .5,
+        ),
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(13.0),
+          isDense: true,
+          filled: true,
+          fillColor: Colors.white,
+          hintText: "Search",
+          prefixIcon: Icon(Icons.search),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25.0))),
+        ),
+      ),
+    );
   }
 
   Container makeHeader(String heading) => Container(
