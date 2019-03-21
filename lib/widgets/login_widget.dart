@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:lhs_connections/widgets/home_widget.dart';
+//import 'package:lhs_connections/widgets/home_widget.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -83,9 +83,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Home()));
+    Navigator.pushReplacementNamed(context, "/home");
   }
 }
