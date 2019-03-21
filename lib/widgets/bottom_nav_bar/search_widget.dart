@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swipedetector/swipedetector.dart';
 
 import 'package:lhs_connections/models/Club.dart';
 import 'package:lhs_connections/models/Class.dart';
@@ -50,72 +51,76 @@ class _SearchState extends State<Search>
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: <Widget>[
+    return SwipeDetector(
+      onSwipeLeft: _swipeLeft,
+      onSwipeRight: _swipeRight,
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: <Widget>[
 
-        SliverAppBar(
-          title: makeSearchBar(),
-          floating: true,
-          expandedHeight: 120.0,
-          backgroundColor: Colors.grey[350],
-          pinned: true,
-          primary: true,
-          snap: true,
-          bottom: TabBar(
-            controller: _tabController,
-            onTap: _newFilter,
-            labelColor: Colors.green,
-            unselectedLabelColor: Colors.white,
-            tabs: <Widget>[
-              Tab(text: "EVERYTHING"),
-              Tab(text: "CLASSES"),
-              Tab(text: "CLUBS"),
-            ],
+          SliverAppBar(
+            title: makeSearchBar(),
+            floating: true,
+            expandedHeight: 120.0,
+            backgroundColor: Colors.grey[350],
+            pinned: true,
+            primary: true,
+            snap: true,
+            bottom: TabBar(
+              controller: _tabController,
+              onTap: _newFilter,
+              labelColor: Colors.green,
+              unselectedLabelColor: Colors.white,
+              tabs: <Widget>[
+                Tab(text: "EVERYTHING"),
+                Tab(text: "CLASSES"),
+                Tab(text: "CLUBS"),
+              ],
+            ),
           ),
-        ),
 
-        _areClassesVisible && _resultsAreVisible ?
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              _areClubsVisible ? makeHeader("Classes") : new Container(),
-              _noClassesFound ? makeNothingFoundStatement("Classes", editingController.text) : new Container(),
-            ],
-          ),
-        ) : SliverList(delegate: SliverChildListDelegate([])),
+          _areClassesVisible && _resultsAreVisible ?
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                _areClubsVisible ? makeHeader("Classes") : new Container(),
+                _noClassesFound ? makeNothingFoundStatement("Classes", editingController.text) : new Container(),
+              ],
+            ),
+          ) : SliverList(delegate: SliverChildListDelegate([])),
 
-        _areClassesVisible && _resultsAreVisible && !_noClassesFound ?
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return makeCard(_filteredClasses[index]);
-            },
-            childCount: _filteredClasses.length,
-          ),
-        ): SliverList(delegate: SliverChildListDelegate([])),
+          _areClassesVisible && _resultsAreVisible && !_noClassesFound ?
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return makeCard(_filteredClasses[index]);
+              },
+              childCount: _filteredClasses.length,
+            ),
+          ): SliverList(delegate: SliverChildListDelegate([])),
 
-        _areClubsVisible && _resultsAreVisible ?
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              _areClassesVisible ? makeHeader("Clubs") : new Container(),
-              _noClubsFound ? makeNothingFoundStatement("Clubs", editingController.text) : new Container(),
-            ],
-          ),
-        ) : SliverList(delegate: SliverChildListDelegate([])),
+          _areClubsVisible && _resultsAreVisible ?
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                _areClassesVisible ? makeHeader("Clubs") : new Container(),
+                _noClubsFound ? makeNothingFoundStatement("Clubs", editingController.text) : new Container(),
+              ],
+            ),
+          ) : SliverList(delegate: SliverChildListDelegate([])),
 
-        _areClubsVisible && _resultsAreVisible && !_noClubsFound ?
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return makeCard(_filteredClubs[index]);
-            },
-            childCount: _filteredClubs.length,
-          ),
-        ) : SliverList(delegate: SliverChildListDelegate([])),
+          _areClubsVisible && _resultsAreVisible && !_noClubsFound ?
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return makeCard(_filteredClubs[index]);
+              },
+              childCount: _filteredClubs.length,
+            ),
+          ) : SliverList(delegate: SliverChildListDelegate([])),
 
-      ],
+        ],
+      ),
     );
   }
 
@@ -192,6 +197,24 @@ class _SearchState extends State<Search>
       } else {
         _areClassesVisible = true;
         _areClubsVisible = true;
+      }
+    });
+  }
+
+  void _swipeLeft() {
+    setState(() {
+      if(_tabController.index+1 <= 2) {
+        _tabController.animateTo(_tabController.index+1);
+        _newFilter(_tabController.index);
+      }
+    });
+  }
+
+  void _swipeRight() {
+    setState(() {
+      if(_tabController.index-1 >= 0) {
+        _tabController.animateTo(_tabController.index-1);
+        _newFilter(_tabController.index);
       }
     });
   }

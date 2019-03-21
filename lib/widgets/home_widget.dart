@@ -28,6 +28,7 @@ class _HomeState extends State<Home> {
         ),
 
         body: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           children: _children,
         ),
 
