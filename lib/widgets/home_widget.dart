@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:lhs_connections/Widgets/bottom_nav_bar/placeholder_widget.dart';
-import 'package:lhs_connections/Widgets/bottom_nav_bar/account_widget.dart';
-import 'package:lhs_connections/Widgets/bottom_nav_bar/search_widget.dart';
+//import 'package:lhs_connections/Widgets/bottom_nav_bar/placeholder_widget.dart';
+import 'package:lhs_connections/widgets/bottom_nav_bar/account_widget.dart';
+import 'package:lhs_connections/widgets/bottom_nav_bar/search_widget.dart';
+import 'package:lhs_connections/widgets/bottom_nav_bar/calander.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _HomeState extends State<Home> {
   final List<Widget> _children = [
     AccountPage(),
     Search(),
-    PlaceholderWidget(Colors.green),
+    NewsPage(),
   ];
 
   @override
@@ -23,9 +24,9 @@ class _HomeState extends State<Home> {
     return DefaultTabController(
       length: 3,
       child: new Scaffold(
-        appBar: AppBar(
+        /*appBar: AppBar(
           title: Text("LHS Connection"),
-        ),
+        ),*/
 
         body: TabBarView(
           physics: NeverScrollableScrollPhysics(),
@@ -44,14 +45,14 @@ class _HomeState extends State<Home> {
             ),
             Tab(
               icon: new Icon(Icons.whatshot),
-              text: "News",
+              text: "Calander",
             ),
           ],
           labelColor: Colors.green,
           unselectedLabelColor: Colors.grey,
           indicatorSize: TabBarIndicatorSize.tab,
           indicatorPadding: EdgeInsets.all(5.0),
-          indicatorColor: Colors.yellowAccent,
+          indicatorColor: Colors.lightGreen,
         )
       )
     );

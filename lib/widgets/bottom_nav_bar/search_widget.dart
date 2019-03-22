@@ -71,6 +71,7 @@ class _SearchState extends State<Search>
               onTap: _newFilter,
               labelColor: Colors.green,
               unselectedLabelColor: Colors.white,
+              indicatorColor: Colors.lightGreen,
               tabs: <Widget>[
                 Tab(text: "EVERYTHING"),
                 Tab(text: "CLASSES"),
@@ -341,7 +342,7 @@ class _SearchState extends State<Search>
           isDense: true,
           filled: true,
           fillColor: Colors.white,
-          hintText: "Search",
+          hintText: "Search for Classes and Clubs",
           prefixIcon: Icon(Icons.search),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0))),

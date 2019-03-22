@@ -10,6 +10,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'LHS Connection',
+      theme: ThemeData(
+        primaryColor: Colors.green,
+      ),
       home: LoginPage(),
       routes: {
         "/home": (_) => new Home(),

@@ -27,8 +27,6 @@ class _AccountPageState extends State<AccountPage>
   @override
   Widget build(BuildContext context) {
 
-    FocusScope.of(context).requestFocus(new FocusNode());
-
     return SwipeDetector(
       onSwipeLeft: _swipeLeft,
       onSwipeRight: _swipeRight,
@@ -81,7 +79,7 @@ class _AccountPageState extends State<AccountPage>
                 unselectedLabelColor: Colors.grey,
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicatorPadding: EdgeInsets.all(5.0),
-                indicatorColor: Colors.yellowAccent,
+                indicatorColor: Colors.lightGreen,
                 controller: _tabController,
               ),
 
