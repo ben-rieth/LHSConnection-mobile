@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
-//import 'package:lhs_connections/widgets/home_widget.dart';
+import 'package:lhs_connections/widgets/home_widget.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -89,15 +89,16 @@ class _LoginPageState extends State<LoginPage> {
         await prefs.setString('email', documents[0]['email']);
       }
 
-      Fluttertoast.showToast(msg: "Sign in success");
-
       this.setState(() {
         _loadingVisible = false;
       });
 
-      Navigator.pushReplacementNamed(context, "/home");
+      Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) =>
+              Home()));
     } else {
-      Fluttertoast.showToast(msg: "Sign in failure");
       this.setState(() {
         _loadingVisible = false;
       });

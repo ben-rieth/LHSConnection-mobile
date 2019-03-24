@@ -1,10 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:lhs_connections/Models/Class.dart';
 import 'package:lhs_connections/Models/Club.dart';
-
-//import 'package:lhs_connections/widgets/custom_widgets/custom_expansion_tile.dart' as custom;
 
 class AccountPage extends StatefulWidget {
   State<AccountPage> createState() => _AccountPageState();
@@ -12,6 +13,13 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage>
     with SingleTickerProviderStateMixin {
+
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser user;
+  BasicUser basicUse;
+
+  String name;
+  String gradeLevel;
 
   TabController _tabController;
 
@@ -35,6 +43,7 @@ class _AccountPageState extends State<AccountPage>
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
+
     super.initState();
   }
 
@@ -63,7 +72,7 @@ class _AccountPageState extends State<AccountPage>
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: Center(
                   child: Text(
-                    "Name Goes Here",
+                    basicUse.email,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
@@ -76,7 +85,7 @@ class _AccountPageState extends State<AccountPage>
                 padding: const EdgeInsets.all(4.0),
                 child: Center(
                   child: Text(
-                    "Grade Level",
+                    basicUse.uid,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15.0,
@@ -156,6 +165,21 @@ class _AccountPageState extends State<AccountPage>
     }
   }
 
+  BasicUser getUserInfo() {
+    Future<FirebaseUser> currUser = _auth.currentUser();
+    BasicUser basicUser;
+
+    currUser.then((user) {
+      DocumentReference docRef = Firestore.instance.collection('users').document(user.uid);
+      docRef.get().then((doc) {
+        basicUser = BasicUser.fromMap(doc.data);
+      });
+    });
+
+
+    return basicUser;
+  }
+
   Widget makeCard(dynamic act) {
 
     return Card(
@@ -211,4 +235,24 @@ class _AccountPageState extends State<AccountPage>
 
   }
 
+}
+
+class BasicUser {
+
+  final DocumentReference reference;
+
+  String uname;
+  String email;
+  String uid;
+
+
+
+  BasicUser.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['uname'] != null),
+        assert(map['email'] != null),
+        assert(map['uid'] != null),
+
+        uname = map['uname'],
+        email = map['email'],
+        uid = map['uid'];
 }

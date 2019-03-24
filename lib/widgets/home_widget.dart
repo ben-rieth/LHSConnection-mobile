@@ -13,6 +13,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   final List<Widget> _children = [
     AccountPage(),
     Search(),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 
 import 'package:lhs_connections/models/Club.dart';
 import 'package:lhs_connections/models/Class.dart';
@@ -15,6 +17,9 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search>
     with SingleTickerProviderStateMixin{
+
+  final CollectionReference dbClasses = Firestore.instance.collection("classes");
+
   List<Club> clubs;
   List<Class> classes;
 
@@ -23,7 +28,6 @@ class _SearchState extends State<Search>
 
   //List<Widget> _filteredItems = List<Widget>();
 
-  String dropdownValue = "Any";
   bool _resultsAreVisible = false;
   bool _areClassesVisible = true;
   bool _areClubsVisible = true;
@@ -239,7 +243,11 @@ class _SearchState extends State<Search>
       _filterClubs(query);
   }
 
-  void _filterClasses(String query) {
+  Future<Null> _filterClasses(String query) async {
+
+    /*final QuerySnapshot result = await dbClasses
+        .where(query, isEqualTo: name).getDocuments();*/
+
     List<Class> dummySearchList = List<Class>();
     dummySearchList.addAll(classes);
 
