@@ -13,7 +13,7 @@ class DummyClasses {
     Class(name: "AP Calculus", numCredit: 1, gradeLevels: [12], icon: Icons.assessment,
         tags: [Tags.ap, Tags.math, Tags.calc]),
     Class(name: "AP English Literature", numCredit: 1, gradeLevels: [12], icon: Icons.book,
-        tags: [Tags.ap, Tags.english, Tags.rwi],
+        tags: [Tags.ap, Tags.eng, Tags.rwi],
         description: apLitDescrip,
         requiredCourses: ["English 3*", "IB/Pre-AP English 3*", "AP Language*"]),
     Class(name: "AP Physics 2", numCredit: 1, icon: Icons.wb_incandescent, gradeLevels: [12],

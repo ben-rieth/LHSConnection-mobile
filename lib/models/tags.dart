@@ -10,19 +10,26 @@ class Tags {
                 navigator
    */
 
-  static const String english = "English";
+  //laguage tags
+  static const String eng = "English";
   static const String read = "Reading";
   static const String fiction = "Ficiton";
   static const String nonfiction = "Nonfiction";
   static const String rwi = "Real World Issues";
   static const String write = "Writing";
-
-  static const String fine_art = "Fine Art";
+  static const String lang = "Language";
+  static const String fre = "French";
+  static const String spa = "Spanish";
+  static const String ger = "German";
 
   //Fine Arts Tags
+  static const String fine_art = "Fine Art";
+  static const String draw = "Drawing";
+  static const String dig_art = "Digital Art";
+
   static const String music = "Music";
   static const String perf_arts = "Performing Arts";
-  static const String vis_arts = "Visual Arts";
+
 
   static const String gen_elect = "General Elective";
 
