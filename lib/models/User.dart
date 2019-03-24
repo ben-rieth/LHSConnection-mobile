@@ -16,30 +16,29 @@ String userToJson(User data) {
 }
 
 class User {
-  String userId;
-  String firstName;
-  String lastName;
+  String uid;
+  String name;
   String email;
+  String gradeLevel;
 
   User({
-    this.userId,
-    this.firstName,
-    this.lastName,
-    this.email,
+    this.uid,
+    this.name,
+    this.email
   });
 
   factory User.fromJson(Map<String, dynamic> json) => new User(
-    userId: json["userId"],
-    firstName: json["firstName"],
-    lastName: json["lastName"],
+    uid: json["userId"],
+    name: json["name"],
     email: json["email"],
+    //gradeLevel: json["gradeLevel"],
   );
 
   Map<String, dynamic> toJson() => {
-    "userId": userId,
-    "firstName": firstName,
-    "lastName": lastName,
+    "userId": uid,
+    "name": name,
     "email": email,
+    //"gradeLevel": gradeLevel,
   };
 
   factory User.fromDocument(DocumentSnapshot doc) {

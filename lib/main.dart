@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:lhs_connections/widgets/home_widget.dart';
 import 'package:lhs_connections/widgets/login_widget.dart';
-import 'package:lhs_connections/utils/state_widget.dart';
+//import 'package:lhs_connections/utils/state_widget.dart';
 
-void main() {
+/*void main() {
   StateWidget stateWidget = new StateWidget(
     child: App(),
   );
   runApp(stateWidget);
-}
+}*/
+
+void main() => runApp(App());
 
 class App extends StatelessWidget {
   @override

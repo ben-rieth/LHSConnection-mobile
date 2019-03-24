@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:lhs_connections/utils/state_widget.dart';
-import 'package:lhs_connections/utils/auth.dart';
 import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
 //import 'package:lhs_connections/widgets/home_widget.dart';
 
@@ -13,16 +15,20 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
+  final CollectionReference dbUsers = Firestore.instance.collection("users");
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  SharedPreferences prefs;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool _autoValidate = false;
   bool _loadingVisible = false;
+  bool _isLoggedIn = false;
 
   TextEditingController _usernameController;
   TextEditingController _passwordController;
 
-  FocusNode usernameNode = FocusNode();
-  FocusNode passwordNode = FocusNode();
+  FirebaseUser currentUser;
 
   @override
   void initState() {
@@ -30,7 +36,72 @@ class _LoginPageState extends State<LoginPage> {
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
 
+    isSignedIn();
+
     super.initState();
+  }
+
+  void isSignedIn() async {
+    this.setState(() {
+      _loadingVisible = true;
+    });
+
+    prefs = await SharedPreferences.getInstance();
+    _isLoggedIn = await _auth.currentUser() == null;
+
+    if(_isLoggedIn) {
+      Navigator.pushReplacementNamed(context, "/home");
+    }
+
+    this.setState(() {
+      _loadingVisible = false;
+    });
+  }
+
+  Future<Null> handleSignIn(String email, String password) async {
+    prefs = await SharedPreferences.getInstance();
+
+    this.setState(() {
+      _loadingVisible = true;
+    });
+
+    FirebaseUser user = await _auth.signInWithEmailAndPassword(
+        email: email, password: password);
+
+    if(user != null) {
+      final QuerySnapshot result = await dbUsers.where('id', isEqualTo: user.uid).getDocuments();
+      final List<DocumentSnapshot> documents = result.documents;
+      if(documents.length == 0) {
+
+        dbUsers
+            .document(user.uid)
+            .setData({
+              'email': email,
+              'uname': email.substring(2,email.indexOf("@")),
+              'id': user.uid,
+        });
+
+        currentUser = user;
+        await prefs.setString('id', currentUser.uid);
+        await prefs.setString('email', currentUser.email);
+      } else {
+        await prefs.setString('id', documents[0]['id']);
+        await prefs.setString('email', documents[0]['email']);
+      }
+
+      Fluttertoast.showToast(msg: "Sign in success");
+
+      this.setState(() {
+        _loadingVisible = false;
+      });
+
+      Navigator.pushReplacementNamed(context, "/home");
+    } else {
+      Fluttertoast.showToast(msg: "Sign in failure");
+      this.setState(() {
+        _loadingVisible = false;
+      });
+    }
   }
 
   @override
@@ -62,7 +133,6 @@ class _LoginPageState extends State<LoginPage> {
       autofocus: false,
       textInputAction: TextInputAction.go,
       obscureText: true,
-      onEditingComplete: _onUsernameSubmit,
       decoration: InputDecoration(
         hintText: "State Id",
         contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
@@ -76,10 +146,9 @@ class _LoginPageState extends State<LoginPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: () => _emailLogin(
-         email: _usernameController.text,
-          password: _passwordController.text,
-          context: context
+        onPressed: () => handleSignIn(
+         _usernameController.text,
+          _passwordController.text,
         ),
         padding: const EdgeInsets.all(15.0),
         color: Colors.green,
@@ -127,40 +196,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  void _onUsernameSubmit() {
-    //if(_passwordController.text == "") {
-      FocusScope.of(context).requestFocus(passwordNode);
-    //}
-  }
-
-  Future<void> _changeLoadingVisible() async {
-    setState(() {
-      _loadingVisible = !_loadingVisible;
-    });
-  }
-
-  void _emailLogin(
-      {String email, String password, BuildContext context}) async {
-    if(_formKey.currentState.validate()) {
-      try {
-        SystemChannels.textInput.invokeMethod('TextInput.hide');
-        await _changeLoadingVisible();
-        await StateWidget.of(context).logInUser(email, password);
-        await Navigator.pushReplacementNamed(context, '/home');
-      } catch (e) {
-        _changeLoadingVisible();
-        print("Sign In Error: $e");
-        //String exception = Auth.getExceptionText(e);
-        /*Flushbar()
-          ..title = "Sign In Error"
-          ..message = exception
-          ..duration = Duration(seconds: 5)
-          ..show(context);*/
-      }
-    } else {
-      setState(() => _autoValidate = true);
-    }
   }
 }
