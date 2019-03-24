@@ -6,6 +6,7 @@ class Club extends Activity {
 
   String sponsor;
 
-  Club({String name, String description, IconData icon, List<String> tags, this.sponsor})
+  Club({String name, String description, IconData icon, List<String> tags,
+    this.sponsor})
       : super(name: name, description: description, icon: icon, tags: tags);
 }

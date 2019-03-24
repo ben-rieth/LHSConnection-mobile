@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import 'package:lhs_connections/utils/state_widget.dart';
+import 'package:lhs_connections/utils/auth.dart';
+import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
 //import 'package:lhs_connections/widgets/home_widget.dart';
 
 class LoginPage extends StatefulWidget {
@@ -8,6 +12,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool _autoValidate = false;
+  bool _loadingVisible = false;
 
   TextEditingController _usernameController;
   TextEditingController _passwordController;
@@ -39,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
       controller: _usernameController,
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
-      focusNode: usernameNode,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         hintText: "Lindbergh Email",
@@ -50,8 +58,8 @@ class _LoginPageState extends State<LoginPage> {
 
     final passwordForm = TextFormField(
       controller: _passwordController,
+      keyboardType: TextInputType.number,
       autofocus: false,
-      focusNode: passwordNode,
       textInputAction: TextInputAction.go,
       obscureText: true,
       onEditingComplete: _onUsernameSubmit,
@@ -68,7 +76,11 @@ class _LoginPageState extends State<LoginPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: _login,
+        onPressed: () => _emailLogin(
+         email: _usernameController.text,
+          password: _passwordController.text,
+          context: context
+        ),
         padding: const EdgeInsets.all(15.0),
         color: Colors.green,
         child: Text(
@@ -90,33 +102,65 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: ListView(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          children: <Widget>[
-            logo,
-            SizedBox(height: 48.0),
-            emailForm,
-            SizedBox(height: 8.0),
-            passwordForm,
-            SizedBox(height: 24.0),
-            loginButton,
-            forgotLabel,
-          ],
+      body: LoadingScreen(
+        inAsyncCall: _loadingVisible,
+        child: Form(
+          key: _formKey,
+          autovalidate: _autoValidate,
+          child: Center(
+            child: ListView(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(horizontal: 24.0),
+              children: <Widget>[
+                logo,
+                SizedBox(height: 48.0),
+                emailForm,
+                SizedBox(height: 8.0),
+                passwordForm,
+                SizedBox(height: 24.0),
+                loginButton,
+                forgotLabel,
+              ],
+            ),
+          )
         ),
       ),
     );
-  }
-
-  void _login() {
-    Navigator.pushReplacementNamed(context, "/home");
   }
 
   void _onUsernameSubmit() {
     //if(_passwordController.text == "") {
       FocusScope.of(context).requestFocus(passwordNode);
     //}
+  }
+
+  Future<void> _changeLoadingVisible() async {
+    setState(() {
+      _loadingVisible = !_loadingVisible;
+    });
+  }
+
+  void _emailLogin(
+      {String email, String password, BuildContext context}) async {
+    if(_formKey.currentState.validate()) {
+      try {
+        SystemChannels.textInput.invokeMethod('TextInput.hide');
+        await _changeLoadingVisible();
+        await StateWidget.of(context).logInUser(email, password);
+        await Navigator.pushReplacementNamed(context, '/home');
+      } catch (e) {
+        _changeLoadingVisible();
+        print("Sign In Error: $e");
+        //String exception = Auth.getExceptionText(e);
+        /*Flushbar()
+          ..title = "Sign In Error"
+          ..message = exception
+          ..duration = Duration(seconds: 5)
+          ..show(context);*/
+      }
+    } else {
+      setState(() => _autoValidate = true);
+    }
   }
 }
