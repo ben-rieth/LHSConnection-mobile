@@ -6,6 +6,10 @@ import 'package:lhs_connections/widgets/bottom_nav_bar/search_widget.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/calander.dart';
 
 class Home extends StatefulWidget {
+  final String currentUserId;
+
+  Home({Key key, @required this.currentUserId});
+
   @override
   State<StatefulWidget> createState() {
     return _HomeState();
@@ -13,6 +17,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  _HomeState({Key key, this.currentUserId});
+
+  final String currentUserId;
   final List<Widget> _children = [
     AccountPage(),
     Search(),

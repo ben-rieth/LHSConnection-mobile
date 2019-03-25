@@ -100,8 +100,7 @@ class PotentialClassPage extends StatelessWidget {
     );
 
     final bottomContent = Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(40.0),
+      padding: EdgeInsets.symmetric(horizontal: 35.0, vertical: 30.0),
       child: Center(
         child: Text(
           potentialClass.description,
@@ -111,8 +110,129 @@ class PotentialClassPage extends StatelessWidget {
     );
 
     return Scaffold(
-      body: Column(
-        children: <Widget>[topContent, bottomContent],
+      body: ListView(
+        children: <Widget>[
+          topContent,
+          bottomContent,
+
+          Divider(
+            color: Colors.lightGreen,
+            height: 5.0,
+          ),
+
+          makeGradeLevelBox(),
+
+          Divider(
+            color: Colors.lightGreen,
+            height: 5.0,
+          ),
+
+          makePrerequisites(),
+
+        ],
+      ),
+    );
+  }
+
+  Widget makeGradeLevelBox() {
+
+    String gradeLevels = "";
+
+    potentialClass.gradeLevels.forEach((gradeLevel) {
+
+      if(gradeLevel == 9) {
+        gradeLevels += "Freshman, ";
+      } else if(gradeLevel == 10) {
+        gradeLevels += "Sophmore, ";
+      } else if(gradeLevel == 11) {
+        gradeLevels += "Junior, ";
+      } else if(gradeLevel == 12) {
+        gradeLevels += "Senior, ";
+      }
+
+    });
+
+    gradeLevels = gradeLevels.substring(0, gradeLevels.length-2);
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child:Center(
+        child: Column(
+          children: <Widget>[
+
+            Text(
+              "Required Grade Level",
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.grey[400])
+            ),
+
+            SizedBox(height: 5.0),
+
+            Text(
+              gradeLevels,
+              style: TextStyle(fontSize: 20.0)
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget makePrerequisites() {
+    bool addOrExplanation = false;
+
+    potentialClass.requiredCourses.forEach((item) {
+      if(item.contains("*")) {
+        addOrExplanation = true;
+      }
+    });
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child:Center(
+        child: Column(
+          children: <Widget>[
+
+            Text(
+                "Prerequisites",
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.grey[400])
+            ),
+
+            //SizedBox(height: 5.0),
+
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: potentialClass.requiredCourses.length,
+              itemExtent: 20.0,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Center(
+                      child: Text(
+                        potentialClass.requiredCourses[index],
+                        style: TextStyle(fontSize: 20.0))
+                  ),
+                );
+              },
+            ),
+
+            SizedBox(height: 30.0),
+
+            addOrExplanation ?
+                Center(
+                  child: Text(
+                    "* Only one of these classes required",
+                    style: TextStyle(color: Colors.grey[400], fontSize: 12.0),
+                  ),
+                ) : Container(),
+
+            SizedBox(height: 20.0),
+
+          ],
+        ),
       ),
     );
   }

@@ -1,16 +1,47 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+// To parse this JSON data, do
+//
+//     final user = userFromJson(jsonString);
+
+User userFromJson(String str) {
+  final jsonData = json.decode(str);
+  return User.fromJson(jsonData);
+}
+
+String userToJson(User data) {
+  final dyn = data.toJson();
+  return json.encode(dyn);
+}
 
 class User {
-
+  String uid;
   String name;
-  String grade;
-  Image profilePicture;
+  String email;
+  String gradeLevel;
 
-  String username;
-  String password;
+  User({
+    this.uid,
+    this.name,
+    this.email
+  });
 
-  User(this.name, this.grade, this.username, this.password);
+  factory User.fromJson(Map<String, dynamic> json) => new User(
+    uid: json["userId"],
+    name: json["name"],
+    email: json["email"],
+    //gradeLevel: json["gradeLevel"],
+  );
 
-  User.withImage(this.name, this.grade, this.profilePicture, this.username,
-      this.password);
+  Map<String, dynamic> toJson() => {
+    "userId": uid,
+    "name": name,
+    "email": email,
+    //"gradeLevel": gradeLevel,
+  };
+
+  factory User.fromDocument(DocumentSnapshot doc) {
+    return User.fromJson(doc.data);
+  }
 }
