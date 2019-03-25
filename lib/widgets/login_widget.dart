@@ -67,10 +67,11 @@ class _LoginPageState extends State<LoginPage> {
 
     FirebaseUser user = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
-
+    print("HERE1");
     if(user != null) {
       final QuerySnapshot result = await dbUsers.where('id', isEqualTo: user.uid).getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
+      print("Here2");
       if(documents.length == 0) {
 
         dbUsers
@@ -84,9 +85,15 @@ class _LoginPageState extends State<LoginPage> {
         currentUser = user;
         await prefs.setString('id', currentUser.uid);
         await prefs.setString('email', currentUser.email);
+        //await prefs.setString('uname', currentUser.);
+        assert(currentUser != null);
+
       } else {
+        currentUser = user;
+        print("CURRENT USER! = $currentUser" );
         await prefs.setString('id', documents[0]['id']);
         await prefs.setString('email', documents[0]['email']);
+        await prefs.setString('uname', documents[0]['uname']);
       }
 
       this.setState(() {
@@ -97,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
         context,
         new MaterialPageRoute(
             builder: (BuildContext context) =>
-              Home()));
+              Home(currentUserId: currentUser.uid)));
     } else {
       this.setState(() {
         _loadingVisible = false;

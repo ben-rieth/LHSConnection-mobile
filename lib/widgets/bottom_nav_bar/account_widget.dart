@@ -8,15 +8,17 @@ import 'package:lhs_connections/Models/Class.dart';
 import 'package:lhs_connections/Models/Club.dart';
 
 class AccountPage extends StatefulWidget {
+
   State<AccountPage> createState() => _AccountPageState();
 }
 
 class _AccountPageState extends State<AccountPage>
     with SingleTickerProviderStateMixin {
 
-  static final FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseUser user;
-  BasicUser basicUse;
+  BasicUser basicUser;
+  FirebaseUser currentUser;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  CollectionReference dbUsers = Firestore.instance.collection('users');
 
   String name;
   String gradeLevel;
@@ -43,7 +45,9 @@ class _AccountPageState extends State<AccountPage>
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
-
+    _getCurrentUser();
+    print("Current User: $currentUser");
+    _getDocument();
     super.initState();
   }
 
@@ -72,7 +76,7 @@ class _AccountPageState extends State<AccountPage>
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: Center(
                   child: Text(
-                    basicUse.email,
+                    basicUser.email,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
@@ -85,7 +89,7 @@ class _AccountPageState extends State<AccountPage>
                 padding: const EdgeInsets.all(4.0),
                 child: Center(
                   child: Text(
-                    basicUse.uid,
+                    basicUser.uid,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15.0,
@@ -165,21 +169,6 @@ class _AccountPageState extends State<AccountPage>
     }
   }
 
-  BasicUser getUserInfo() {
-    Future<FirebaseUser> currUser = _auth.currentUser();
-    BasicUser basicUser;
-
-    currUser.then((user) {
-      DocumentReference docRef = Firestore.instance.collection('users').document(user.uid);
-      docRef.get().then((doc) {
-        basicUser = BasicUser.fromMap(doc.data);
-      });
-    });
-
-
-    return basicUser;
-  }
-
   Widget makeCard(dynamic act) {
 
     return Card(
@@ -235,7 +224,20 @@ class _AccountPageState extends State<AccountPage>
 
   }
 
+  Future<Null> _getCurrentUser() async {
+    currentUser = await _auth.currentUser();
+  }
+
+  Future<Null> _getDocument() async {
+    //Map map;
+    dbUsers.document(currentUser.uid).get().then((DocumentSnapshot ds) {
+      basicUser = BasicUser.fromSnapshot(ds);
+    });
+
+  }
 }
+
+
 
 class BasicUser {
 
@@ -255,4 +257,7 @@ class BasicUser {
         uname = map['uname'],
         email = map['email'],
         uid = map['uid'];
+
+  BasicUser.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
 }
