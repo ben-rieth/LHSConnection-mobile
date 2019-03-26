@@ -76,7 +76,7 @@ class _AccountPageState extends State<AccountPage>
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: Center(
                   child: Text(
-                    basicUser.email,
+                    "Name Here",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
@@ -89,7 +89,7 @@ class _AccountPageState extends State<AccountPage>
                 padding: const EdgeInsets.all(4.0),
                 child: Center(
                   child: Text(
-                    basicUser.uid,
+                    "Grade Level Here",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15.0,

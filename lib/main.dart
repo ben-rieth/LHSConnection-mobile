@@ -3,10 +3,12 @@ import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:lhs_connections/widgets/home_widget.dart';
-import 'package:lhs_connections/widgets/login_widget.dart';
+//import 'package:lhs_connections/widgets/login_widget.dart';
 import 'package:lhs_connections/redux_utils/app_state.dart';
 import 'package:lhs_connections/redux_utils/reducers/app_reducer.dart';
-import 'package:lhs_connections/widgets/test_widgets/home_page.dart';
+
+import 'package:lhs_connections/redux_utils/middleware/auth_middleware.dart';
+
 /*void main() {
   StateWidget stateWidget = new StateWidget(
     child: App(),
@@ -21,7 +23,7 @@ class App extends StatelessWidget {
   final store = new Store<AppState> (
     appReducer,
     initialState: new AppState(),
-    middleware: [],
+    middleware: [middleware].toList(),
   );
 
   @override
@@ -33,7 +35,7 @@ class App extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.green,
         ),
-        home: HomePage("Title"),
+        home: Home(),
         routes: {
           "/home": (_) => new Home(),
         },

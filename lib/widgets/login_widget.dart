@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
 import 'package:lhs_connections/widgets/home_widget.dart';
@@ -16,14 +15,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   final CollectionReference dbUsers = Firestore.instance.collection("users");
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
   SharedPreferences prefs;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool _autoValidate = false;
   bool _loadingVisible = false;
-  bool _isLoggedIn = false;
+  //bool _isLoggedIn = false;
 
   TextEditingController _usernameController;
   TextEditingController _passwordController;
@@ -36,12 +35,12 @@ class _LoginPageState extends State<LoginPage> {
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
 
-    isSignedIn();
+    //isSignedIn();
 
     super.initState();
   }
 
-  void isSignedIn() async {
+  /*void isSignedIn() async {
     this.setState(() {
       _loadingVisible = true;
     });
@@ -56,9 +55,9 @@ class _LoginPageState extends State<LoginPage> {
     this.setState(() {
       _loadingVisible = false;
     });
-  }
+  }*/
 
-  Future<Null> handleSignIn(String email, String password) async {
+  /*Future<Null> handleSignIn(String email, String password) async {
     prefs = await SharedPreferences.getInstance();
 
     this.setState(() {
@@ -110,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
         _loadingVisible = false;
       });
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -154,10 +153,11 @@ class _LoginPageState extends State<LoginPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24),
         ),
-        onPressed: () => handleSignIn(
+        onPressed: () => _goToHomeScreen,
+            /*handleSignIn(
          _usernameController.text,
           _passwordController.text,
-        ),
+        ),*/
         padding: const EdgeInsets.all(15.0),
         color: Colors.green,
         child: Text(
@@ -204,5 +204,13 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void _goToHomeScreen() {
+    Navigator.pushReplacement(
+        context,
+        new MaterialPageRoute(
+            builder: (BuildContext context) =>
+                Home()));
   }
 }

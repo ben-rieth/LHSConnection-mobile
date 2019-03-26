@@ -1,3 +1,0 @@
-class IncrementsCountAction {}
-
-class DecrementCountAction {}
