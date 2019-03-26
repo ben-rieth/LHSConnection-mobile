@@ -15,8 +15,7 @@ class GoogleAuthButtonContainer extends StatelessWidget {
     return StoreConnector<AppState, _ViewModel>(
       converter: _ViewModel.fromStore,
       builder: (BuildContext context, _ViewModel vm) {
-        return GoogleAuthButton(
-          buttonText: vm.buttonText,
+        return LoginAuthButton (
           onPressedCallback: vm.onPressedCallback,
         );
       },
@@ -25,21 +24,15 @@ class GoogleAuthButtonContainer extends StatelessWidget {
 }
 
 class _ViewModel {
-  final String buttonText;
-  final Function onPressedCallback;
+  final Function(String email, String password) onPressedCallback;
 
-  _ViewModel({this.onPressedCallback, this.buttonText});
+  _ViewModel({this.onPressedCallback});
 
   static _ViewModel fromStore(Store<AppState> store) {
 
     return _ViewModel(
-      buttonText: store.state.currentUser != null ? 'Log Out' : 'Log In With Google',
       onPressedCallback: (String email, String password) {
-        if(store.state.currentUser != null) {
-          store.dispatch(LogOut());
-        } else {
-          store.dispatch(LogIn(email: email, password: password));
-        }
+        store.dispatch(LogIn(email: email, password: password));
       },
     );
 

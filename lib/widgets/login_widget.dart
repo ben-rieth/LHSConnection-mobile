@@ -3,9 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
 import 'package:lhs_connections/widgets/home_widget.dart';
+import 'package:lhs_connections/redux_utils/app_state.dart';
+import 'package:lhs_connections/redux_utils/actions/auth_actions.dart';
+
+class LoginPageViewModel {
+  final Function() loginButtonPressed;
+
+  LoginPageViewModel({
+    this.loginButtonPressed,
+  });
+}
 
 class LoginPage extends StatefulWidget {
   @override
@@ -177,7 +189,15 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () {},
     );
 
-    return Scaffold(
+    return StoreConnector<AppState, LoginPageViewModel>(
+      converter: (store){
+        return LoginPageViewModel(
+          loginButtonPressed: () {
+            store.dispatch(LogIn(email: _usernameController.text, password: _passwordController.text));
+          }
+        );
+      }
+    );Scaffold(
       backgroundColor: Colors.white,
       body: LoadingScreen(
         inAsyncCall: _loadingVisible,
