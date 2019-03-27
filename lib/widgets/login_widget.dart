@@ -132,6 +132,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _loginProcess(dynamic container) {
     container.logIntoFirebase(
+      context,
       _usernameController.text,
       _passwordController.text);
 

@@ -6,6 +6,8 @@ import 'dart:async';
 
 import 'package:lhs_connections/utils/app_state.dart';
 import 'package:lhs_connections/models/User.dart';
+import 'package:lhs_connections/widgets/home_widget.dart';
+import 'package:lhs_connections/utils/grade_level.dart';
 
 class AppStateContainer extends StatefulWidget {
   final AppState state;
@@ -35,6 +37,8 @@ class _AppStateContainerState extends State<AppStateContainer> {
 
   @override
   void initState() {
+
+    DateUtil.checkHeaderUpdate();
 
     if(widget.state != null) {
       state = widget.state;
@@ -70,7 +74,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
     return user;
   }
 
-  Future<Null> logIntoFirebase(String email, String password) async {
+  Future<Null> logIntoFirebase(BuildContext context, String email, String password) async {
     if(user == null) {
       //what
     }
@@ -94,7 +98,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
                 'email': email,
                 'id': user.uid,
                 'name': "Benjamin Riethmeier",
-                'gradeLevel' : "Senior"
+                'gradeLevel' : DateUtil.getGradeLevel( int.parse(email.substring(0, 2)) )
           });
         }
 
@@ -107,6 +111,12 @@ class _AppStateContainerState extends State<AppStateContainer> {
           state.currentUser = firebaseUser;
           state.userInformation = userInformation;
         });
+
+        Navigator.pushReplacement(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    Home()));
 
       }
     } catch (e) {
