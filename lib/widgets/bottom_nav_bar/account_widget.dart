@@ -1,11 +1,10 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:lhs_connections/Models/Class.dart';
-import 'package:lhs_connections/Models/Club.dart';
+import 'package:lhs_connections/models/Class.dart';
+import 'package:lhs_connections/models/Club.dart';
+import 'package:lhs_connections/app_state_container.dart';
 
 class AccountPage extends StatefulWidget {
 
@@ -15,9 +14,6 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage>
     with SingleTickerProviderStateMixin {
 
-  BasicUser basicUser;
-  FirebaseUser currentUser;
-  FirebaseAuth _auth = FirebaseAuth.instance;
   CollectionReference dbUsers = Firestore.instance.collection('users');
 
   String name;
@@ -44,15 +40,15 @@ class _AccountPageState extends State<AccountPage>
 
   @override
   void initState() {
+
     _tabController = TabController(length: 3, vsync: this);
-    _getCurrentUser();
-    print("Current User: $currentUser");
-    _getDocument();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    var container = AppStateContainer.of(context);
 
     return SwipeDetector(
       onSwipeLeft: _swipeLeft,
@@ -76,7 +72,7 @@ class _AccountPageState extends State<AccountPage>
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: Center(
                   child: Text(
-                    "Name Here",
+                    container.state.userInformation.name,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
@@ -89,7 +85,7 @@ class _AccountPageState extends State<AccountPage>
                 padding: const EdgeInsets.all(4.0),
                 child: Center(
                   child: Text(
-                    "Grade Level Here",
+                    container.state.userInformation.gradeLevel,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15.0,
@@ -130,6 +126,7 @@ class _AccountPageState extends State<AccountPage>
         ),
       ),
     );
+
 
   }
 
@@ -223,21 +220,7 @@ class _AccountPageState extends State<AccountPage>
     );
 
   }
-
-  Future<Null> _getCurrentUser() async {
-    currentUser = await _auth.currentUser();
-  }
-
-  Future<Null> _getDocument() async {
-    //Map map;
-    dbUsers.document(currentUser.uid).get().then((DocumentSnapshot ds) {
-      basicUser = BasicUser.fromSnapshot(ds);
-    });
-
-  }
 }
-
-
 
 class BasicUser {
 

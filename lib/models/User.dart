@@ -1,47 +1,25 @@
-import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// To parse this JSON data, do
-//
-//     final user = userFromJson(jsonString);
-
-User userFromJson(String str) {
-  final jsonData = json.decode(str);
-  return User.fromJson(jsonData);
-}
-
-String userToJson(User data) {
-  final dyn = data.toJson();
-  return json.encode(dyn);
-}
-
 class User {
-  String uid;
+
+  DocumentReference reference;
+
+  String id;
   String name;
   String email;
   String gradeLevel;
 
-  User({
-    this.uid,
-    this.name,
-    this.email
-  });
+  User.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['name'] != null),
+        assert(map['email'] != null),
+        assert(map['id'] != null),
+        assert(map['gradeLevel'] != null),
 
-  factory User.fromJson(Map<String, dynamic> json) => new User(
-    uid: json["userId"],
-    name: json["name"],
-    email: json["email"],
-    //gradeLevel: json["gradeLevel"],
-  );
+        name = map['name'],
+        email = map['email'],
+        id = map['id'],
+        gradeLevel = map['gradeLevel'];
 
-  Map<String, dynamic> toJson() => {
-    "userId": uid,
-    "name": name,
-    "email": email,
-    //"gradeLevel": gradeLevel,
-  };
-
-  factory User.fromDocument(DocumentSnapshot doc) {
-    return User.fromJson(doc.data);
-  }
+  User.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
 }
