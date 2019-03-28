@@ -97,7 +97,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
               .setData({
                 'email': email,
                 'id': user.uid,
-                'name': "Benjamin Riethmeier",
+                'name': email.substring(2, email.indexOf("@", 2)),
                 'gradeLevel' : DateUtil.getGradeLevel( int.parse(email.substring(0, 2)) )
           });
         }
@@ -112,7 +112,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
           state.userInformation = userInformation;
         });
 
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             new MaterialPageRoute(
                 builder: (BuildContext context) =>
@@ -120,7 +120,10 @@ class _AppStateContainerState extends State<AppStateContainer> {
 
       }
     } catch (e) {
-      print(e);
+      print("Printing error");
+      if (e.toString().contains("USER_NOT_FOUND")) {
+
+      }
       return null;
     }
   }

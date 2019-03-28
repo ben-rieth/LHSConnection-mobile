@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:lhs_connections/models/Class.dart';
 import 'package:lhs_connections/models/Club.dart';
@@ -43,6 +44,14 @@ class _AccountPageState extends State<AccountPage>
 
     _tabController = TabController(length: 3, vsync: this);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+
+    _tabController.dispose();
+
+    super.dispose();
   }
 
   @override

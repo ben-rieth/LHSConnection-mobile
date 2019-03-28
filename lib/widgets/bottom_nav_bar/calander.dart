@@ -23,6 +23,12 @@ class _NewsPageState extends State<NewsPage>
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: <Widget>[

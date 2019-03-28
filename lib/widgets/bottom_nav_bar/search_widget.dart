@@ -54,6 +54,15 @@ class _SearchState extends State<Search>
   }
 
   @override
+  void dispose() {
+
+    _tabController.dispose();
+    _scrollController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SwipeDetector(
       onSwipeLeft: _swipeLeft,
