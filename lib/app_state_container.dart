@@ -6,7 +6,6 @@ import 'dart:async';
 
 import 'package:lhs_connections/utils/app_state.dart';
 import 'package:lhs_connections/models/User.dart';
-import 'package:lhs_connections/widgets/home_widget.dart';
 import 'package:lhs_connections/utils/grade_level.dart';
 
 class AppStateContainer extends StatefulWidget {
@@ -43,7 +42,9 @@ class _AppStateContainerState extends State<AppStateContainer> {
     if(widget.state != null) {
       state = widget.state;
     } else {
+
       state = AppState.loading();
+
       initUser();
     }
 
@@ -53,14 +54,13 @@ class _AppStateContainerState extends State<AppStateContainer> {
   Future<Null> initUser() async {
     user = await _ensureLoggedInOnStartUp();
     if (user == null) {
-      setState(() {
-        state.isLoading = false;
-      });
 
       Navigator.pushReplacementNamed(context, "/login");
 
     } else {
-
+      setState(() {
+        state.isLoading = false;
+      });
     }
   }
 
@@ -75,18 +75,21 @@ class _AppStateContainerState extends State<AppStateContainer> {
   }
 
   Future<Null> logIntoFirebase(BuildContext context, String email, String password) async {
+
+    setState(() {
+      state.isLoading = true;
+    });
+
     if(user == null) {
       //what
     }
-
-    print("Here");
 
     FirebaseUser firebaseUser;
 
     try {
       firebaseUser = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-
+      print("Here");
       if(user != null) {
         final QuerySnapshot result = await dbUsers.where('id', isEqualTo: user.uid).getDocuments();
         final List<DocumentSnapshot> documents = result.documents;
@@ -112,15 +115,20 @@ class _AppStateContainerState extends State<AppStateContainer> {
           state.userInformation = userInformation;
         });
 
-        Navigator.push(
+        /*Navigator.pushReplacement(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    Home()));
+                builder: (context) =>
+                    Home()));*/
 
       }
     } catch (e) {
       print("Printing error");
+
+      setState(() {
+        state.isLoading = false;
+      });
+
       if (e.toString().contains("USER_NOT_FOUND")) {
 
       }

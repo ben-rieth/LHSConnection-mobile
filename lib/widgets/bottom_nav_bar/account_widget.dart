@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:lhs_connections/models/Class.dart';
 import 'package:lhs_connections/models/Club.dart';
@@ -62,9 +61,25 @@ class _AccountPageState extends State<AccountPage>
     return SwipeDetector(
       onSwipeLeft: _swipeLeft,
       onSwipeRight: _swipeRight,
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 16.0),
+      child: Scaffold(
+
+        appBar: AppBar(
+          backgroundColor: Colors.grey[350],
+          title: Text(
+            "Account",
+            style: TextStyle(color: Colors.green),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.settings),
+              color: Colors.green,
+              onPressed: () {},
+            ),
+          ],
+        ),
+
+        body: Padding(
+          padding: const EdgeInsets.only(top: 0),
           child: Column(
             children: <Widget>[
 

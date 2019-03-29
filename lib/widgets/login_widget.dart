@@ -23,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool _autoValidate = false;
-  bool _loadingVisible = false;
 
   TextEditingController _usernameController;
   TextEditingController _passwordController;
@@ -60,6 +59,8 @@ class _LoginPageState extends State<LoginPage> {
         contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
       ),
+
+      validator: _emailValidator,
     );
 
     final passwordForm = TextFormField(
@@ -104,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: LoadingScreen(
-        inAsyncCall: _loadingVisible,
+        inAsyncCall: container.state.isLoading,
         child: Form(
             key: _formKey,
             autovalidate: _autoValidate,
@@ -130,17 +131,30 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _loginProcess(dynamic container) {
-    container.logIntoFirebase(
-      context,
-      _usernameController.text,
-      _passwordController.text);
+  String _emailValidator(String email) {
+    if (email.isEmpty) {
+      return "Please enter in your Lindbergh email";
+    } else if(!email.contains("@lindberghschools.ws")) {
+      return "Email is not a Lindbergh email";
+    }
+  }
 
-    Navigator.pushReplacement(
-        context,
-        new MaterialPageRoute(
-            builder: (BuildContext context) =>
-                Home()));
+  void _loginProcess(dynamic container) async {
+
+    if(_formKey.currentState.validate()) {
+      await container.logIntoFirebase(
+          context,
+          _usernameController.text,
+          _passwordController.text);
+
+      Navigator.pushReplacement(
+          context,
+          new MaterialPageRoute(
+              builder: (context) =>
+                  Home()));
+
+    }
+
   }
 
 }
