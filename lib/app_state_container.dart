@@ -52,15 +52,14 @@ class _AppStateContainerState extends State<AppStateContainer> {
   }
 
   Future<Null> initUser() async {
+    await _auth.signOut();
     user = await _ensureLoggedInOnStartUp();
     if (user == null) {
-
-      Navigator.pushReplacementNamed(context, "/login");
-
-    } else {
       setState(() {
         state.isLoading = false;
       });
+    } else {
+
     }
   }
 
@@ -130,7 +129,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
       });
 
       if (e.toString().contains("USER_NOT_FOUND")) {
-
+        print("USER NOT FOUND");
       }
       return null;
     }

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
 import 'package:lhs_connections/widgets/home_widget.dart';
 import 'package:lhs_connections/app_state_container.dart';
+import 'package:lhs_connections/utils/uitlity_methods.dart';
 
 class LoginPageViewModel {
   final Function() loginButtonPressed;
@@ -19,6 +20,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -36,6 +38,8 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     final container = AppStateContainer.of(context);
@@ -51,6 +55,8 @@ class _LoginPageState extends State<LoginPage> {
 
     final emailForm = TextFormField(
       controller: _usernameController,
+      validator: _emailValidator,
+      autovalidate: _autoValidate,
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       textInputAction: TextInputAction.next,
@@ -60,11 +66,13 @@ class _LoginPageState extends State<LoginPage> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
       ),
 
-      validator: _emailValidator,
+
     );
 
     final passwordForm = TextFormField(
       controller: _passwordController,
+      validator: _passwordValidator,
+      autovalidate: _autoValidate,
       keyboardType: TextInputType.number,
       autofocus: false,
       textInputAction: TextInputAction.go,
@@ -133,9 +141,19 @@ class _LoginPageState extends State<LoginPage> {
 
   String _emailValidator(String email) {
     if (email.isEmpty) {
+      _autoValidate = true;
       return "Please enter in your Lindbergh email";
     } else if(!email.contains("@lindberghschools.ws")) {
       return "Email is not a Lindbergh email";
+    }
+  }
+
+  String _passwordValidator(String password) {
+    _autoValidate = true;
+    if(password.isEmpty) {
+      return "Please enter in 10-digit State ID";
+    } else if (!UtilMethods.isNumeric(password)) {
+      return "Password is not numeric";
     }
   }
 
