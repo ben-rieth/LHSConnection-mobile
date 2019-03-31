@@ -5,6 +5,7 @@ import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
 import 'package:lhs_connections/widgets/home_widget.dart';
 import 'package:lhs_connections/app_state_container.dart';
 import 'package:lhs_connections/utils/uitlity_methods.dart';
+import 'package:lhs_connections/utils/loginStatus.dart';
 
 class LoginPageViewModel {
   final Function() loginButtonPressed;
@@ -23,6 +24,8 @@ class _LoginPageState extends State<LoginPage> {
 
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String logInFailMessage = "";
 
   bool _autoValidate = false;
 
@@ -128,7 +131,11 @@ class _LoginPageState extends State<LoginPage> {
                   emailForm,
                   SizedBox(height: 8.0),
                   passwordForm,
-                  SizedBox(height: 24.0),
+                  SizedBox(height: 12.0),
+                  container.state.loginStatus == LoginStatus.Success ||
+                      container.state.loginStatus == LoginStatus.NotYetLoggedIn
+                      ? Container() : makeLogInFailMessage(),
+                  SizedBox(height: 12.0),
                   loginButton,
                   forgotLabel,
                 ],
@@ -140,8 +147,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   String _emailValidator(String email) {
+    _autoValidate = true;
     if (email.isEmpty) {
-      _autoValidate = true;
       return "Please enter in your Lindbergh email";
     } else if(!email.contains("@lindberghschools.ws")) {
       return "Email is not a Lindbergh email";
@@ -149,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   String _passwordValidator(String password) {
-    _autoValidate = true;
+      _autoValidate = true;
     if(password.isEmpty) {
       return "Please enter in 10-digit State ID";
     } else if (!UtilMethods.isNumeric(password)) {
@@ -157,7 +164,21 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Widget makeLogInFailMessage() {
+    return Center(
+      child: Text(
+        logInFailMessage,
+        style: TextStyle(
+          color: Colors.red,
+          fontSize: 18.0,
+        ),
+      ),
+    );
+  }
+
   void _loginProcess(dynamic container) async {
+
+    print("First HERE");
 
     if(_formKey.currentState.validate()) {
       await container.logIntoFirebase(
@@ -165,14 +186,34 @@ class _LoginPageState extends State<LoginPage> {
           _usernameController.text,
           _passwordController.text);
 
-      Navigator.pushReplacement(
-          context,
-          new MaterialPageRoute(
-              builder: (context) =>
-                  Home()));
+      if (container.state.loginStatus == LoginStatus.Success) {
+        Navigator.pushReplacement(
+            context,
+            new MaterialPageRoute(
+                builder: (context) =>
+                    Home()));
+      } else {
+
+        if(container.state.loginStatus == LoginStatus.UserNotFound) {
+
+          setState(() {
+            logInFailMessage = "User not found. Please re-enter email";
+            _usernameController.text = "";
+            _passwordController.text = "";
+          });
+
+        } else if (container.state.loginStatus == LoginStatus.PasswordIncorrect) {
+          setState(() {
+            logInFailMessage = "Password Incorrect";
+            _passwordController.text = "";
+          });
+        }
+
+      }
 
     }
 
   }
+
 
 }

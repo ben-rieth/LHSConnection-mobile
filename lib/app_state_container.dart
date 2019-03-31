@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:lhs_connections/utils/app_state.dart';
 import 'package:lhs_connections/models/User.dart';
 import 'package:lhs_connections/utils/grade_level.dart';
+import 'package:lhs_connections/utils/loginStatus.dart';
 
 class AppStateContainer extends StatefulWidget {
   final AppState state;
@@ -43,8 +44,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
       state = widget.state;
     } else {
 
-      state = AppState.loading();
-
+      state = AppState.initalState();
       initUser();
     }
 
@@ -83,15 +83,19 @@ class _AppStateContainerState extends State<AppStateContainer> {
       //what
     }
 
-    FirebaseUser firebaseUser;
+    print("Second HERE");
 
     try {
-      firebaseUser = await _auth.signInWithEmailAndPassword(
+      user = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      print("Here");
+
+      print("Third HERE");
+
       if(user != null) {
         final QuerySnapshot result = await dbUsers.where('id', isEqualTo: user.uid).getDocuments();
         final List<DocumentSnapshot> documents = result.documents;
+
+        print("Fourth HERE");
 
         if(documents.length == 0) {
           dbUsers
@@ -104,34 +108,36 @@ class _AppStateContainerState extends State<AppStateContainer> {
           });
         }
 
+        print("Fifth HERE");
+
         User userInformation = await _createUserInformation();
 
         print("USERINFO: $userInformation");
 
         setState(() {
           state.isLoading = false;
-          state.currentUser = firebaseUser;
+          state.currentUser = user;
           state.userInformation = userInformation;
+          state.loginStatus = LoginStatus.Success;
         });
-
-        /*Navigator.pushReplacement(
-            context,
-            new MaterialPageRoute(
-                builder: (context) =>
-                    Home()));*/
 
       }
     } catch (e) {
       print("Printing error");
 
-      setState(() {
-        state.isLoading = false;
-      });
-
-      if (e.toString().contains("USER_NOT_FOUND")) {
-        print("USER NOT FOUND");
+      if (e.toString().contains("ERROR_USER_NOT_FOUND")) {
+        setState(() {
+          state.isLoading = false;
+          state.loginStatus = LoginStatus.UserNotFound;
+        });
+      } else if (e.toString().contains("ERROR_WRONG_PASSWORD")) {
+        setState(() {
+          state.isLoading = false;
+          state.loginStatus = LoginStatus.PasswordIncorrect;
+        });
       }
-      return null;
+
+
     }
   }
 
