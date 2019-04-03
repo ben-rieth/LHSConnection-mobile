@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:lhs_connections/Models/Activity.dart';
 
-class Class extends Activity {
+class Class  {
 
   DocumentReference reference;
 
@@ -16,8 +16,8 @@ class Class extends Activity {
   List<String> requiredCourses;
 
   Class({this.name, this.description, this.icon, this.tags,
-    this.numCredit, this.gradeLevels, this.requiredCourses})
-      : super(name: name, description: description, icon: icon, tags: tags);
+    this.numCredit, this.gradeLevels, this.requiredCourses});
+      //: super(name: name, description: description, icon: icon, tags: tags);
 
   Class.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['name'] != null),

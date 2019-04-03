@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lhs_connections/models/Class.dart';
 import 'package:lhs_connections/models/Club.dart';
 import 'package:lhs_connections/app_state_container.dart';
+import 'package:lhs_connections/widgets/class_clubs_widgets/current_club_widget.dart';
 
 class AccountPage extends StatefulWidget {
 
@@ -224,21 +225,21 @@ class _AccountPageState extends State<AccountPage>
           trailing: Icon(Icons.keyboard_arrow_right,
               color: Colors.grey[350], size: 30.0),
 
-          /*onTap: () {
+          onTap: () {
             if(act is Class) {
-              Navigator.push(
+              /*Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          PotentialClassPage(potentialClass: act)));
+                          PotentialClassPage(potentialClass: act)));*/
             } else {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          PotentialClubPage(potentialClub: act)));
+                          CurrentClubPage(currentClub: act)));
             }
-          },*/
+          },
         ),
       ),
     );
