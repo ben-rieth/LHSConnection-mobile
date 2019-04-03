@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:expandable/expandable.dart';
 
 import 'package:lhs_connections/models/Club.dart';
 
@@ -8,6 +9,7 @@ class CurrentClubPage extends StatelessWidget {
   final Club currentClub;
 
   CurrentClubPage({Key key, this.currentClub}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +80,25 @@ class CurrentClubPage extends StatelessWidget {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-
-            }
+              makePostCard();
+            },
+            childCount: 10,
           ),
         ),
 
       ],
     );
   }
+
+  ExpandablePanel makePostCard() {
+    return ExpandablePanel(
+      header: Text("Lorem ipsum",
+        //style: Theme.of(context).textTheme.body2,
+      ),
+      expanded: Text(currentClub.description, softWrap: true, ),
+      tapHeaderToExpand: true,
+      hasIcon: true,
+    );
+  }
+
 }
