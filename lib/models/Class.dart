@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:lhs_connections/Models/Activity.dart';
-
 class Class  {
 
   DocumentReference reference;

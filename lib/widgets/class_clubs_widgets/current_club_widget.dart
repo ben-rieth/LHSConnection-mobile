@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:lhs_connections/models/Club.dart';
 
@@ -12,40 +12,10 @@ class CurrentClubPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final topContentText = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(height: 20.0),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Expanded(flex: 1, child:
-              Icon(
-                currentClub.icon,
-                color: Colors.white,
-                size: 40.0
-              )
-            ),
-
-            Expanded(flex: 5, child: Text(
-              currentClub.name,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 40.0,
-              ),
-            )),
-          ],
-        ),
-
-      ],
-    );
-
-    final topContent = Stack(
+    final top = Stack(
       children: <Widget>[
         Container(
           padding: EdgeInsets.only(left: 10.0),
-          height: MediaQuery.of(context).size.height * 0.25,
           decoration: new BoxDecoration(
               image: new DecorationImage(
                 image: new AssetImage("assets/desks.png"),
@@ -55,41 +25,65 @@ class CurrentClubPage extends StatelessWidget {
         Opacity(
           opacity: .7,
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.25,
             padding: EdgeInsets.all(40.0),
-            width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(color: Colors.green),
           ),
         ),
 
         Container(
-          height: MediaQuery.of(context).size.height * 0.25,
-          padding: EdgeInsets.all(40.0),
-          width: MediaQuery.of(context).size.width,
+          //padding: EdgeInsets.all(50.0),
           child: Center(
-            child: topContentText,
-          ),
-        ),
-
-        Positioned(
-          left: 8.0,
-          top: 60.0,
-          child: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.arrow_back, color: Colors.white),
+            child: Text(
+              currentClub.name,
+              style: TextStyle(
+                fontSize: 40.0,
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
 
       ],
     );
 
-    return Scaffold(
-      body: Column(
-        children: <Widget>[topContent],
+    final chatButton = Container(
+      child: RaisedButton(
+        onPressed: () {},
+        color: Colors.green,
       ),
     );
-  }
 
+    return CustomScrollView(
+      slivers: <Widget>[
+
+        SliverAppBar(
+          floating: true,
+          expandedHeight: 100.0,
+          backgroundColor: Colors.grey[350],
+          pinned: true,
+          primary: true,
+          snap: true,
+          flexibleSpace: top,
+        ),
+
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              chatButton,
+              Divider(),
+            ],
+          ),
+        ),
+
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+
+            }
+          ),
+        ),
+
+      ],
+    );
+  }
 }
