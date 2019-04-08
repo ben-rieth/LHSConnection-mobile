@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:lhs_connections/models/Class.dart';
 import 'package:lhs_connections/models/Club.dart';
+import 'package:lhs_connections/models/dummy_data/dummy_clubs.dart';
 import 'package:lhs_connections/app_state_container.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/current_club_widget.dart';
 
@@ -22,11 +23,7 @@ class _AccountPageState extends State<AccountPage>
 
   TabController _tabController;
 
-  final List<Club> _clubList = [
-    Club(name: "Robotics", icon: Icons.android),
-    Club(name: "Marching Band", icon: Icons.music_note),
-    Club(name: "Set Crew", icon: Icons.people),
-    ];
+  final List<Club> _clubList = DummyClubs().dummyClubs;
   final List<Class> _classList = [
     Class(name: "Symphonic Band", icon: Icons.music_note),
     Class(name: "AP Psychology", icon: Icons.people),
@@ -232,12 +229,14 @@ class _AccountPageState extends State<AccountPage>
                   MaterialPageRoute(
                       builder: (context) =>
                           PotentialClassPage(potentialClass: act)));*/
-            } else {
+            } else if (act is Club){
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
                           CurrentClubPage(currentClub: act)));
+            } else {
+
             }
           },
         ),

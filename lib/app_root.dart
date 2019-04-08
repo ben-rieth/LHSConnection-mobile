@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:lhs_connections/widgets/home_widget.dart';
 import 'package:lhs_connections/widgets/login_widget.dart';
-import 'package:lhs_connections/widgets/class_clubs_widgets/chat_widget.dart';
 
 class AppRoot extends StatefulWidget {
   @override
@@ -19,7 +18,7 @@ class AppRootState extends State<AppRoot> {
     return MaterialApp(
       title: 'LHS Connection',
       theme: _themeData,
-      home: ChatScreen(),
+      home: LoginPage(),
       routes: {
         "/home": (_) => new Home(),
         "/login": (_) => new LoginPage(),
