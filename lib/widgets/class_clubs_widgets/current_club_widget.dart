@@ -4,11 +4,13 @@ import 'package:expandable/expandable.dart';
 
 import 'package:lhs_connections/models/Club.dart';
 
-class CurrentClubPage extends StatelessWidget {
+
+
+class _CurrentClubState extends State<> {
 
   final Club currentClub;
 
-  CurrentClubPage({Key key, this.currentClub}) : super(key: key);
+  _CurrentClubState({Key key, this.currentClub}) : super(key: key);
 
 
   @override
@@ -80,7 +82,7 @@ class CurrentClubPage extends StatelessWidget {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              makePostCard();
+              makePostCard(currentClub);
             },
             childCount: 10,
           ),
@@ -90,15 +92,51 @@ class CurrentClubPage extends StatelessWidget {
     );
   }
 
-  ExpandablePanel makePostCard() {
-    return ExpandablePanel(
+  Card makePostCard(Club act) {
+    /*return ExpandablePanel(
       header: Text("Lorem ipsum",
-        //style: Theme.of(context).textTheme.body2,
+        style: TextStyle(color: Colors.white),
       ),
-      expanded: Text(currentClub.description, softWrap: true, ),
+      expanded: Text("wow", softWrap: true, ),
       tapHeaderToExpand: true,
       hasIcon: true,
+    );*/
+    return Card(
+      elevation: 8.0,
+      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+      color: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.green,
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        ),
+
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          leading: Container(
+            padding: EdgeInsets.only(right: 12.0),
+            decoration: new BoxDecoration(
+                border: new Border(
+                    right: new BorderSide(width: 1.0, color: Colors.grey[350]))),
+            child: Icon(act.icon, color: Colors.grey[350]),
+          ),
+
+          title: Text(
+            act.name,
+            style:
+            TextStyle(
+                color: Colors.grey[350],
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0),
+          ),
+
+          trailing: Icon(Icons.keyboard_arrow_right,
+              color: Colors.grey[350], size: 30.0),
+        ),
+      ),
     );
   }
+
+
 
 }

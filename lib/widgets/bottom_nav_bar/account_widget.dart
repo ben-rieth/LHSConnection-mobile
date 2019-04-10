@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:lhs_connections/models/Class.dart';
 import 'package:lhs_connections/models/Club.dart';
+import 'package:lhs_connections/models/tags.dart';
 import 'package:lhs_connections/models/dummy_data/dummy_clubs.dart';
 import 'package:lhs_connections/models/dummy_data/dummy_classes.dart';
 import 'package:lhs_connections/app_state_container.dart';
@@ -24,7 +25,15 @@ class _AccountPageState extends State<AccountPage>
 
   TabController _tabController;
 
-  final List<Club> _clubList = DummyClubs().dummyClubs;
+  final List<Club> _clubList = [
+    Club(name: "Robotics", sponsor: "Mrs. Lorey", icon: Icons.android,
+        tags: [Tags.tech, Tags.engineering, Tags.robot],),
+        //description: robDescrip),
+    Club(name: "Marching Band",  sponsor: "Mr. Wyss", icon: Icons.audiotrack,
+        tags: [Tags.music]),
+    Club(name: "Set Crew", sponsor: "Mr. Blackwood", icon: Icons.weekend,
+        tags: [Tags.engineering, Tags.construction, Tags.perf_arts]),
+  ];
   final List<Class> _classList = [
     Class(name: "Symphonic Band", icon: Icons.music_note),
     Class(name: "AP Psychology", icon: Icons.people),
@@ -211,14 +220,14 @@ class _AccountPageState extends State<AccountPage>
             child: Icon(act.icon, color: Colors.grey[350]),
           ),
 
-          /*title: Text(
+          title: Text(
             act.name,
             style:
             TextStyle(
                 color: Colors.grey[350],
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0),
-          ),*/
+          ),
 
           trailing: Icon(Icons.keyboard_arrow_right,
               color: Colors.grey[350], size: 30.0),
