@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lhs_connections/models/Class.dart';
 import 'package:lhs_connections/models/Club.dart';
 import 'package:lhs_connections/models/dummy_data/dummy_clubs.dart';
+import 'package:lhs_connections/models/dummy_data/dummy_classes.dart';
 import 'package:lhs_connections/app_state_container.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/current_club_widget.dart';
 
@@ -135,8 +136,8 @@ class _AccountPageState extends State<AccountPage>
                   controller: _tabController,
                   children: <Widget> [
 
-                    _buildAccountViews(_classList),
                     _buildAccountViews(_clubList),
+                    _buildAccountViews(_classList),
                     _buildAccountViews(_interestList),
 
                   ],
@@ -178,7 +179,7 @@ class _AccountPageState extends State<AccountPage>
           );
         },
       );
-    } else {
+    } else if (type is List<Club> || type is List<Class>){
       return ListView.builder(
         itemCount: type.length,
         itemBuilder: (BuildContext context, int index) {
@@ -210,14 +211,14 @@ class _AccountPageState extends State<AccountPage>
             child: Icon(act.icon, color: Colors.grey[350]),
           ),
 
-          title: Text(
+          /*title: Text(
             act.name,
             style:
             TextStyle(
                 color: Colors.grey[350],
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0),
-          ),
+          ),*/
 
           trailing: Icon(Icons.keyboard_arrow_right,
               color: Colors.grey[350], size: 30.0),
