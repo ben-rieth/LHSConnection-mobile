@@ -15,7 +15,7 @@ class Class  {
 
   Class({this.name, this.description, this.icon, this.tags,
     this.numCredit, this.gradeLevels, this.requiredCourses});
-      //: super(name: name, description: description, icon: icon, tags: tags);
+  //: super(name: name, description: description, icon: icon, tags: tags);
 
   Class.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['name'] != null),

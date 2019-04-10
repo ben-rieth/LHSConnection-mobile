@@ -18,7 +18,7 @@ class Club {
 
   Club({String name, String description, IconData icon, List<String> tags,
     this.sponsor});
-      //: super(name: name, description: description, icon: icon, tags: tags);
+  //: super(name: name, description: description, icon: icon, tags: tags);
 
   Club.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['name'] != null),
