@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:expandable/expandable.dart';
 
+import 'package:lhs_connections/app_state_container.dart';
 import 'package:lhs_connections/models/Club.dart';
 
-
-
-class _CurrentClubState extends State<> {
+class CurrentClubPage extends StatefulWidget{
 
   final Club currentClub;
 
-  _CurrentClubState({Key key, this.currentClub}) : super(key: key);
+  CurrentClubPage(this.currentClub);
 
+  _CurrentClubState createState() => new _CurrentClubState(currentClub);
+}
+
+class _CurrentClubState extends State<CurrentClubPage> {
+
+  final Club currentClub;
+
+  _CurrentClubState(this.currentClub);
 
   @override
   Widget build(BuildContext context) {

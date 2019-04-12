@@ -5,8 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lhs_connections/models/Class.dart';
 import 'package:lhs_connections/models/Club.dart';
 import 'package:lhs_connections/models/tags.dart';
-import 'package:lhs_connections/models/dummy_data/dummy_clubs.dart';
-import 'package:lhs_connections/models/dummy_data/dummy_classes.dart';
 import 'package:lhs_connections/app_state_container.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/current_club_widget.dart';
 
@@ -240,11 +238,13 @@ class _AccountPageState extends State<AccountPage>
                       builder: (context) =>
                           PotentialClassPage(potentialClass: act)));*/
             } else if (act is Club){
+
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          CurrentClubPage(currentClub: act)));
+                          CurrentClubPage(act)
+                  ));
             } else {
 
             }
