@@ -143,8 +143,8 @@ class _AccountPageState extends State<AccountPage>
                   controller: _tabController,
                   children: <Widget> [
 
-                    _buildAccountViews(_clubList),
                     _buildAccountViews(_classList),
+                    _buildAccountViews(_clubList),
                     _buildAccountViews(_interestList),
 
                   ],

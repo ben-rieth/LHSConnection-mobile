@@ -86,29 +86,32 @@ class _CurrentClubState extends State<CurrentClubPage> {
           ),
         ),
 
-        SliverList(
+        ExpansionPanelList(
+          children: [
+
+
+          ],
+        ),
+
+        /*SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              makePostCard(currentClub);
+              return makePostCard();
             },
             childCount: 10,
           ),
-        ),
+        ),*/
 
       ],
     );
   }
 
-  Card makePostCard(Club act) {
-    /*return ExpandablePanel(
-      header: Text("Lorem ipsum",
-        style: TextStyle(color: Colors.white),
-      ),
+  Expandable makePostCard() {
+    return Expandable(
+      collapsed: Text("what"),
       expanded: Text("wow", softWrap: true, ),
-      tapHeaderToExpand: true,
-      hasIcon: true,
-    );*/
-    return Card(
+    );
+    /*return Card(
       elevation: 8.0,
       margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       color: Colors.transparent,
@@ -141,7 +144,7 @@ class _CurrentClubState extends State<CurrentClubPage> {
               color: Colors.grey[350], size: 30.0),
         ),
       ),
-    );
+    );*/
   }
 
 
