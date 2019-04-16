@@ -83,19 +83,15 @@ class _AppStateContainerState extends State<AppStateContainer> {
       //what
     }
 
-    print("Second HERE");
-
     try {
       user = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
 
-      print("Third HERE");
 
       if(user != null) {
         final QuerySnapshot result = await dbUsers.where('id', isEqualTo: user.uid).getDocuments();
         final List<DocumentSnapshot> documents = result.documents;
 
-        print("Fourth HERE");
 
         if(documents.length == 0) {
           dbUsers
@@ -107,8 +103,6 @@ class _AppStateContainerState extends State<AppStateContainer> {
                 'gradeLevel' : DateUtil.getGradeLevel( int.parse(email.substring(0, 2)) )
           });
         }
-
-        print("Fifth HERE");
 
         User userInformation = await _createUserInformation();
 
@@ -123,7 +117,6 @@ class _AppStateContainerState extends State<AppStateContainer> {
 
       }
     } catch (e) {
-      print("Printing error");
 
       if (e.toString().contains("ERROR_USER_NOT_FOUND")) {
         setState(() {

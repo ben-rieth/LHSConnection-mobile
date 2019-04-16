@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:lhs_connections/models/Class.dart';
 import 'package:lhs_connections/models/Club.dart';
+import 'package:lhs_connections/models/tags.dart';
 import 'package:lhs_connections/app_state_container.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/current_club_widget.dart';
 
@@ -23,10 +24,14 @@ class _AccountPageState extends State<AccountPage>
   TabController _tabController;
 
   final List<Club> _clubList = [
-    Club(name: "Robotics", icon: Icons.android),
-    Club(name: "Marching Band", icon: Icons.music_note),
-    Club(name: "Set Crew", icon: Icons.people),
-    ];
+    Club(name: "Robotics", sponsor: "Mrs. Lorey", icon: Icons.android,
+        tags: [Tags.tech, Tags.engineering, Tags.robot],),
+        //description: robDescrip),
+    Club(name: "Marching Band",  sponsor: "Mr. Wyss", icon: Icons.audiotrack,
+        tags: [Tags.music]),
+    Club(name: "Set Crew", sponsor: "Mr. Blackwood", icon: Icons.weekend,
+        tags: [Tags.engineering, Tags.construction, Tags.perf_arts]),
+  ];
   final List<Class> _classList = [
     Class(name: "Symphonic Band", icon: Icons.music_note),
     Class(name: "AP Psychology", icon: Icons.people),
@@ -181,7 +186,7 @@ class _AccountPageState extends State<AccountPage>
           );
         },
       );
-    } else {
+    } else if (type is List<Club> || type is List<Class>){
       return ListView.builder(
         itemCount: type.length,
         itemBuilder: (BuildContext context, int index) {
@@ -232,12 +237,16 @@ class _AccountPageState extends State<AccountPage>
                   MaterialPageRoute(
                       builder: (context) =>
                           PotentialClassPage(potentialClass: act)));*/
-            } else {
+            } else if (act is Club){
+
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          CurrentClubPage(currentClub: act)));
+                          CurrentClubPage(act)
+                  ));
+            } else {
+
             }
           },
         ),

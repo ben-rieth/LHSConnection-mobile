@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/account_widget.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/search_widget.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/calander.dart';
+import 'package:lhs_connections/widgets/class_clubs_widgets/chat_widget.dart';
 import 'package:lhs_connections/utils/app_state.dart';
 import 'package:lhs_connections/app_state_container.dart';
 
