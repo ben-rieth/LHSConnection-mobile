@@ -255,26 +255,3 @@ class _AccountPageState extends State<AccountPage>
 
   }
 }
-
-class BasicUser {
-
-  final DocumentReference reference;
-
-  String uname;
-  String email;
-  String uid;
-
-
-
-  BasicUser.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['uname'] != null),
-        assert(map['email'] != null),
-        assert(map['uid'] != null),
-
-        uname = map['uname'],
-        email = map['email'],
-        uid = map['uid'];
-
-  BasicUser.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
-}

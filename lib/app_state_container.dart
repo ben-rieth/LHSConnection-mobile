@@ -74,7 +74,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
   ///initUser() is an asynchronous method that will login the user if they have
   ///   logged it before
   Future<Null> initUser() async {
-    //await _auth.signOut();
+    await _auth.signOut();
     user = await _ensureLoggedInOnStartUp();
     if (user == null) {
       setState(() {
@@ -89,7 +89,9 @@ class _AppStateContainerState extends State<AppStateContainer> {
     user = await _auth.currentUser();
 
     if(user == null) {
-      //action if user is null
+      setState(() {
+        state.isLoading = false;
+      });
     }
 
     return user;
