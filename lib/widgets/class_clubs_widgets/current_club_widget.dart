@@ -63,6 +63,7 @@ class _CurrentClubState extends State<CurrentClubPage>
     );
 
     return Scaffold(
+
       appBar: AppBar(
         flexibleSpace: top,
 
@@ -72,6 +73,7 @@ class _CurrentClubState extends State<CurrentClubPage>
               fontSize: 28.0
           )),
         centerTitle: true,
+
 
         bottom: TabBar(
           controller: _tabController,
@@ -88,11 +90,35 @@ class _CurrentClubState extends State<CurrentClubPage>
         controller: _tabController,
         children: <Widget>[
 
-          ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return makePostCards();
-            },
-            itemCount: 10,
+          Stack(
+            children: <Widget>[
+
+              ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  return makePostCards();
+                },
+                itemCount: 10,
+              ),
+
+              Positioned(
+                top: MediaQuery.of(context).size.height * .7,
+                left: MediaQuery.of(context).size.width * .78,
+                child: Container(
+                  height: 70.0,
+                  width: 70.0,
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.green,
+                    onPressed: () {
+                      print("Nothing");
+                    },
+                    child: Icon(
+                      Icons.add,
+                      size: 30.0),
+                  ),
+                ),
+              ),
+
+            ],
           ),
 
           ChatScreen(),
@@ -108,67 +134,6 @@ class _CurrentClubState extends State<CurrentClubPage>
       ),
 
     );
-
-    /*return SwipeDetector(
-      onSwipeLeft: _swipeLeft,
-      onSwipeRight: _swipeRight,
-      child: CustomScrollView(
-        slivers: <Widget>[
-
-          SliverAppBar(
-            floating: true,
-            expandedHeight: 100.0,
-            backgroundColor: Colors.grey[350],
-            pinned: true,
-            primary: true,
-            snap: true,
-            flexibleSpace: top,
-            title: Text(
-              currentClub.name,
-              style: TextStyle(
-                fontSize: 28.0
-              )),
-            centerTitle: true,
-            bottom: TabBar(
-              controller: _tabController,
-              onTap: _changeTab,
-              tabs: <Widget>[
-                Tab(text: "POSTS"),
-                Tab(text: "CLUB CHAT"),
-                Tab(text: "MEMBERS"),
-              ],
-            ),
-          ),
-
-          onPostTab ? SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return makePostCards();
-              },
-              childCount: 10,
-            ),
-          ) : SliverPadding(padding: EdgeInsets.all(0.0)),
-
-          onChatTab ? SliverList(
-            delegate: SliverChildListDelegate([
-              ChatScreen(),
-            ]),
-          ) : SliverPadding(padding: EdgeInsets.all(0.0)),
-
-          onMembersTab ? SliverList(
-            delegate: SliverChildListDelegate([
-              ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return makeClubMembers();
-                },
-                itemCount: 10,
-              ),
-            ]),
-          ) : SliverPadding(padding: EdgeInsets.all(0.0)),
-
-        ],
-      ),
-    );*/
   }
 
   ListTile makeClubMembers() {
@@ -202,7 +167,12 @@ class _CurrentClubState extends State<CurrentClubPage>
                 padding: EdgeInsets.only(top: 10.0, left: 10.0),
                 child: Text(
                   "Lorem ipsum",
-                  //style: TextStyle(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 )
               ),
 
