@@ -11,7 +11,6 @@ class ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text("Friendlychat")),
       body: new Column(                                        //modified
         children: <Widget>[                                         //new
           new Flexible(                                             //new

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:expandable/expandable.dart';
-import 'package:swipedetector/swipedetector.dart';
 
 import 'package:lhs_connections/app_state_container.dart';
 import 'package:lhs_connections/models/Club.dart';
 import 'package:lhs_connections/models/Post.dart';
+import 'package:lhs_connections/widgets/class_clubs_widgets/chat_widget.dart';
 
 class CurrentClubPage extends StatefulWidget{
 
@@ -62,7 +62,54 @@ class _CurrentClubState extends State<CurrentClubPage>
       ],
     );
 
-    return SwipeDetector(
+    return Scaffold(
+      appBar: AppBar(
+        flexibleSpace: top,
+
+        title: Text(
+          currentClub.name,
+          style: TextStyle(
+              fontSize: 28.0
+          )),
+        centerTitle: true,
+
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: <Widget>[
+            Tab(text: "POSTS"),
+            Tab(text: "CLUB CHAT"),
+            Tab(text: "MEMBERS"),
+          ],
+
+        ),
+      ),
+
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+
+          ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return makePostCards();
+            },
+            itemCount: 10,
+          ),
+
+          ChatScreen(),
+
+          ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return makeClubMembers();
+            },
+            itemCount: 10,
+          ),
+
+        ],
+      ),
+
+    );
+
+    /*return SwipeDetector(
       onSwipeLeft: _swipeLeft,
       onSwipeRight: _swipeRight,
       child: CustomScrollView(
@@ -84,6 +131,7 @@ class _CurrentClubState extends State<CurrentClubPage>
             centerTitle: true,
             bottom: TabBar(
               controller: _tabController,
+              onTap: _changeTab,
               tabs: <Widget>[
                 Tab(text: "POSTS"),
                 Tab(text: "CLUB CHAT"),
@@ -92,20 +140,43 @@ class _CurrentClubState extends State<CurrentClubPage>
             ),
           ),
 
-          SliverList(
+          onPostTab ? SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return makePostCards();
               },
               childCount: 10,
             ),
-          ),
+          ) : SliverPadding(padding: EdgeInsets.all(0.0)),
+
+          onChatTab ? SliverList(
+            delegate: SliverChildListDelegate([
+              ChatScreen(),
+            ]),
+          ) : SliverPadding(padding: EdgeInsets.all(0.0)),
+
+          onMembersTab ? SliverList(
+            delegate: SliverChildListDelegate([
+              ListView.builder(
+                itemBuilder: (BuildContext context, int index) {
+                  return makeClubMembers();
+                },
+                itemCount: 10,
+              ),
+            ]),
+          ) : SliverPadding(padding: EdgeInsets.all(0.0)),
 
         ],
       ),
-    );
+    );*/
   }
 
+  ListTile makeClubMembers() {
+    return ListTile(
+      title: Text("Member List Wow", style: TextStyle(color: Colors.black)),
+
+    );
+  }
 
   Card makePostCards() {
     return Card(
@@ -154,42 +225,6 @@ class _CurrentClubState extends State<CurrentClubPage>
         ),
       ),
     );
-  }
-
-  void _changeTab(int index) {
-    setState(() {
-      if(index == 0) {
-        onPostTab = true;
-        onChatTab = false;
-        onMembersTab = false;
-      } else if (index == 1) {
-        onPostTab = false;
-        onChatTab = true;
-        onMembersTab = false;
-      } else {
-        onPostTab = false;
-        onChatTab = true;
-        onMembersTab = false;
-      }
-    });
-  }
-
-  void _swipeLeft() {
-    setState(() {
-      if(_tabController.index+1 <= 2) {
-        _tabController.animateTo(_tabController.index+1);
-        _changeTab(_tabController.index);
-      }
-    });
-  }
-
-  void _swipeRight() {
-    setState(() {
-      if(_tabController.index-1 >= 0) {
-        _tabController.animateTo(_tabController.index-1);
-        _changeTab(_tabController.index);
-      }
-    });
   }
 
 }
