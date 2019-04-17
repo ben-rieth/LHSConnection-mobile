@@ -21,12 +21,13 @@ class _CurrentClubState extends State<CurrentClubPage>
 
   static const loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-  bool onPostTab = true;
-  bool onChatTab = false;
-  bool onMembersTab = false;
-
   final Club currentClub;
+  final _formTitleKey = GlobalKey<FormState>();
+  final _formContentKey = GlobalKey<FormState>();
+
   TabController _tabController;
+  TextEditingController _titleController;
+  TextEditingController _contentController;
 
   _CurrentClubState(this.currentClub);
 
@@ -34,6 +35,9 @@ class _CurrentClubState extends State<CurrentClubPage>
   void initState() {
 
     _tabController = TabController(length: 3, vsync: this);
+
+    _titleController = TextEditingController();
+    _contentController = TextEditingController();
 
     super.initState();
   }
@@ -109,7 +113,12 @@ class _CurrentClubState extends State<CurrentClubPage>
                   child: FloatingActionButton(
                     backgroundColor: Colors.green,
                     onPressed: () {
-                      print("Nothing");
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return makePostDialog();
+                        }
+                      );
                     },
                     child: Icon(
                       Icons.add,
@@ -140,6 +149,81 @@ class _CurrentClubState extends State<CurrentClubPage>
     return ListTile(
       title: Text("Member List Wow", style: TextStyle(color: Colors.black)),
 
+    );
+  }
+
+  AlertDialog makePostDialog() {
+
+    return AlertDialog(
+      contentPadding: EdgeInsets.only(left: 10.0, right: 10.0, top: 15.0),
+      titlePadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+
+      title: TextFormField(
+        controller: _titleController,
+        key: _formTitleKey,
+        maxLines: 1,
+        style: TextStyle(
+          fontSize: 18.0,
+        ),
+        decoration: InputDecoration(
+          hintText: "Title",
+        ),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+
+          TextFormField(
+            controller: _contentController,
+            key: _formContentKey,
+            maxLines: 10,
+            decoration: InputDecoration(
+              hintText: " Content",
+              hintStyle: TextStyle(
+                fontSize: 14.0,
+              ),
+              contentPadding: EdgeInsets.all(10.0),
+              border: OutlineInputBorder(),
+            ),
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+
+              IconButton(
+                icon: Icon(
+                  Icons.camera_alt,
+                  color: Colors.grey[500],
+                ),
+                onPressed: () {},
+              ),
+
+              IconButton(
+                icon: Icon(
+                  Icons.link,
+                  color: Colors.grey[500],
+                ),
+                onPressed: () {},
+              ),
+
+            ],
+          ),
+
+        ],
+      ),
+
+
+      actions: <Widget>[
+
+        FlatButton(
+          child: Text("Close"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+
+      ],
     );
   }
 
@@ -177,7 +261,14 @@ class _CurrentClubState extends State<CurrentClubPage>
               ),
 
               collapsed: Text(loremIpsum, softWrap: false, overflow: TextOverflow.ellipsis),
-              expanded: Text(loremIpsum, softWrap: true, overflow: TextOverflow.fade),
+              expanded: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+
+                  Text(loremIpsum, softWrap: true, overflow: TextOverflow.fade),
+
+                ],
+              ),
 
               builder: (_, collapsed, expanded) {
                 return Padding(
