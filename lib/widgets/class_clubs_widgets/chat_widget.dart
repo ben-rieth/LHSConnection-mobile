@@ -22,9 +22,15 @@ class ChatScreenState extends State<ChatScreen> {
             ),                                                      //new
           ),                                                        //new
           new Divider(height: 1.0),                                 //new
-          new Container(                                            //new
+          new Container(
+            margin: EdgeInsets.all(10.0),
             decoration: new BoxDecoration(
-                color: Theme.of(context).cardColor),                  //new
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1.5,
+                ),
+              borderRadius: BorderRadius.circular(5.0),
+            ),                 //new
             child: _buildTextComposer(),                       //modified
           ),                                                        //new
         ],                                                          //new
@@ -46,6 +52,7 @@ class ChatScreenState extends State<ChatScreen> {
               child: new TextField(
                 controller: _textController,
                 onSubmitted: _handleSubmitted,
+                maxLines: null,
                 decoration: new InputDecoration.collapsed(
                     hintText: "Send a message"),
               ),
