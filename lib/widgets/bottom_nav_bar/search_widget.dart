@@ -10,6 +10,7 @@ import 'package:lhs_connections/models/dummy_data/dummy_classes.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/potential_class_widget.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/potential_club_widget.dart';
 import 'package:lhs_connections/app_state_container.dart';
+import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -20,6 +21,8 @@ class _SearchState extends State<Search>
     with SingleTickerProviderStateMixin{
 
   final CollectionReference dbClasses = Firestore.instance.collection("classes");
+  var container;
+
 
   List<Club> clubs;
 
@@ -30,7 +33,7 @@ class _SearchState extends State<Search>
 
   bool _resultsAreVisible = false;
   bool _areClassesVisible = true;
-  bool _areClubsVisible = true;
+  bool _areClubsVisible = false;
   bool _noClubsFound = false;
   bool _noClassesFound = false;
 
@@ -47,6 +50,8 @@ class _SearchState extends State<Search>
     _tabController = TabController(length: 2, vsync: this);
     _scrollController = ScrollController(initialScrollOffset: 0.0);
     _scrollController.addListener(_onScroll);
+
+
     super.initState();
   }
 
@@ -61,31 +66,30 @@ class _SearchState extends State<Search>
 
   @override
   Widget build(BuildContext context) {
-
-    final container = AppStateContainer.of(context);
+    container = AppStateContainer.of(context);
 
     final searchBar = Padding(
-        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0),
-        child: TextField(
-          autofocus: true,
-          onSubmitted: _onSearchChange,
-          controller: editingController,
-          style: TextStyle(
-            fontSize: 20.0,
-            //height: .5,
-          ),
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.all(13.0),
-            isDense: true,
-            filled: true,
-            fillColor: Colors.white,
-            hintText: "Search for Classes and Clubs",
-            prefixIcon: Icon(Icons.search),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25.0))),
-          ),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0),
+      child: TextField(
+        autofocus: true,
+        onSubmitted: _onSearchChange,
+        controller: editingController,
+        style: TextStyle(
+          fontSize: 20.0,
+          //height: .5,
         ),
-      );
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(13.0),
+          isDense: true,
+          filled: true,
+          fillColor: Colors.white,
+          hintText: "Search for Classes and Clubs",
+          prefixIcon: Icon(Icons.search),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25.0))),
+        ),
+      ),
+    );
 
     return SwipeDetector(
       onSwipeLeft: _swipeLeft,
@@ -115,6 +119,8 @@ class _SearchState extends State<Search>
               ],
             ),
           ),
+
+          //container.state.isLoading ? Text("Loading...") : Container(),
 
           _areClassesVisible && _resultsAreVisible ?
           SliverList(
@@ -158,6 +164,7 @@ class _SearchState extends State<Search>
 
         ],
       ),
+
     );
   }
 
@@ -225,10 +232,10 @@ class _SearchState extends State<Search>
 
   void _newFilter(int index) {
     setState(() {
-      if (index == 1) {
+      if (index == 0) {
         _areClassesVisible = true;
         _areClubsVisible = false;
-      } else if (index == 2) {
+      } else if (index == 1) {
         _areClassesVisible = false;
         _areClubsVisible = true;
       } else {
@@ -258,7 +265,9 @@ class _SearchState extends State<Search>
 
   void _onSearchChange(String query) {
 
-    query = query.toLowerCase();
+    _filteredClasses.clear();
+
+    //query = query.toLowerCase();
     query = query.trim();
 
     _searchSort(query);
@@ -277,21 +286,39 @@ class _SearchState extends State<Search>
   }
 
   Future<Null> _searchFirestore(String query) async {
+    container.startLoading();
+
     Stream<QuerySnapshot> resultNames = await dbClasses.where("name", isEqualTo: query).snapshots();
 
     resultNames.forEach((QuerySnapshot qs) {
       List<DocumentSnapshot> snapshot = qs.documents;
 
-      snapshot.forEach((DocumentSnapshot ds) {
-        _filteredClasses.add(Class.fromSnapshot(ds));
-      });
+      if(snapshot.length != 0) {
+
+        setState(() {
+          _noClassesFound = false;
+        });
+
+        snapshot.forEach((DocumentSnapshot ds) {
+          print(ds.data);
+          _filteredClasses.add(Class.fromSnapshot(ds));
+        });
+      } else {
+        setState(() {
+          _noClassesFound = true;
+        });
+      }
     });
 
+    container.stopLoading();
   }
 
   void _filterClasses(String query)  {
 
     _searchFirestore(query);
+
+    print(_filteredClasses);
+
   }
 
 

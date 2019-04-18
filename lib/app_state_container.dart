@@ -85,6 +85,22 @@ class _AppStateContainerState extends State<AppStateContainer> {
     }
   }
 
+  void startLoading() {
+    assert(state.isLoading == false);
+
+    setState(() {
+      state.isLoading = true;
+    });
+  }
+
+  void stopLoading() {
+    assert(state.isLoading == true);
+
+    setState(() {
+      state.isLoading = false;
+    });
+  }
+
   Future<FirebaseUser> _ensureLoggedInOnStartUp() async {
     user = await _auth.currentUser();
 

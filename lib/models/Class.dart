@@ -9,10 +9,10 @@ class Class  {
   String name;
   String description;
   IconData icon;
-  List<String> tags;
-  double numCredit;
-  List<int> gradeLevels;
-  List<String> requiredCourses;
+  List<dynamic> tags;
+  String numCredit;
+  List<dynamic> gradeLevels;
+  List<dynamic> requiredCourses;
 
   Class({this.name, this.description, this.icon, this.tags,
     this.numCredit, this.gradeLevels, this.requiredCourses});
@@ -20,19 +20,18 @@ class Class  {
 
   Class.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['name'] != null),
-        assert(map['description'] != null),
-        assert(map['icon'] != null),
+        assert(map['bio'] != null),
+        //assert(map['icon'] != null),
         assert(map['tags'] != null),
-        assert(map['numCredit'] != null),
-        assert(map['gradeLevels'] != null),
-        assert(map['requiredCourses'] != null),
+        //assert(map['credits'] != null),
+        assert(map['grade'] != null),
 
         name = map['name'],
         description = map['description'],
-        icon = map['icon'],
+        //icon = map['icon'],
         tags = map['tags'],
-        numCredit = map['numCredit'],
-        gradeLevels = map['gradeLevels'],
+        numCredit = map['credit'],
+        gradeLevels = map['grade'],
         requiredCourses = map['requiredCourses'];
 
   Class.fromSnapshot(DocumentSnapshot snapshot)
