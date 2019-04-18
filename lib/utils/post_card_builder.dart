@@ -15,7 +15,7 @@ class PostCardBuilder {
 
             post.image != null ? makeImageBox(post.image.path) : Container(),
 
-            post.text == null ? makeNoContentCard() : makeContentCard(),
+            post.text == null ? makeNoContentCard() : makeContentCard(post.title, post.text),
 
           ],
         ),
@@ -105,8 +105,44 @@ class PostCardBuilder {
 
   }
 
-  Widget makeContentCard() {
+  ExpandablePanel makeContentCard(String title, String content) {
+    return  ExpandablePanel(
+        tapHeaderToExpand: true,
 
+        header: Padding(
+            padding: EdgeInsets.only(top: 10.0, left: 10.0),
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+        ),
+
+        collapsed: Text(content, softWrap: false, overflow: TextOverflow.ellipsis),
+        expanded: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+
+            Text(content, softWrap: true, overflow: TextOverflow.fade),
+
+          ],
+        ),
+
+        builder: (_, collapsed, expanded) {
+          return Padding(
+            padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+            child: Expandable(
+              collapsed: collapsed,
+              expanded: expanded,
+            ),
+          );
+        }
+
+    );
   }
 
 }
