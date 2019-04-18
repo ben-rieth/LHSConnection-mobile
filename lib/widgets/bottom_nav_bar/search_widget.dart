@@ -9,6 +9,7 @@ import 'package:lhs_connections/models/dummy_data/dummy_clubs.dart';
 import 'package:lhs_connections/models/dummy_data/dummy_classes.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/potential_class_widget.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/potential_club_widget.dart';
+import 'package:lhs_connections/app_state_container.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -21,7 +22,6 @@ class _SearchState extends State<Search>
   final CollectionReference dbClasses = Firestore.instance.collection("classes");
 
   List<Club> clubs;
-  List<Class> classes;
 
   List<Club> _filteredClubs = List<Club>();
   List<Class> _filteredClasses = List<Class>();
@@ -44,10 +44,7 @@ class _SearchState extends State<Search>
     clubs = DummyClubs().dummyClubs;
     _filteredClubs.addAll(clubs);
 
-    classes = DummyClasses().dummyClasses;
-    _filteredClasses.addAll(classes);
-
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _scrollController = ScrollController(initialScrollOffset: 0.0);
     _scrollController.addListener(_onScroll);
     super.initState();
@@ -64,6 +61,32 @@ class _SearchState extends State<Search>
 
   @override
   Widget build(BuildContext context) {
+
+    final container = AppStateContainer.of(context);
+
+    final searchBar = Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0),
+        child: TextField(
+          autofocus: true,
+          onSubmitted: _onSearchChange,
+          controller: editingController,
+          style: TextStyle(
+            fontSize: 20.0,
+            //height: .5,
+          ),
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(13.0),
+            isDense: true,
+            filled: true,
+            fillColor: Colors.white,
+            hintText: "Search for Classes and Clubs",
+            prefixIcon: Icon(Icons.search),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25.0))),
+          ),
+        ),
+      );
+
     return SwipeDetector(
       onSwipeLeft: _swipeLeft,
       onSwipeRight: _swipeRight,
@@ -72,7 +95,7 @@ class _SearchState extends State<Search>
         slivers: <Widget>[
 
           SliverAppBar(
-            title: makeSearchBar(),
+            title: searchBar,
             floating: true,
             expandedHeight: 120.0,
             backgroundColor: Colors.grey[350],
@@ -86,7 +109,7 @@ class _SearchState extends State<Search>
               unselectedLabelColor: Colors.white,
               indicatorColor: Colors.lightGreen,
               tabs: <Widget>[
-                Tab(text: "EVERYTHING"),
+                //Tab(text: "EVERYTHING"),
                 Tab(text: "CLASSES"),
                 Tab(text: "CLUBS"),
               ],
@@ -217,7 +240,7 @@ class _SearchState extends State<Search>
 
   void _swipeLeft() {
     setState(() {
-      if(_tabController.index+1 <= 2) {
+      if(_tabController.index+1 <= 1) {
         _tabController.animateTo(_tabController.index+1);
         _newFilter(_tabController.index);
       }
@@ -234,6 +257,7 @@ class _SearchState extends State<Search>
   }
 
   void _onSearchChange(String query) {
+
     query = query.toLowerCase();
     query = query.trim();
 
@@ -252,7 +276,26 @@ class _SearchState extends State<Search>
       _filterClubs(query);
   }
 
-  Future<Null> _filterClasses(String query) async {
+  Future<Null> _searchFirestore(String query) async {
+    Stream<QuerySnapshot> resultNames = await dbClasses.where("name", isEqualTo: query).snapshots();
+
+    resultNames.forEach((QuerySnapshot qs) {
+      List<DocumentSnapshot> snapshot = qs.documents;
+
+      snapshot.forEach((DocumentSnapshot ds) {
+        _filteredClasses.add(Class.fromSnapshot(ds));
+      });
+    });
+
+  }
+
+  void _filterClasses(String query)  {
+
+    _searchFirestore(query);
+  }
+
+
+  /*Future<Null> _filteClasses(String query) async {
 
     /*final QuerySnapshot result = await dbClasses
         .where(query, isEqualTo: name).getDocuments();*/
@@ -298,7 +341,7 @@ class _SearchState extends State<Search>
         classes.addAll(dummySearchList);
       });
     }
-  }
+  }*/
 
   void _filterClubs(String query) {
     List<Club> dummySearchList = List<Club>();
@@ -343,30 +386,7 @@ class _SearchState extends State<Search>
     }
   }
 
-  Padding makeSearchBar() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 8.0, right: 8.0),
-      child: TextField(
-        autofocus: true,
-        onChanged: _onSearchChange,
-        controller: editingController,
-        style: TextStyle(
-          fontSize: 20.0,
-          //height: .5,
-        ),
-        decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(13.0),
-          isDense: true,
-          filled: true,
-          fillColor: Colors.white,
-          hintText: "Search for Classes and Clubs",
-          prefixIcon: Icon(Icons.search),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0))),
-        ),
-      ),
-    );
-  }
+
 
   Container makeHeader(String heading) => Container(
     alignment: Alignment.center,
