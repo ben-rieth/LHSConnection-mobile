@@ -33,9 +33,16 @@ class Class  {
         tags = map['tags'],
         numCredit = map['credits'].toString(),
         gradeLevels = map['grade'],
-        requiredCourses = map['requiredCourses'];
+        requiredCourses = map['req'];
 
   Class.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
+
+
+  @override
+  String toString() {
+    return "Class: name=${this.name} tags=${this.tags} credits=${this.numCredit}" +
+      " gradeLevels=${this.gradeLevels} requiredCourses=${this.requiredCourses}";
+  }
 
 }

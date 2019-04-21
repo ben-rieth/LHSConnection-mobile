@@ -269,14 +269,14 @@ class _SearchState extends State<Search>
     });
   }
 
-  void _onSearchChange(String query) {
+  Future<Null> _onSearchChange(String query) async {
 
     if (_areClubsVisible && _areClassesVisible) {
-      _filterClasses(query);
+      await _filterClasses(query);
       _filterClubs(query);
 
     } else if (_areClassesVisible && !_areClubsVisible)
-      _filterClasses(query);
+      await _filterClasses(query);
 
     else if (!_areClassesVisible && _areClubsVisible)
     _filterClubs(query);
@@ -296,46 +296,28 @@ class _SearchState extends State<Search>
     } else {
 
       snap.hits.forEach((AlgoliaObjectSnapshot aos) {
-        print(aos.data);
+        print(Class.fromMap(aos.data).toString());
+
         results.add(Class.fromMap(aos.data));
       });
 
       setState(() {
         _noClassesFound = false;
+        _resultsAreVisible = true;
 
         _filteredClasses.clear();
         _filteredClasses.addAll(results);
       });
     }
 
-    /*Stream<QuerySnapshot> resultNames = await dbClasses.where("name", isEqualTo: query).snapshots();
-
-    resultNames.forEach((QuerySnapshot qs) {
-      List<DocumentSnapshot> snapshot = qs.documents;
-
-      if(snapshot.length != 0) {
-
-        setState(() {
-          _noClassesFound = false;
-        });
-
-        snapshot.forEach((DocumentSnapshot ds) {
-          print(ds.data);
-          _filteredClasses.add(Class.fromSnapshot(ds));
-        });
-      } else {
-
-      }
-    });*/
-
     //container.stopLoading();
   }
 
-  void _filterClasses(String queryS)  {
+  Future<Null> _filterClasses(String queryS) async {
 
     AlgoliaQuery query = algolia.instance.index('classes').search(queryS);
 
-    _getClasses(query);
+    await _getClasses(query);
 
     print(_filteredClasses);
 
