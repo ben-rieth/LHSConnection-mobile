@@ -6,16 +6,14 @@ import 'package:flutter/material.dart';
 class DummyClasses {
   final List<Class> _dummyClasses = [
     Class(name: "Symphonic Band", numCredit: ".5", gradeLevels: [10, 11, 12], icon: Icons.audiotrack,
-        tags: [Tags.music],
-        requiredCourses: ["Previous Band Experience"]),
+        tags: [Tags.music],),
     Class(name: "AP Psychology", numCredit: "1", gradeLevels: [11, 12], icon: Icons.book,
         tags: [Tags.ap, Tags.soc_stud, Tags.psych]),
     Class(name: "AP Calculus", numCredit: "1", gradeLevels: [12], icon: Icons.assessment,
         tags: [Tags.ap, Tags.math, Tags.calc]),
     Class(name: "AP English Literature", numCredit: "1", gradeLevels: [12], icon: Icons.book,
         tags: [Tags.ap, Tags.eng, Tags.rwi],
-        description: apLitDescrip,
-        requiredCourses: ["English 3*", "IB/Pre-AP English 3*", "AP Language*"]),
+        description: apLitDescrip,),
     Class(name: "AP Physics 2", numCredit: "1", icon: Icons.wb_incandescent, gradeLevels: [12],
         tags: [Tags.ap, Tags.ib, Tags.sci, Tags.physics, Tags.lab]),
     Class(name: "IB Computer Science 2", numCredit: "1", gradeLevels: [12], icon: Icons.computer,

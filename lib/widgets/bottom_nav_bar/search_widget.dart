@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:algolia/algolia.dart';
 import 'dart:async';
 
 import 'package:lhs_connections/models/Club.dart';
@@ -19,6 +20,11 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search>
     with SingleTickerProviderStateMixin{
+
+  static final Algolia algolia = Algolia.init(
+    applicationId: "LJ5RB82WYM",
+    apiKey: "0e54c75a00a0ce3e6eb630873b573c25"
+  );
 
   final CollectionReference dbClasses = Firestore.instance.collection("classes");
   var container;
@@ -265,15 +271,6 @@ class _SearchState extends State<Search>
 
   void _onSearchChange(String query) {
 
-    _filteredClasses.clear();
-
-    //query = query.toLowerCase();
-    query = query.trim();
-
-    _searchSort(query);
-  }
-
-  void _searchSort(String query) {
     if (_areClubsVisible && _areClassesVisible) {
       _filterClasses(query);
       _filterClubs(query);
@@ -282,13 +279,36 @@ class _SearchState extends State<Search>
       _filterClasses(query);
 
     else if (!_areClassesVisible && _areClubsVisible)
-      _filterClubs(query);
+    _filterClubs(query);
   }
 
-  Future<Null> _searchFirestore(String query) async {
-    container.startLoading();
+  Future<Null> _getClasses(AlgoliaQuery query) async {
+    //container.startLoading();
 
-    Stream<QuerySnapshot> resultNames = await dbClasses.where("name", isEqualTo: query).snapshots();
+    List<Class> results = List<Class>();
+
+    AlgoliaQuerySnapshot snap = await query.getObjects();
+
+    if(snap.nbHits == 0) {
+      setState(() {
+        _noClassesFound = true;
+      });
+    } else {
+
+      snap.hits.forEach((AlgoliaObjectSnapshot aos) {
+        print(aos.data);
+        results.add(Class.fromMap(aos.data));
+      });
+
+      setState(() {
+        _noClassesFound = false;
+
+        _filteredClasses.clear();
+        _filteredClasses.addAll(results);
+      });
+    }
+
+    /*Stream<QuerySnapshot> resultNames = await dbClasses.where("name", isEqualTo: query).snapshots();
 
     resultNames.forEach((QuerySnapshot qs) {
       List<DocumentSnapshot> snapshot = qs.documents;
@@ -304,18 +324,18 @@ class _SearchState extends State<Search>
           _filteredClasses.add(Class.fromSnapshot(ds));
         });
       } else {
-        setState(() {
-          _noClassesFound = true;
-        });
-      }
-    });
 
-    container.stopLoading();
+      }
+    });*/
+
+    //container.stopLoading();
   }
 
-  void _filterClasses(String query)  {
+  void _filterClasses(String queryS)  {
 
-    _searchFirestore(query);
+    AlgoliaQuery query = algolia.instance.index('classes').search(queryS);
+
+    _getClasses(query);
 
     print(_filteredClasses);
 

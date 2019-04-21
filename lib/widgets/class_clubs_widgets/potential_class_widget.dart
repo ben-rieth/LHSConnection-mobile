@@ -127,7 +127,7 @@ class PotentialClassPage extends StatelessWidget {
             height: 5.0,
           ),
 
-          makePrerequisites(),
+          //makePrerequisites(),
 
         ],
       ),
@@ -180,7 +180,7 @@ class PotentialClassPage extends StatelessWidget {
     );
   }
 
-  Widget makePrerequisites() {
+  /*Widget makePrerequisites() {
     bool addOrExplanation = false;
 
     potentialClass.requiredCourses.forEach((item) {
@@ -235,7 +235,7 @@ class PotentialClassPage extends StatelessWidget {
         ),
       ),
     );
-  }
+  }*/
 
   Text makeTagSubtitle(Class potentialClass) {
     String tagSubtitle = "";
