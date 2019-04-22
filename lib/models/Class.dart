@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Class  {
 
@@ -31,7 +32,7 @@ class Class  {
         description = map['bio'],
         //icon = map['icon'],
         tags = map['tags'],
-        numCredit = map['credits'].toString(),
+        numCredit = map['credits'],
         gradeLevels = map['grade'],
         requiredCourses = map['req'];
 
@@ -44,5 +45,12 @@ class Class  {
     return "Class: name=${this.name} tags=${this.tags} credits=${this.numCredit}" +
       " gradeLevels=${this.gradeLevels} requiredCourses=${this.requiredCourses}";
   }
+
+ IconData setIcon(String classType) {
+    switch(classType) {
+      case "english":
+        return FontAwesomeIcons.book;
+    }
+ }
 
 }
