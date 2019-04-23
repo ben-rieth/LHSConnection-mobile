@@ -48,8 +48,46 @@ class Class  {
 
  IconData setIcon(String classType) {
     switch(classType) {
+
       case "english":
         return FontAwesomeIcons.book;
+        break;
+      case "math":
+        return FontAwesomeIcons.calculator;
+        break;
+      case "social studies":
+        return FontAwesomeIcons.globeAmericas;
+        break;
+      case "science":
+        return FontAwesomeIcons.microscope;
+        break;
+      case "physical education":
+        return FontAwesomeIcons.dumbbell;
+        break;
+      case "modern language":
+        return FontAwesomeIcons.language;
+        break;
+      case "general elective":
+        return FontAwesomeIcons.school;
+        break;
+
+      case "fine art theater":
+        return FontAwesomeIcons.theaterMasks;
+        break;
+      case "fine art music":
+        return FontAwesomeIcons.music;
+        break;
+      case "fine art visual":
+        return FontAwesomeIcons.paintBrush;
+        break;
+
+
+      case "practical arts business":
+        return FontAwesomeIcons.briefcase;
+        break;
+      case "practical arts programming":
+        return FontAwesomeIcons.laptopCode;
+        break;
     }
  }
 
