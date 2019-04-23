@@ -88,6 +88,12 @@ class Class  {
       case "practical arts programming":
         return FontAwesomeIcons.laptopCode;
         break;
+      case "practical arts driver education":
+        return FontAwesomeIcons.car;
+        break;
+      case "practical arts engineering":
+        return FontAwesomeIcons.tools;
+        break;
     }
  }
 
