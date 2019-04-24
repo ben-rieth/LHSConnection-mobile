@@ -30,7 +30,7 @@ class Class  {
 
         name = map['name'],
         description = map['bio'],
-        //icon = map['icon'],
+        icon = setIcon("english"),
         tags = map['tags'],
         numCredit = map['credits'],
         gradeLevels = map['grade'],
@@ -46,7 +46,7 @@ class Class  {
       " gradeLevels=${this.gradeLevels} requiredCourses=${this.requiredCourses}";
   }
 
- IconData setIcon(String classType) {
+ static IconData setIcon(String classType) {
     switch(classType) {
 
       case "english":
@@ -71,11 +71,12 @@ class Class  {
         return FontAwesomeIcons.school;
         break;
 
-      case "fine art theater":
-        return FontAwesomeIcons.theaterMasks;
-        break;
+
       case "fine art music":
         return FontAwesomeIcons.music;
+        break;
+      case "fine art theater":
+        return FontAwesomeIcons.theaterMasks;
         break;
       case "fine art visual":
         return FontAwesomeIcons.paintBrush;
@@ -93,6 +94,9 @@ class Class  {
         break;
       case "practical arts engineering":
         return FontAwesomeIcons.tools;
+        break;
+      case "practical arts family consumer science":
+        return FontAwesomeIcons.home;
         break;
     }
  }
