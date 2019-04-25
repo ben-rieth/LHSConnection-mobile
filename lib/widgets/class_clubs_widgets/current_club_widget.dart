@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:expandable/expandable.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:lhs_connections/app_state_container.dart';
 import 'package:lhs_connections/models/Club.dart';
 import 'package:lhs_connections/models/Post.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/chat_widget.dart';
+import 'package:lhs_connections/utils/post_card_builder.dart';
 
 class CurrentClubPage extends StatefulWidget{
 
@@ -160,6 +162,7 @@ class _CurrentClubState extends State<CurrentClubPage>
 
       title: TextFormField(
         controller: _titleController,
+        validator: _titleValidator,
         key: _formTitleKey,
         maxLines: 1,
         style: TextStyle(
@@ -175,6 +178,7 @@ class _CurrentClubState extends State<CurrentClubPage>
 
           TextFormField(
             controller: _contentController,
+            //validator: _contentValidator,
             key: _formContentKey,
             maxLines: 10,
             decoration: InputDecoration(
@@ -204,7 +208,7 @@ class _CurrentClubState extends State<CurrentClubPage>
                   Icons.link,
                   color: Colors.grey[500],
                 ),
-                onPressed: () {},
+                onPressed: _createNewPost,
               ),
 
             ],
@@ -225,6 +229,24 @@ class _CurrentClubState extends State<CurrentClubPage>
 
       ],
     );
+  }
+
+  String _titleValidator(String title) {
+    if(title.isEmpty) {
+      return "Title cannot be empty";
+    }
+  }
+
+  void _createNewPost() {
+    if(_formTitleKey.currentState.validate() && _formContentKey.currentState.validate()) {
+
+      Post post = Post(title: _titleController.text, text: _contentController.text,
+        timeStamp: DateTime.now());
+
+      Firestore.instance.collection('clubs').document(currentClub.clubId).collection('posts')
+          .add({"title": post.title, "content": post.text, "timestamp": post.timeStamp});
+
+    }
   }
 
   Card makePostCards() {
