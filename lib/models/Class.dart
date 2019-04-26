@@ -13,27 +13,27 @@ class Class  {
   List<dynamic> tags;
   String numCredit;
   List<dynamic> gradeLevels;
-  String requiredCourses;
+  List<dynamic> requiredCourses;
 
   Class({this.name, this.description, this.icon, this.tags,
     this.numCredit, this.gradeLevels, this.requiredCourses});
   //: super(name: name, description: description, icon: icon, tags: tags);
 
   Class.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['name'] != null),
+      : //assert(map['name'] != null),
         //assert(map['bio'] != null),
         //assert(map['icon'] != null),
-        assert(map['tags'] != null),
+        //assert(map['tags'] != null),
         //assert(map['credits'] != null),
         //assert(map['grade'] != null),
 
 
         name = map['name'],
         description = map['bio'],
-        icon = setIcon("english"),
+        icon = setIcon(map['icon']),
         tags = map['tags'],
         numCredit = map['credits'],
-        gradeLevels = map['grade'],
+        gradeLevels = map['grades'],
         requiredCourses = map['req'];
 
   Class.fromSnapshot(DocumentSnapshot snapshot)
@@ -46,57 +46,60 @@ class Class  {
       " gradeLevels=${this.gradeLevels} requiredCourses=${this.requiredCourses}";
   }
 
- static IconData setIcon(String classType) {
+ static IconData setIcon(int classType) {
     switch(classType) {
 
-      case "english":
+      case 1:
         return FontAwesomeIcons.book;
         break;
-      case "math":
+      case 2:
         return FontAwesomeIcons.calculator;
         break;
-      case "social studies":
+      case 3:
         return FontAwesomeIcons.globeAmericas;
         break;
-      case "science":
+      case 4:
         return FontAwesomeIcons.microscope;
         break;
-      case "physical education":
+      case 5:
         return FontAwesomeIcons.dumbbell;
         break;
-      case "modern language":
+      case 6:
         return FontAwesomeIcons.language;
         break;
-      case "general elective":
+      case 7:
         return FontAwesomeIcons.school;
         break;
 
 
-      case "fine art music":
+      case 8:
         return FontAwesomeIcons.music;
         break;
-      case "fine art theater":
+      case 9:
         return FontAwesomeIcons.theaterMasks;
         break;
-      case "fine art visual":
+      case 10:
         return FontAwesomeIcons.paintBrush;
         break;
 
 
-      case "practical arts business":
+      case 11:
         return FontAwesomeIcons.briefcase;
         break;
-      case "practical arts programming":
+      case 12:
         return FontAwesomeIcons.laptopCode;
         break;
-      case "practical arts driver education":
+      case 13:
         return FontAwesomeIcons.car;
         break;
-      case "practical arts engineering":
+      case 14:
         return FontAwesomeIcons.tools;
         break;
-      case "practical arts family consumer science":
+      case 15:
         return FontAwesomeIcons.home;
+        break;
+      default:
+        return Icons.not_interested;
         break;
     }
  }
