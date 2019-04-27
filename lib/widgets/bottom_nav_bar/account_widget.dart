@@ -8,6 +8,7 @@ import 'package:lhs_connections/models/tags.dart';
 import 'package:lhs_connections/app_state_container.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/current_club_widget.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/settings/settings_widget.dart';
+import 'package:lhs_connections/widgets/bottom_nav_bar/settings/edit_account_widget.dart';
 
 class AccountPage extends StatefulWidget {
 
@@ -77,6 +78,18 @@ class _AccountPageState extends State<AccountPage>
             style: TextStyle(color: Colors.green),
           ),
           actions: <Widget>[
+
+            IconButton(
+              icon: Icon(Icons.edit),
+              color: Colors.green,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => (EditAccount())));
+              },
+            ),
+
             IconButton(
               icon: Icon(Icons.settings),
               color: Colors.green,
