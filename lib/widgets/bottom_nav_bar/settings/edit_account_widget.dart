@@ -11,6 +11,8 @@ class _EditAccountState extends State<EditAccount> {
   TextEditingController _nameController;
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  bool isChange = false;
+
   @override
   void initState() {
 
@@ -21,8 +23,12 @@ class _EditAccountState extends State<EditAccount> {
   Widget build(BuildContext context) {
     var container = AppStateContainer.of(context);
 
+    final initialName = container.state.userInformation.fName;
+    String currentName = initialName;
+
     _nameController = TextEditingController
-        .fromValue(TextEditingValue(text: container.state.userInformation.name));
+        .fromValue(TextEditingValue(text: initialName));
+
 
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +58,7 @@ class _EditAccountState extends State<EditAccount> {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "NAME",
+                "FIRST NAME",
                 style: TextStyle(
                   color: Colors.green,
                   fontSize: 16.0,
@@ -66,8 +72,17 @@ class _EditAccountState extends State<EditAccount> {
 
             SizedBox(height: 20.0),
 
-            RaisedButton(
+            FlatButton(
               color: Colors.green,
+              onPressed: () {
+
+              },
+
+              child: Text("Edit Interests"),
+            ),
+
+            /*RaisedButton(
+              color: !isChange ? Colors.green : Colors.transparent,
               onPressed: () {
 
               },
@@ -78,7 +93,7 @@ class _EditAccountState extends State<EditAccount> {
                   color: Colors.white,
                 ),
               ),
-            ),
+            ),*/
 
           ],
 

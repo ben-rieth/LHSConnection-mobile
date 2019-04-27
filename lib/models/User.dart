@@ -6,6 +6,8 @@ class User {
 
   String id;
   String name;
+  String fName;
+  String lName;
   String email;
   String gradeLevel;
 
@@ -16,6 +18,8 @@ class User {
         assert(map['gradeLevel'] != null),
 
         name = map['name'],
+        fName = map['fName'],
+        lName = map['lName'],
         email = map['email'],
         id = map['id'],
         gradeLevel = map['gradeLevel'];
