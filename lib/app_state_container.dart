@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'dart:async';
 
 import 'package:lhs_connections/utils/app_state.dart';
@@ -48,7 +49,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   ///reference to the firestore database that holds user information
-  CollectionReference dbUsers = Firestore.instance.collection('users');
+  CollectionReference dbUsers = Firestore.instance.collection('students');
 
   @override
   void initState() {
@@ -129,6 +130,8 @@ class _AppStateContainerState extends State<AppStateContainer> {
       state.isLoading = true;
     });
 
+
+
     try {
       ///Attempts to sign the user in with the given email and password, this
       ///   might throw a USER_NOT_FOUND error or WRONG_PASSWORD error
@@ -153,7 +156,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
         ///   infromation
         if(documents.length == 0) {
           dbUsers
-              .document(user.uid)
+              .document(email.substring(0, email.indexOf("@")))
               .setData({
                 'email': email,
                 'id': user.uid,
@@ -163,7 +166,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
         }
 
         ///creates a user object with the user's information inside the app
-        User userInformation = await _createUserInformation();
+        User userInformation = await _createUserInformation(email);
 
         ///sets the user, user information, and a successful login status to the
         ///   app's state. Also tells the app to stop loading.
@@ -202,12 +205,12 @@ class _AppStateContainerState extends State<AppStateContainer> {
 
   /// _createUserInformation() is a private async method that retrieves all of
   ///   the user's information form the firestore and loads it into the app
-  Future<User> _createUserInformation() async {
+  Future<User> _createUserInformation(String email) async {
     User userInfo;
 
     ///gets the documents associated with the id of the firebase user and builds
     ///   a user object out of them.`
-    userInfo = await dbUsers.document(user.uid).get().then((DocumentSnapshot ds) {
+    userInfo = await dbUsers.document(email.substring(0, email.indexOf("@"))).get().then((DocumentSnapshot ds) {
       return User.fromSnapshot(ds);
     });
 

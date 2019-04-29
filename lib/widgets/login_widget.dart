@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
       autofocus: false,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        hintText: "Lindbergh Email",
+        hintText: "Username",
         contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
       ),
@@ -99,12 +99,11 @@ class _LoginPageState extends State<LoginPage> {
       controller: _passwordController,
       validator: _passwordValidator,
       autovalidate: _autoValidate,
-      keyboardType: TextInputType.number,
       autofocus: false,
       textInputAction: TextInputAction.go,
       obscureText: true,
       decoration: InputDecoration(
-        hintText: "State Id",
+        hintText: "Password",
         contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
       ),
@@ -184,10 +183,10 @@ class _LoginPageState extends State<LoginPage> {
   String _emailValidator(String email) {
     _autoValidate = true;
     if (email.isEmpty) {
-      return "Please enter in your Lindbergh email";
-    } else if(!email.contains("@lindberghschools.ws")) {
+      return "Please enter in your username";
+    } /*else if(!email.contains("@lindberghschools.ws")) {
       return "Email is not a Lindbergh email";
-    }
+    }*/
   }
 
   ///validates the entered password; if the validation fails autovalidate will be activated
@@ -197,9 +196,9 @@ class _LoginPageState extends State<LoginPage> {
       return "Please enter in 10-digit State ID";
 
       ///UtilsMethods is located at lib/utils/uitlity_methods.dart
-    } else if (!UtilMethods.isNumeric(password)) {
+    } /*else if (!UtilMethods.isNumeric(password)) {
       return "Password is not numeric";
-    }
+    }*/
   }
 
   ///This method builds the loginfailmessage if logging in fails
@@ -227,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
       ///   to login to the firebase and get the user's information from the Firestore
       await container.logIntoFirebase(
           context,
-          _usernameController.text,
+          "${_usernameController.text}@lindberghschools.ws",
           _passwordController.text);
 
       ///If LoginStatus equals Success, the app will redirect to the Home widget
