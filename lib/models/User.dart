@@ -10,6 +10,7 @@ class User {
   String lName;
   String email;
   String gradeLevel;
+  List<String> interests;
 
   User.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['name'] != null),
