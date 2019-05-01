@@ -226,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
       ///   to login to the firebase and get the user's information from the Firestore
       await container.logIntoFirebase(
           context,
-          "${_usernameController.text}@lindberghschools.ws",
+          "${_usernameController.text.trim()}@lindberghschools.ws",
           _passwordController.text);
 
       ///If LoginStatus equals Success, the app will redirect to the Home widget
@@ -242,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
         if(container.state.loginStatus == LoginStatus.UserNotFound) {
 
           setState(() {
-            logInFailMessage = "User not found. Please re-enter email";
+            logInFailMessage = "User not found. Please re-enter username";
             _usernameController.text = "";
             _passwordController.text = "";
           });

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:lhs_connections/app_state_container.dart';
 
@@ -76,19 +77,8 @@ class _EditAccountState extends State<EditAccount> {
                 child: Text("Edit Interests"),
               ),
 
-              /*RaisedButton(
-              color: !isChange ? Colors.green : Colors.transparent,
-              onPressed: () {
+              _nameChanged ? Text("Change!") : Container(),
 
-              },
-
-              child: Text(
-                "UPDATE ACCOUNT",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),*/
             ],
           ),
         ),
@@ -98,8 +88,19 @@ class _EditAccountState extends State<EditAccount> {
   }
 
   void _checkIfChanged() {
-    if(_nameChanged) {
 
+    var container = AppStateContainer.of(context);
+
+    if(_nameChanged) {
+      final DocumentReference userRef = Firestore.instance.collection('students')
+          .document(container.state.userInformation.id);
+
+      Firestore.instance.runTransaction((Transaction tx) async {
+        DocumentSnapshot userSnapshot = await tx.get(userRef);
+        if(userSnapshot.exists) {
+          await tx.update(userRef, <String, dynamic>{'fName': _nameController.text} );
+        }
+      });
     }
   }
 }
