@@ -5,20 +5,42 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'package:lhs_connections/models/Interest.dart';
 import 'package:lhs_connections/app_state_container.dart';
+import 'package:lhs_connections/models/dummy_data/dummy_interests.dart';
 
 class Interests extends StatefulWidget {
   State<Interests> createState() => _InterestsState();
 }
 
 class _InterestsState extends State<Interests> {
+
+  final dummyFineArtsList = [
+
+    Interest(name: "Band", icon: MdiIcons.music),
+
+    Interest(name: "Theater", icon: MdiIcons.dramaMasks),
+
+    Interest(name: "Singing", icon: MdiIcons.music),
+
+    Interest(name: "Acting", icon: MdiIcons.dramaMasks),
+
+    Interest(name: "Extra", icon: MdiIcons.crosshairs)
+
+  ];
+
   @override
   Widget build(BuildContext context) {
-    var container = AppStateContainer.of(context);
+    //var container = AppStateContainer.of(context);
 
     return CustomScrollView(
       slivers: <Widget>[
 
+        SliverAppBar(
+          title: Text("Interests"),
+        ),
+
         makeSliverHeader("Fine Arts"),
+
+        makeInterestGrid(dummyFineArtsList),
 
       ],
     );
@@ -26,17 +48,19 @@ class _InterestsState extends State<Interests> {
 
   SliverGrid makeInterestGrid(List<Interest> interests) {
     
-    List<Widget> gridChildren;
+    List<Widget> gridChildren = [];
     
-    interests.forEach((interest) =>
-      gridChildren.add(makeInterestButton(interest))
-    );
+    interests.forEach((interest) {
+        print(interest.toString());
+        gridChildren.add(makeInterestButton(interest));
+    });
 
-    if(gridChildren.length%4 != 0) {
+    /*if(gridChildren.length%4 != 0) {
       for(var i = gridChildren.length%4 ; i > 0 ; i--) {
-        gridChildren.add(Container());
+        print(i);
+        gridChildren.add(Card());
       }
-    }
+    }*/
 
     return SliverGrid.count(
       crossAxisCount: 4,
@@ -52,20 +76,22 @@ class _InterestsState extends State<Interests> {
         child: Container(
           color: Colors.green,
           child: Center(
-            child: Text(headerText),
+            child: Text(headerText, style: TextStyle(color: Colors.white),),
           ),
         ),
       ),
     );
   }
 
-  IconButton makeInterestButton(Interest interest) {
-    return IconButton(
+  Card makeInterestButton(Interest interest) {
+    return Card(
+      child: IconButton(
         icon: Icon(interest.icon),
         tooltip: interest.name,
         highlightColor: Colors.green,
         color: Colors.grey,
-        onPressed: () {});
+        onPressed: () {}),
+    );
   }
 }
 

@@ -1,17 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:lhs_connections/widgets/custom_widgets/checkbox_button.dart';
 
 class PlaceholderWidget extends StatelessWidget {
-  final Color color;
 
-  PlaceholderWidget(this.color);
+  PlaceholderWidget();
 
   @override
   Widget build(BuildContext context) {
 
-    FocusScope.of(context).requestFocus(new FocusNode());
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
 
-    return Container(
-      color: color,
-    );
+        SizedBox(height: 100.0),
+
+        Container(
+          height: 80.0,
+          width: 80.0,
+          color: Colors.white,
+          child: CheckboxIconButton(
+              startActivated: false,
+              icon: Icons.check,
+              title: "Click Me!",
+            iconSize: 40.0,
+          ),
+        )
+
+
+      ],
+    ),
+  );
+
+
   }
 }
