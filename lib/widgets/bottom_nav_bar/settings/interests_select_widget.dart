@@ -31,18 +31,23 @@ class _InterestsState extends State<Interests> {
   Widget build(BuildContext context) {
     //var container = AppStateContainer.of(context);
 
-    return CustomScrollView(
-      slivers: <Widget>[
+    return Scaffold(
 
-        SliverAppBar(
-          title: Text("Interests"),
-        ),
+      appBar: AppBar(
+        title: Text("Select Interests"),
+      ),
 
-        makeSliverHeader("Fine Arts"),
+      body: CustomScrollView(
+        slivers: <Widget>[
 
-        makeInterestGrid(dummyFineArtsList),
+          makeSliverHeader("Fine Arts"),
 
-      ],
+          makeInterestGrid(dummyFineArtsList),
+
+          makeSliverHeader("Athletic")
+
+        ],
+      ),
     );
   }
 
@@ -64,6 +69,7 @@ class _InterestsState extends State<Interests> {
 
     return SliverGrid.count(
       crossAxisCount: 4,
+      mainAxisSpacing: 2.0,
       children: gridChildren,
     );
   }
@@ -74,9 +80,16 @@ class _InterestsState extends State<Interests> {
         minHeight: 60.0,
         maxHeight: 60.0,
         child: Container(
-          color: Colors.green,
+          margin: EdgeInsets.only(bottom: 5.0),
+          color: Colors.green[800],
           child: Center(
-            child: Text(headerText, style: TextStyle(color: Colors.white),),
+            child: Text(
+              headerText,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+              ),
+            ),
           ),
         ),
       ),
@@ -85,12 +98,23 @@ class _InterestsState extends State<Interests> {
 
   Card makeInterestButton(Interest interest) {
     return Card(
-      child: IconButton(
-        icon: Icon(interest.icon),
-        tooltip: interest.name,
-        highlightColor: Colors.green,
-        color: Colors.grey,
-        onPressed: () {}),
+      elevation: 5.0,
+      child: Column(
+        children: [
+
+          IconButton(
+            icon: Icon(interest.icon),
+            iconSize: 40.0,
+            tooltip: interest.name,
+            highlightColor: Colors.green,
+            color: Colors.grey,
+            onPressed: () {}
+          ),
+
+          Text(interest.name),
+
+        ],
+      ),
     );
   }
 }

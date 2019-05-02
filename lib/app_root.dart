@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:lhs_connections/widgets/home_widget.dart';
 import 'package:lhs_connections/widgets/login_widget.dart';
+//import 'package:lhs_connections/widgets/bottom_nav_bar/settings/interests_select_widget.dart';
+//import 'package:lhs_connections/widgets/bottom_nav_bar/placeholder_widget.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/settings/interests_select_widget.dart';
-import 'package:lhs_connections/widgets/bottom_nav_bar/placeholder_widget.dart';
 
 ///The AppRoot class holds the main MaterialApp which starts the rest of the ui
 ///   tree. It defines the theme for the app and sets the start page as the Login
@@ -32,7 +33,7 @@ class AppRootState extends State<AppRoot> {
     return MaterialApp(
       title: 'LHS Connection',
       theme: _themeData,
-      home: LoginPage(),
+      home: Interests(),
       routes: {
         "/home": (_) => new Home(),
         "/login": (_) => new LoginPage(),
