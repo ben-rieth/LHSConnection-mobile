@@ -33,7 +33,7 @@ class AppRootState extends State<AppRoot> {
     return MaterialApp(
       title: 'LHS Connection',
       theme: _themeData,
-      home: LoginPage(),
+      home: Interests(),
       routes: {
         "/home": (_) => new Home(),
         "/login": (_) => new LoginPage(),

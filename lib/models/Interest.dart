@@ -4,7 +4,7 @@ class Interest {
 
   String name;
   IconData icon;
+  bool selectedByCurrentUser;
 
-
-  Interest({this.name, this.icon});
+  Interest({this.name, this.icon, this.selectedByCurrentUser});
 }

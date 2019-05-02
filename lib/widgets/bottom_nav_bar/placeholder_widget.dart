@@ -14,7 +14,7 @@ class PlaceholderWidget extends StatelessWidget {
 
         SizedBox(height: 100.0),
 
-        Container(
+        /*Container(
           height: 80.0,
           width: 80.0,
           color: Colors.white,
@@ -24,7 +24,7 @@ class PlaceholderWidget extends StatelessWidget {
               title: "Click Me!",
             iconSize: 40.0,
           ),
-        )
+        )*/
 
 
       ],

@@ -191,8 +191,9 @@ class _LoginPageState extends State<LoginPage> {
 
   ///validates the entered password; if the validation fails autovalidate will be activated
   String _passwordValidator(String password) {
-      _autoValidate = true;
+
     if(password.isEmpty) {
+      _autoValidate = true;
       return "Please enter in 10-digit State ID";
 
       ///UtilsMethods is located at lib/utils/uitlity_methods.dart
@@ -227,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
       await container.logIntoFirebase(
           context,
           "${_usernameController.text.trim()}@lindberghschools.ws",
-          _passwordController.text);
+          _passwordController.text.trim());
 
       ///If LoginStatus equals Success, the app will redirect to the Home widget
       if (container.state.loginStatus == LoginStatus.Success) {

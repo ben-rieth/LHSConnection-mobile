@@ -13,17 +13,19 @@ class Interests extends StatefulWidget {
 
 class _InterestsState extends State<Interests> {
 
+  List<Interest> _selectedInterests = [];
+
   final dummyFineArtsList = [
 
-    Interest(name: "Band", icon: MdiIcons.music),
+    Interest(name: "Band", icon: MdiIcons.music, selectedByCurrentUser: true),
 
-    Interest(name: "Theater", icon: MdiIcons.dramaMasks),
+    Interest(name: "Theater", icon: MdiIcons.dramaMasks, selectedByCurrentUser: false),
 
-    Interest(name: "Singing", icon: MdiIcons.music),
+    Interest(name: "Singing", icon: MdiIcons.music, selectedByCurrentUser: true),
 
-    Interest(name: "Acting", icon: MdiIcons.dramaMasks),
+    Interest(name: "Acting", icon: MdiIcons.dramaMasks, selectedByCurrentUser: false),
 
-    Interest(name: "Extra", icon: MdiIcons.crosshairs)
+    Interest(name: "Extra", icon: MdiIcons.crosshairs, selectedByCurrentUser: false)
 
   ];
 
@@ -84,7 +86,7 @@ class _InterestsState extends State<Interests> {
           color: Colors.green[800],
           child: Center(
             child: Text(
-              headerText,
+              headerText.toUpperCase(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
@@ -96,24 +98,39 @@ class _InterestsState extends State<Interests> {
     );
   }
 
-  Card makeInterestButton(Interest interest) {
-    return Card(
-      elevation: 5.0,
-      child: Column(
-        children: [
+  Widget makeInterestButton(Interest interest) {
 
-          IconButton(
-            icon: Icon(interest.icon),
-            iconSize: 40.0,
-            tooltip: interest.name,
-            highlightColor: Colors.green,
-            color: Colors.grey,
-            onPressed: () {}
-          ),
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          interest.selectedByCurrentUser = !interest.selectedByCurrentUser;
+        });
+      },
+      child: Card(
+        elevation: 5.0,
+        child: Column(
+          children: [
 
-          Text(interest.name),
+            Padding(
+              padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
+              child: Icon(
+                interest.icon,
+                size: 40.0,
+                color: interest.selectedByCurrentUser ? Colors.green : Colors.grey,
+              ),
+            ),
 
-        ],
+            Text(
+              interest.name.toUpperCase(),
+              style: TextStyle(
+                color: interest.selectedByCurrentUser ? Colors.green : Colors.grey,
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+          ],
+        ),
       ),
     );
   }

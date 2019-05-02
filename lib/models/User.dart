@@ -22,8 +22,8 @@ class User {
         fName = map['fName'],
         lName = map['lName'],
         email = map['email'],
-        id = map['id'],
-        gradeLevel = map['gradeLevel'];
+        id = map['uname'],
+        gradeLevel = map['glvl'];
 
   User.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
