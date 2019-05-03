@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:lhs_connections/app_state_container.dart';
+import 'package:lhs_connections/widgets/bottom_nav_bar/settings/interests_select_widget.dart';
 
 class EditAccount extends StatefulWidget {
   State<EditAccount> createState() => _EditAccountState();
@@ -73,7 +74,14 @@ class _EditAccountState extends State<EditAccount> {
               SizedBox(height: 20.0),
               FlatButton(
                 color: Colors.green,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Interests()
+                      ));
+                },
                 child: Text("Edit Interests"),
               ),
 

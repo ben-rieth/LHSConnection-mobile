@@ -121,7 +121,8 @@ class _AccountPageState extends State<AccountPage>
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: Center(
                   child: Text(
-                    container.state.userInformation.name,
+                    "${container.state.userInformation.fName} "
+                        + "${container.state.userInformation.lName}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,

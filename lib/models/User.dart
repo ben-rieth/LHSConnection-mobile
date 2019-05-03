@@ -5,7 +5,6 @@ class User {
   DocumentReference reference;
 
   String id;
-  String name;
   String fName;
   String lName;
   String email;
@@ -18,7 +17,6 @@ class User {
         assert(map['id'] != null),
         assert(map['gradeLevel'] != null),
 
-        name = map['name'],
         fName = map['fName'],
         lName = map['lName'],
         email = map['email'],

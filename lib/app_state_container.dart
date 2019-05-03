@@ -154,7 +154,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
         ///   user's first time signing into the app and therefore has no
         ///   information in their account yet, the app will create the
         ///   infromation
-        if(documents.length == 0) {
+        /*if(documents.length == 0) {
           dbUsers
               .document(email.substring(0, email.indexOf("@")))
               .setData({
@@ -163,7 +163,7 @@ class _AppStateContainerState extends State<AppStateContainer> {
                 'name': email.substring(2, email.indexOf("@", 2)),
                 'gradeLevel' : DateUtil.getGradeLevel( int.parse(email.substring(0, 2)) )
           });
-        }
+        }*/
 
         ///creates a user object with the user's information inside the app
         User userInformation = await _createUserInformation(email);
