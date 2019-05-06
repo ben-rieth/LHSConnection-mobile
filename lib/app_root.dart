@@ -31,6 +31,7 @@ class AppRootState extends State<AppRoot> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'LHS Connection',
       theme: _themeData,
       home: LoginPage(),
