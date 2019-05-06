@@ -43,7 +43,7 @@ class AppStateContainer extends StatefulWidget {
 class _AppStateContainerState extends State<AppStateContainer> {
   AppState state; ///the state of the currently running app
 
-  FirebaseUser user; ///the current user
+  FirebaseUser currUser; ///the current user
 
   ///the authentication firebase reference
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -76,8 +76,8 @@ class _AppStateContainerState extends State<AppStateContainer> {
   ///   logged it before
   Future<Null> initUser() async {
     await _auth.signOut();
-    user = await _ensureLoggedInOnStartUp();
-    if (user == null) {
+    currUser = await _ensureLoggedInOnStartUp();
+    if (currUser == null) {
       setState(() {
         state.isLoading = false;
       });
@@ -103,15 +103,15 @@ class _AppStateContainerState extends State<AppStateContainer> {
   }
 
   Future<FirebaseUser> _ensureLoggedInOnStartUp() async {
-    user = await _auth.currentUser();
+    currUser = await _auth.currentUser();
 
-    if(user == null) {
+    if(currUser == null) {
       setState(() {
         state.isLoading = false;
       });
     }
 
-    return user;
+    return currUser;
   }
 
   ///logIntoFirebase() is an asynchronous method that is called after the user
@@ -130,22 +130,65 @@ class _AppStateContainerState extends State<AppStateContainer> {
       state.isLoading = true;
     });
 
-
+    print("Starting login");
 
     try {
+
+      print("Starting login");
+
       ///Attempts to sign the user in with the given email and password, this
       ///   might throw a USER_NOT_FOUND error or WRONG_PASSWORD error
-      user = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
+
+      /*user = await _auth.signInWithEmailAndPassword(
+         email: email, password: password);*/
+      
+      await _auth.signInWithEmailAndPassword
+        (email: email, password: password)
+          .then((FirebaseUser user) {
+            print("Continuing login");
+            currUser = user;
+          })
+          .catchError((e) {
+            if (e.toString().contains("ERROR_USER_NOT_FOUND")) {
+              setState(() {
+                state.isLoading = false;
+                state.loginStatus = LoginStatus.UserNotFound;
+              });
+            } else if (e.toString().contains("ERROR_WRONG_PASSWORD")) {
+              setState(() {
+                state.isLoading = false;
+                state.loginStatus = LoginStatus.PasswordIncorrect;
+              });
+            }
+      });
+      ///creates a user object with the user's information inside the app
+      User userInformation = await _createUserInformation(email);
+
+      _auth.onAuthStateChanged.listen((FirebaseUser user){
+        if(currUser != null) {
 
 
+          ///sets the user, user information, and a successful login status to the
+          ///   app's state. Also tells the app to stop loading.
+          setState(() {
+            state.isLoading = false;
+            state.currentUser = currUser;
+            state.userInformation = userInformation;
+            state.loginStatus = LoginStatus.Success;
+          });
+
+        } else {
+          print("Fail");
+        }
+      });
+      /*
       ///If the user is signed in, the app will gather the user's information
       ///   from the firestore or create the information if there is no
       ///   information associated with the student
-      if(user != null) {
+      if(currUser != null) {
         ///result is the document in the 'users' firestore that has an identical
         ///   id to the signed in firebase user
-        final QuerySnapshot result = await dbUsers.where('id', isEqualTo: user.uid).getDocuments();
+        final QuerySnapshot result = await dbUsers.where('email', isEqualTo: currUser.email).getDocuments();
 
         ///documents is the list of documents inside of the user document
         final List<DocumentSnapshot> documents = result.documents;
@@ -154,16 +197,16 @@ class _AppStateContainerState extends State<AppStateContainer> {
         ///   user's first time signing into the app and therefore has no
         ///   information in their account yet, the app will create the
         ///   infromation
-        /*if(documents.length == 0) {
+        if(documents.length == 0) {
           dbUsers
               .document(email.substring(0, email.indexOf("@")))
               .setData({
                 'email': email,
-                'id': user.uid,
+                'id': currUser.uid,
                 'name': email.substring(2, email.indexOf("@", 2)),
                 'gradeLevel' : DateUtil.getGradeLevel( int.parse(email.substring(0, 2)) )
           });
-        }*/
+        }
 
         ///creates a user object with the user's information inside the app
         User userInformation = await _createUserInformation(email);
@@ -172,12 +215,14 @@ class _AppStateContainerState extends State<AppStateContainer> {
         ///   app's state. Also tells the app to stop loading.
         setState(() {
           state.isLoading = false;
-          state.currentUser = user;
+          state.currentUser = currUser;
           state.userInformation = userInformation;
           state.loginStatus = LoginStatus.Success;
         });
 
-      }
+      } else {
+        print("Fail");
+      }*/
     } catch (e) {
 
       ///This error is thrown if the user is not found in the firebase, meaning

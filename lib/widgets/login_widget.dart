@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
 import 'package:lhs_connections/widgets/home_widget.dart';
@@ -19,6 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   ///A GlobalKey allows us to uniquely identify the form used later to get the
   ///   user's username and password and then allow us to validate the information
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   ///If login fails, this String will contain the fail message depending on the
   ///   error. Can either be equal to "User Not Found" or "Password Incorrect"
@@ -231,31 +236,36 @@ class _LoginPageState extends State<LoginPage> {
           _passwordController.text.trim());
 
       ///If LoginStatus equals Success, the app will redirect to the Home widget
-      if (container.state.loginStatus == LoginStatus.Success) {
-        Navigator.pushReplacement(
-            context,
-            new MaterialPageRoute(
-                builder: (context) =>
-                    Home()));
-      } else {
+      _auth.onAuthStateChanged.listen((FirebaseUser user) {
 
-        ///If login fails for some reason, the fail message will be set here
-        if(container.state.loginStatus == LoginStatus.UserNotFound) {
+        if (container.state.loginStatus == LoginStatus.Success) {
 
-          setState(() {
-            logInFailMessage = "User not found. Please re-enter username";
-            _usernameController.text = "";
-            _passwordController.text = "";
-          });
+          Navigator.pushReplacement(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) =>
+                      Home()));
+        } else {
 
-        } else if (container.state.loginStatus == LoginStatus.PasswordIncorrect) {
-          setState(() {
-            logInFailMessage = "Password Incorrect";
-            _passwordController.text = "";
-          });
+          ///If login fails for some reason, the fail message will be set here
+          if(container.state.loginStatus == LoginStatus.UserNotFound) {
+
+            setState(() {
+              logInFailMessage = "User not found. Please re-enter username";
+              _usernameController.text = "";
+              _passwordController.text = "";
+            });
+
+          } else if (container.state.loginStatus == LoginStatus.PasswordIncorrect) {
+            setState(() {
+              logInFailMessage = "Password Incorrect";
+              _passwordController.text = "";
+            });
+          }
+
         }
+      });
 
-      }
 
     }
 

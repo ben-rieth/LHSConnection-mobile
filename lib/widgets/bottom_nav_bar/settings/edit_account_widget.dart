@@ -95,7 +95,7 @@ class _EditAccountState extends State<EditAccount> {
 
   }
 
-  void _checkIfChanged() {
+  Future<bool> _checkIfChanged() async {
 
     var container = AppStateContainer.of(context);
 
@@ -110,5 +110,8 @@ class _EditAccountState extends State<EditAccount> {
         }
       });
     }
+
+    return true;
+
   }
 }

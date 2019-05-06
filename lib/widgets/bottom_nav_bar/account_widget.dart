@@ -121,8 +121,8 @@ class _AccountPageState extends State<AccountPage>
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: Center(
                   child: Text(
-                    "${container.state.userInformation.fName} "
-                        + "${container.state.userInformation.lName}",
+                    "${container.state.userInformation.fName} " +
+                        "${container.state.userInformation.lName}",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 30.0,
@@ -199,6 +199,7 @@ class _AccountPageState extends State<AccountPage>
   Widget _buildAccountViews(List type) {
     if (type is List<String>) {
       return ListView.builder(
+        physics: BouncingScrollPhysics(),
         itemCount: type.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
@@ -208,6 +209,7 @@ class _AccountPageState extends State<AccountPage>
       );
     } else if (type is List<Club> || type is List<Class>){
       return ListView.builder(
+        physics: BouncingScrollPhysics(),
         itemCount: type.length,
         itemBuilder: (BuildContext context, int index) {
           return makeCard(type[index]);

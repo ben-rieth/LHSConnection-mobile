@@ -112,7 +112,7 @@ class _InterestsState extends State<Interests> {
           children: [
 
             Padding(
-              padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
+              padding: EdgeInsets.only(top: 16.0, bottom: 10.0),
               child: Icon(
                 interest.icon,
                 size: 40.0,
