@@ -85,7 +85,7 @@ class _SearchState extends State<Search>
           //height: .5,
         ),
         decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(13.0),
+          contentPadding: const EdgeInsets.all(11.0),
           isDense: true,
           filled: true,
           fillColor: Colors.white,

@@ -127,7 +127,7 @@ class PotentialClassPage extends StatelessWidget {
             height: 5.0,
           ),
 
-          //makePrerequisites(),
+          makePrerequisites(),
 
         ],
       ),
@@ -161,9 +161,9 @@ class PotentialClassPage extends StatelessWidget {
           children: <Widget>[
 
             Text(
-              "Required Grade Level",
+              "Required Grade Level".toUpperCase(),
               style: TextStyle(
-                fontSize: 16.0,
+                fontSize: 15.0,
                 color: Colors.grey[400])
             ),
 
@@ -180,14 +180,7 @@ class PotentialClassPage extends StatelessWidget {
     );
   }
 
-  /*Widget makePrerequisites() {
-    bool addOrExplanation = false;
-
-    potentialClass.requiredCourses.forEach((item) {
-      if(item.contains("*")) {
-        addOrExplanation = true;
-      }
-    });
+  Widget makePrerequisites() {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -196,13 +189,11 @@ class PotentialClassPage extends StatelessWidget {
           children: <Widget>[
 
             Text(
-                "Prerequisites",
+                "Prerequisites".toUpperCase(),
                 style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 15.0,
                     color: Colors.grey[400])
             ),
-
-            //SizedBox(height: 5.0),
 
             ListView.builder(
               shrinkWrap: true,
@@ -221,21 +212,11 @@ class PotentialClassPage extends StatelessWidget {
 
             SizedBox(height: 30.0),
 
-            addOrExplanation ?
-                Center(
-                  child: Text(
-                    "* Only one of these classes required",
-                    style: TextStyle(color: Colors.grey[400], fontSize: 12.0),
-                  ),
-                ) : Container(),
-
-            SizedBox(height: 20.0),
-
           ],
         ),
       ),
     );
-  }*/
+  }
 
   Text makeTagSubtitle(Class potentialClass) {
     String tagSubtitle = "";
