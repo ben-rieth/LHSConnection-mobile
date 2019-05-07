@@ -9,6 +9,7 @@ import 'package:lhs_connections/app_state_container.dart';
 import 'package:lhs_connections/widgets/class_clubs_widgets/current_club_widget.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/settings/settings_widget.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/settings/edit_account_widget.dart';
+import 'package:lhs_connections/widgets/login_widget.dart';
 
 class AccountPage extends StatefulWidget {
 
@@ -66,10 +67,78 @@ class _AccountPageState extends State<AccountPage>
 
     var container = AppStateContainer.of(context);
 
+    bool tutor = container.state.userInformation.isTutor;
+
     return SwipeDetector(
       onSwipeLeft: _swipeLeft,
       onSwipeRight: _swipeRight,
       child: Scaffold(
+
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              UserAccountsDrawerHeader(
+                accountName: Text(
+                  "${container.state.userInformation.fName} " +
+                    "${container.state.userInformation.lName}",
+                ),
+
+                accountEmail: Text(
+                  container.state.userInformation.email,
+                ),
+
+                currentAccountPicture: CircleAvatar(
+                  child: Text("Picture"),
+                ),
+
+              ),
+
+              ListTile(
+                leading: Icon(Icons.school),
+                title: tutor ? Text("Tutoring") : Text("Be a Tutor"),
+              ),
+
+              ListTile(
+                leading: Icon(Icons.edit),
+                title: Text("Edit Account"),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => (EditAccount())));
+                },
+              ),
+
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text("Settings"),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => (Settings())));
+                },
+              ),
+
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text("Sign Out"),
+                onTap: () {
+                  container.signOutofFirebase();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => (LoginPage())));
+                },
+              ),
+            ],
+
+
+          ),
+
+
+        ),
 
         appBar: AppBar(
           backgroundColor: Colors.grey[350],
@@ -77,30 +146,6 @@ class _AccountPageState extends State<AccountPage>
             "Account",
             style: TextStyle(color: Colors.green),
           ),
-          actions: <Widget>[
-
-            IconButton(
-              icon: Icon(Icons.edit),
-              color: Colors.green,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => (EditAccount())));
-              },
-            ),
-
-            IconButton(
-              icon: Icon(Icons.settings),
-              color: Colors.green,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => (Settings())));
-              },
-            ),
-          ],
         ),
 
         body: Padding(
@@ -109,40 +154,6 @@ class _AccountPageState extends State<AccountPage>
             children: <Widget>[
 
               SizedBox(height: 15.0),
-
-              Center(
-                child: CircleAvatar(
-                  child: Text("Picture"),
-                  radius: 50.0,
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: Center(
-                  child: Text(
-                    "${container.state.userInformation.fName} " +
-                        "${container.state.userInformation.lName}",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30.0,
-                    ),
-                  ),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Center(
-                  child: Text(
-                    container.state.userInformation.gradeLevel,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15.0,
-                    ),
-                  ),
-                ),
-              ),
 
               TabBar(
                 tabs: [

@@ -53,7 +53,7 @@ class _SearchState extends State<Search>
     clubs = DummyClubs().dummyClubs;
     _filteredClubs.addAll(clubs);
 
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     _scrollController = ScrollController(initialScrollOffset: 0.0);
     _scrollController.addListener(_onScroll);
 
@@ -122,6 +122,7 @@ class _SearchState extends State<Search>
                 //Tab(text: "EVERYTHING"),
                 Tab(text: "CLASSES"),
                 Tab(text: "CLUBS"),
+                Tab(text: "TUTORS"),
               ],
             ),
           ),

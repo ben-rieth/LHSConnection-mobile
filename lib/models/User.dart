@@ -10,6 +10,7 @@ class User {
   String email;
   String gradeLevel;
   List<String> interests;
+  bool isTutor;
 
   User.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['fname'] != null),
@@ -21,6 +22,7 @@ class User {
         lName = map['lname'],
         email = map['email'],
         id = map['uname'],
+        isTutor = map['tutor'],
         gradeLevel = gradeLevelToText(map['glvl']);
 
   User.fromSnapshot(DocumentSnapshot snapshot)
