@@ -125,6 +125,8 @@ class _AppStateContainerState extends State<AppStateContainer> {
   ///                    BuildContext context - the context of the login page
   Future<Null> logIntoFirebase(BuildContext context, String email, String password) async {
 
+    print("WIld ride");
+
     ///sets the state of the app to be loading
     setState(() {
       state.isLoading = true;
