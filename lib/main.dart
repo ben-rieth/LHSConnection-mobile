@@ -53,7 +53,7 @@ class _AppRootState extends State<AppRoot> {
               return LoginScreen(userRepository: _userRepository);
             }
             if (state is Authenticated) {
-              return HomeScreen(name: state.displayName);
+              return HomeScreen(user: state.userInfo);
             }
           },
         ),

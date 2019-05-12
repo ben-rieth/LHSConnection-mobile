@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
+import 'package:lhs_connections/models/user.dart';
+
 @immutable
 abstract class AuthenticationState extends Equatable {
   AuthenticationState([List props = const []]) : super(props);
@@ -12,12 +14,12 @@ class Uninitialized extends AuthenticationState {
 }
 
 class Authenticated extends AuthenticationState {
-  final String displayName;
+  final User userInfo;
 
-  Authenticated(this.displayName) : super([displayName]);
+  Authenticated(this.userInfo) : super([userInfo]);
 
   @override
-  String toString() => 'Authenticated { displayName: $displayName }';
+  String toString() => 'Authenticated { User Information: $userInfo }';
 }
 
 class Unauthenticated extends AuthenticationState {
