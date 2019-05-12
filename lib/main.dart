@@ -1,16 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:lhs_connections/app_root.dart';
-import 'package:lhs_connections/app_state_container.dart';
+import 'package:lhs_connections/blocs/authentication_bloc/bloc.dart';
+import 'package:lhs_connections/repositories/user_repository.dart';
+import 'package:lhs_connections/widgets/home_screen.dart';
+import 'package:lhs_connections/widgets/login_widgets/splash_screen.dart';
+import 'package:lhs_connections/blocs/simple_bloc_delegate.dart';
 
-/// The main() function is the entrypoint to the app.
-/// The runApp() method is run by main() and it creates the Widget tree for the
-///   app, starting the tree with an AppStateContainer.
-/// The AppStateContainer holds the state of the app and has a child widget of
-///   AppRoot, which begins to build the UI of the app.
-void main() {
-  runApp(new AppStateContainer(
-    child: new AppRoot(),
-  ));
+import 'package:lhs_connections/widgets/login_widgets/login_screen.dart';
+import 'package:lhs_connections/widgets/login_widgets/login_form.dart';
+import 'package:lhs_connections/blocs/login_bloc/bloc.dart';
+import 'package:lhs_connections/widgets/login_widgets/login_button.dart';
 
+main() {
+  BlocSupervisor().delegate = SimpleBlocDelegate();
+  runApp(AppRoot());
+}
+
+class AppRoot extends StatefulWidget {
+  State<AppRoot> createState() => _AppRootState();
+}
+
+class _AppRootState extends State<AppRoot> {
+  final UserRepository _userRepository = UserRepository();
+  AuthenticationBloc _authenticationBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _authenticationBloc = AuthenticationBloc(userRepository: _userRepository);
+    _authenticationBloc.dispatch(AppStarted());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      bloc: _authenticationBloc,
+      child: MaterialApp(
+        home: BlocBuilder(
+          bloc: _authenticationBloc,
+          builder: (BuildContext context, AuthenticationState state) {
+            if (state is Uninitialized) {
+              return SplashScreen();
+            }
+            if (state is Unauthenticated) {
+              return LoginScreen(userRepository: _userRepository);
+            }
+            if (state is Authenticated) {
+              return HomeScreen(name: state.displayName);
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _authenticationBloc.dispose();
+    super.dispose();
+  }
 }
