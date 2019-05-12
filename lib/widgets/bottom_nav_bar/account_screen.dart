@@ -24,8 +24,6 @@ class _AccountPageState extends State<AccountPage>
 
   String gradeLevel;
 
-
-
   TabController _tabController;
 
   final List<Club> _clubList = [
@@ -130,14 +128,13 @@ class _AccountPageState extends State<AccountPage>
 
           ),
 
-
         ),
 
         appBar: AppBar(
-          backgroundColor: Colors.grey[350],
+          backgroundColor: Theme.of(context).primaryColor,
           title: Text(
             "Account",
-            style: TextStyle(color: Colors.green),
+            style: TextStyle(color: Colors.white),
           ),
         ),
 
@@ -145,8 +142,6 @@ class _AccountPageState extends State<AccountPage>
           padding: const EdgeInsets.only(top: 0),
           child: Column(
             children: <Widget>[
-
-              SizedBox(height: 15.0),
 
               TabBar(
                 tabs: [
@@ -240,21 +235,21 @@ class _AccountPageState extends State<AccountPage>
             padding: EdgeInsets.only(right: 12.0),
             decoration: new BoxDecoration(
                 border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.grey[350]))),
-            child: Icon(act.icon, color: Colors.grey[350]),
+                    right: new BorderSide(width: 1.0, color: Colors.white))),
+            child: Icon(act.icon, color: Colors.white),
           ),
 
           title: Text(
             act.name,
             style:
             TextStyle(
-                color: Colors.grey[350],
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0),
           ),
 
           trailing: Icon(Icons.keyboard_arrow_right,
-              color: Colors.grey[350], size: 30.0),
+              color: Colors.white, size: 30.0),
 
           /*onTap: () {
             if(act is Class) {

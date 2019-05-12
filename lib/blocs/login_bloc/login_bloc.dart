@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:lhs_connections/repositories/user_repository.dart';
-import 'package:lhs_connections/validators.dart';
+import 'package:lhs_connections/utils/validators.dart';
 
 import 'package:lhs_connections/widgets/login_widgets/login_screen.dart';
 import 'package:lhs_connections/widgets/login_widgets/login_form.dart';
