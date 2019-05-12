@@ -7,6 +7,7 @@ import 'package:lhs_connections/repositories/user_repository.dart';
 import 'package:lhs_connections/widgets/home_screen.dart';
 import 'package:lhs_connections/widgets/login_widgets/splash_screen.dart';
 import 'package:lhs_connections/blocs/simple_bloc_delegate.dart';
+import 'package:lhs_connections/widgets/bottom_nav_bar/account_screen.dart';
 
 import 'package:lhs_connections/widgets/login_widgets/login_screen.dart';
 import 'package:lhs_connections/widgets/login_widgets/login_form.dart';
@@ -53,7 +54,7 @@ class _AppRootState extends State<AppRoot> {
               return LoginScreen(userRepository: _userRepository);
             }
             if (state is Authenticated) {
-              return HomeScreen(user: state.userInfo);
+              return AccountPage(user: state.userInfo);
             }
           },
         ),
