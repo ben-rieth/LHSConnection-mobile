@@ -25,6 +25,9 @@ class AppRoot extends StatefulWidget {
 class _AppRootState extends State<AppRoot> {
   final UserRepository _userRepository = UserRepository();
   AuthenticationBloc _authenticationBloc;
+  ThemeData _themeData = ThemeData(
+    primaryColor: Colors.green,
+  );
 
   @override
   void initState() {
@@ -38,6 +41,8 @@ class _AppRootState extends State<AppRoot> {
     return BlocProvider(
       bloc: _authenticationBloc,
       child: MaterialApp(
+        theme: _themeData,
+        debugShowCheckedModeBanner: false,
         home: BlocBuilder(
           bloc: _authenticationBloc,
           builder: (BuildContext context, AuthenticationState state) {

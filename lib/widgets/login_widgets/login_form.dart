@@ -83,52 +83,78 @@ class _LoginFormState extends State<LoginForm> {
         bloc: _loginBloc,
         builder: (BuildContext context, LoginState state) {
           return Padding(
-            padding: EdgeInsets.all(20.0),
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 80.0),
             child: Form(
               child: ListView(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Image.asset('assets/flutter_logo.png', height: 200),
+
+                  SizedBox(height: 10.0,),
+
+                  Hero(
+                  tag: 'hero',
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: 48.0,
+                      child: Image.asset('assets/lhsConnections.png'),
+                    ),
                   ),
+
+                  SizedBox(height: 64.0),
+
                   TextFormField(
                     controller: _emailController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
-                    autovalidate: true,
+                    autovalidate: false,
                     autocorrect: false,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      hintText: "Username",
+                      contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
+                    ),
                     validator: (_) {
                       return !state.isEmailValid ? 'Invalid Email' : null;
                     },
                   ),
+
+                  SizedBox(height: 10.0),
+
                   TextFormField(
                     controller: _passwordController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                    autovalidate: true,
+                    autovalidate: false,
                     autocorrect: false,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
+                    textInputAction: TextInputAction.go,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
+                    ),
+                    validator:  (_) {
+                      return !state.isEmailValid ? 'Invalid Password' : null;
                     },
                   ),
+
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        LoginButton(
-                          onPressed: isLoginButtonEnabled(state)
-                              ? _onFormSubmitted
-                              : null,
-                        ),
-                      ],
+                    padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 50.0),
+                    child: RaisedButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      padding: const EdgeInsets.all(15.0),
+                      color: Colors.green,
+                      child: Text(
+                          "Log In",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0)
+                      ),
+                      onPressed: isLoginButtonEnabled(state)
+                          ? _onFormSubmitted
+                          : null,
                     ),
-                  ),
+                  )
+
                 ],
               ),
             ),
