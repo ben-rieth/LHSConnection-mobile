@@ -188,22 +188,22 @@ class _SearchState extends State<Search>
             decoration: new BoxDecoration(
                 border: new Border(
                     right: new BorderSide(width: 1.0, color: Colors.grey[350]))),
-            child: Icon(act.icon, color: Colors.grey[350]),
+            child: Icon(act.icon, color: Colors.white),
           ),
 
           title: Text(
             act.name,
             style:
-            TextStyle(color: Colors.grey[350], fontWeight: FontWeight.bold),
+            TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
 
           subtitle: Text(
             tagSubtitle,
-            style: TextStyle(color: Colors.grey[350]),
+            style: TextStyle(color: Colors.white),
           ),
 
           trailing: Icon(Icons.keyboard_arrow_right,
-              color: Colors.grey[350], size: 30.0),
+              color: Colors.white, size: 30.0),
 
           onTap: () {
             if(act is Class) {
