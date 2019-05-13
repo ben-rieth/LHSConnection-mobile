@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lhs_connections/models/user.dart';
 import 'package:lhs_connections/Widgets/bottom_nav_bar/placeholder_screen.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/account_screen.dart';
-//import 'package:lhs_connections/widgets/bottom_nav_bar/search_widget.dart';
+import 'package:lhs_connections/widgets/bottom_nav_bar/search_screen.dart';
 //import 'package:lhs_connections/widgets/bottom_nav_bar/calander.dart';
 
 class Home extends StatefulWidget {
@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
               physics: NeverScrollableScrollPhysics(),
               children: [
                 AccountPage(user: widget.user),
-                Placeholder(color: Colors.red),
+                Search(),
                 Placeholder(color: Colors.blue),
               ],
             ),
