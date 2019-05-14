@@ -186,8 +186,8 @@ class _SearchState extends State<Search>
           leading: Container(
             padding: EdgeInsets.only(right: 12.0),
             decoration: new BoxDecoration(
-                border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.grey[350]))),
+              border: new Border(
+                right: new BorderSide(width: 1.0, color: Colors.white))),
             child: Icon(act.icon, color: Colors.white),
           ),
 

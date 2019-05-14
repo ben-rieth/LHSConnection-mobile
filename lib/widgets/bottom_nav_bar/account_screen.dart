@@ -9,6 +9,7 @@ import 'package:lhs_connections/models/user.dart';
 import 'package:lhs_connections/widgets/settings/settings_home_screen.dart';
 import 'package:lhs_connections/widgets/settings/edit_account_screen.dart';
 import 'package:lhs_connections/blocs/authentication_bloc/bloc.dart';
+import 'package:lhs_connections/widgets/tutor/current_tutor.dart';
 
 class AccountPage extends StatefulWidget {
 
@@ -90,6 +91,12 @@ class _AccountPageState extends State<AccountPage>
               ListTile(
                 leading: Icon(Icons.school),
                 title: widget.user.isTutor ? Text("Tutoring") : Text("Be a Tutor"),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => CurrentTutorScreen()));
+                },
               ),
 
               ListTile(
