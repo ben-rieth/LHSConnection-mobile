@@ -13,7 +13,119 @@ class TutorConsoleCard extends StatefulWidget {
 class _TutorConsoleCardState extends State<TutorConsoleCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
+
+    return CustomScrollView(
+      slivers: <Widget>[
+
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+
+              RaisedButton(
+                color: Theme.of(context).primaryColor,
+                child: Text(
+                  widget.isActive ? "Stop Tutoring?" : "Start Tutoring?",
+                ),
+                onPressed: () {
+                  if (widget.isActive) {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Stop Tutoring on ${widget.day}?"),
+                            content: Text(
+                                "Accpeting will relive you of all tutoring on"
+                                    " ${widget.day}s."),
+                            actions: <Widget>[
+                              FlatButton(
+                                  child: Text("CANCEL"),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  }),
+                              FlatButton(
+                                  child: Text("ACCEPT"),
+                                  onPressed: () {
+                                    widget.isActive = !widget.isActive;
+                                    Navigator.pop(context);
+                                  }),
+                            ],
+                          );
+                        });
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Start Tutoring on ${widget.day}"),
+                          content: Text("Accepting will allow you to be selected"
+                              " to tutor on ${widget.day} and require you to fulfill"
+                              " all tutoring obligations on that day."),
+                          actions: <Widget>[
+                            FlatButton(
+                                child: Text("CANCEL"),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                }),
+                            FlatButton(
+                                child: Text("ACCEPT"),
+                                onPressed: () {
+                                  widget.isActive = !widget.isActive;
+                                  Navigator.pop(context);
+                                }),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+
+
+            ]),
+        ),
+
+
+
+        SliverGrid.count(
+          crossAxisCount: 3,
+          crossAxisSpacing: 20.0,
+          children: <Widget>[
+
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                "First 20",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            TutorTextbox(text: "Benjamin Riethmeier"),
+            TutorTextbox(text: "Math"),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                "Middle 20",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            TutorTextbox(text: "Jade Wiley"),
+            TutorTextbox(text: "Math"),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                "Last 20",
+                textAlign: TextAlign.center,
+              ),
+            ),
+            TutorTextbox(text: "Pete Korenak"),
+            TutorTextbox(text: "English"),
+
+          ],
+        ),
+
+      ],
+    );
+
+    /*return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: 20.0,
       ),
@@ -128,7 +240,7 @@ class _TutorConsoleCardState extends State<TutorConsoleCard> {
                 ),
         ),
       ),
-    );
+    );*/
   }
 }
 
@@ -141,10 +253,13 @@ class TutorTextbox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.center,
-      child: TextField(
-        maxLines: null,
-        controller: TextEditingController(text: text),
-        enabled: false,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.0),
+        child: TextField(
+          maxLines: null,
+          controller: TextEditingController(text: text),
+          enabled: false,
+        ),
       ),
     );
   }

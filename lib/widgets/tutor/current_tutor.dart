@@ -10,10 +10,13 @@ class CurrentTutorScreen extends StatefulWidget {
 class _CurrentTutorScreenState extends State<CurrentTutorScreen>
   with SingleTickerProviderStateMixin{
 
+  TabController _tabController;
+
   @override
   void initState() {
     super.initState();
 
+    _tabController = TabController(length: 5, vsync: this);
   }
 
 
@@ -24,7 +27,7 @@ class _CurrentTutorScreenState extends State<CurrentTutorScreen>
         backgroundColor: Theme.of(context).primaryColor,
         title: Text("Tutor Console"),
         bottom: TabBar(
-          controller: TabController(length: 5, vsync: this),
+          controller: _tabController,
           tabs: <Widget>[
 
             Tab(text: "MON",),
@@ -37,23 +40,18 @@ class _CurrentTutorScreenState extends State<CurrentTutorScreen>
         ),
       ),
 
-      body: ListView(
-        padding: EdgeInsets.symmetric(vertical: 20.0),
+      body: TabBarView(
+        controller: _tabController,
         children: <Widget>[
 
           TutorConsoleCard(isActive: true, day: "Monday"),
-
-          TutorConsoleCard(isActive: false, day: "Tuesday"),
-
+          TutorConsoleCard(isActive: true, day: "Tuesday"),
           TutorConsoleCard(isActive: false, day: "Wedensday"),
-
-          TutorConsoleCard(isActive: true, day: "Thursday"),
-
+          TutorConsoleCard(isActive: false, day: "Thursday"),
           TutorConsoleCard(isActive: true, day: "Friday"),
 
         ],
       ),
-
     );
   }
 

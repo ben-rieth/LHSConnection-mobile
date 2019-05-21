@@ -95,7 +95,8 @@ class _AccountPageState extends State<AccountPage>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => CurrentTutorScreen()));
+                      builder: (BuildContext context) =>
+                        widget.user.isTutor ? CurrentTutorScreen() : CurrentTutorScreen()));
                 },
               ),
 
