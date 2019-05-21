@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:lhs_connections/models/user.dart';
 import 'package:lhs_connections/Widgets/bottom_nav_bar/placeholder_screen.dart';
@@ -21,7 +22,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 4,
         child: new Scaffold(
           /*appBar: AppBar(
           title: Text("LHS Connection"),
@@ -33,6 +34,7 @@ class _HomeState extends State<Home> {
                 AccountPage(user: widget.user),
                 Search(),
                 Placeholder(color: Colors.blue),
+                Placeholder(color: Colors.green),
               ],
             ),
 
@@ -45,6 +47,10 @@ class _HomeState extends State<Home> {
                 Tab(
                   icon: new Icon(Icons.search),
                   text: "Search",
+                ),
+                Tab(
+                  icon: Icon(FontAwesomeIcons.questionCircle),
+                  text: "Surveys",
                 ),
                 Tab(
                   icon: new Icon(Icons.whatshot),
