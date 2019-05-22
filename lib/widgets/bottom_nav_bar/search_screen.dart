@@ -8,6 +8,7 @@ import 'package:lhs_connections/models/club.dart';
 import 'package:lhs_connections/models/class.dart';
 import 'package:lhs_connections/widgets/class_club_widgets/potential_class_screen.dart';
 //import 'package:lhs_connections/widgets/class_clubs_widgets/potential_club_widget.dart';
+import 'package:lhs_connections/widgets/custom_widgets/right_arrow_card.dart';
 
 class Search extends StatefulWidget {
   @override
@@ -47,9 +48,6 @@ class _SearchState extends State<Search>
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
-    _scrollController = ScrollController(initialScrollOffset: 0.0);
-    _scrollController.addListener(_onScroll);
-
 
     super.initState();
   }
@@ -135,7 +133,19 @@ class _SearchState extends State<Search>
           SliverList(
             delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                return makeCard(_filteredClasses[index]);
+                    Class currentClass = _filteredClasses[index];
+                    return RightArrowCard(
+                        headerIcon: currentClass.icon,
+                        title: currentClass.name,
+                        subtitle: currentClass.tags.join(", "),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      PotentialClassPage(potentialClass: currentClass)));
+                        }
+                    );
               },
               childCount: _filteredClasses.length,
             ),
@@ -155,7 +165,12 @@ class _SearchState extends State<Search>
           SliverList(
             delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                return makeCard(_filteredClubs[index]);
+                    Club currentClub = _filteredClubs[index];
+                    return RightArrowCard(
+                        headerIcon: currentClub.icon,
+                        title: currentClub.name,
+                        subtitle: currentClub.tags.join(", "),
+                    );
               },
               childCount: _filteredClubs.length,
             ),
@@ -165,68 +180,6 @@ class _SearchState extends State<Search>
       ),
 
     );
-  }
-
-  Card makeCard(dynamic act) {
-
-    String tagSubtitle = makeTagSubtitle(act);
-
-    return Card(
-      elevation: 8.0,
-      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-      color: Colors.transparent,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        ),
-
-        child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          leading: Container(
-            padding: EdgeInsets.only(right: 12.0),
-            decoration: new BoxDecoration(
-              border: new Border(
-                right: new BorderSide(width: 1.0, color: Colors.white))),
-            child: Icon(act.icon, color: Colors.white),
-          ),
-
-          title: Text(
-            act.name,
-            style:
-            TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-
-          subtitle: Text(
-            tagSubtitle,
-            style: TextStyle(color: Colors.white),
-          ),
-
-          trailing: Icon(Icons.keyboard_arrow_right,
-              color: Colors.white, size: 30.0),
-
-          onTap: () {
-            if(act is Class) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          PotentialClassPage(potentialClass: act)));
-            }// else {
-              /*Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          PotentialClubPage(potentialClub: act)));
-            }*/
-          },
-        ),
-      ),
-    );
-  }
-
-  void _onScroll() {
-
   }
 
   void _newFilter(int index) {
@@ -433,17 +386,4 @@ class _SearchState extends State<Search>
               fontSize: 20.0),
         ),
       );
-
-  String makeTagSubtitle(dynamic act) {
-    String tagSubtitle = "";
-
-    act.tags.forEach((tag) {
-      tagSubtitle += "$tag, ";
-    });
-
-    tagSubtitle = tagSubtitle.trim();
-    tagSubtitle = tagSubtitle.substring(0, tagSubtitle.length - 1);
-
-    return tagSubtitle;
-  }
 }
