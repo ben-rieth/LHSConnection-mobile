@@ -7,5 +7,8 @@ abstract class SearchEvent extends Equatable {
 }
 
 class QuerySearch extends SearchEvent {
+  final String query;
+
+  QuerySearch({this.query}) : super([query]);
 
 }
