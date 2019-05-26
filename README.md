@@ -1,4 +1,4 @@
-# LHS Connection
+# Gamut
 
 An exciting, fresh new school app that's gonna CHANGE THE GAME
 
