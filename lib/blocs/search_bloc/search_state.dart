@@ -18,14 +18,15 @@ class Searching extends SearchState {
   String toString() => 'Searching';
 }
 
-class SuccessfulSearch extends SearchState {
+class SuccessfulSearchClasses extends SearchState {
 
   final List<Class> returnedClasses;
+  final int numResults;
 
-  SuccessfulSearch({this.returnedClasses}) : super([returnedClasses]);
+  SuccessfulSearchClasses({this.returnedClasses, this.numResults}) : super([returnedClasses, numResults]);
 
   @override
-  String toString() => 'Search Successful';
+  String toString() => 'Search for Classes Successful';
 }
 
 class NothingFound extends SearchState {

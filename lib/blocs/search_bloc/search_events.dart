@@ -6,9 +6,23 @@ abstract class SearchEvent extends Equatable {
   SearchEvent([List props = const []]) : super(props);
 }
 
-class QuerySearch extends SearchEvent {
+class QuerySearchClasses extends SearchEvent {
   final String query;
 
-  QuerySearch({this.query}) : super([query]);
+  QuerySearchClasses({this.query}) : super([query]);
+
+}
+
+class QuerySearchClubs extends SearchEvent {
+  final String query;
+
+  QuerySearchClubs({this.query}) : super([query]);
+
+}
+
+class QuerySearchTutors extends SearchEvent {
+  final String query;
+
+  QuerySearchTutors({this.query}) : super([query]);
 
 }

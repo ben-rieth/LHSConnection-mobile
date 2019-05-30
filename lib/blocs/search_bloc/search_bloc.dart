@@ -22,7 +22,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   @override
   Stream<SearchState> mapEventToState(SearchEvent event) async* {
-    if (event is QuerySearch) {
+    if (event is QuerySearchClasses) {
 
       List<Class> results = [];
 
@@ -38,7 +38,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           results.add(Class.fromMap(aos.data));
         });
 
-        yield SuccessfulSearch(returnedClasses: results);
+        yield SuccessfulSearchClasses(returnedClasses: results, numResults: snap.nbHits);
 
       }
 
