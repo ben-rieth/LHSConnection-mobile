@@ -16,10 +16,10 @@ class RightArrowCard extends StatelessWidget {
     return Card(
       elevation: 8.0,
       margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-      color: Colors.transparent,
+      color: Colors.white,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.green,
+          //color: Colors.green,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
 
@@ -29,23 +29,23 @@ class RightArrowCard extends StatelessWidget {
             padding: EdgeInsets.only(right: 12.0),
             decoration: new BoxDecoration(
                 border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.white))),
-            child: Icon(headerIcon, color: Colors.white),
+                    right: new BorderSide(width: 1.0, color: Theme.of(context).primaryColor))),
+            child: Icon(headerIcon, color: Theme.of(context).primaryColor),
           ),
 
           title: Text(
             title,
             style:
-            TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
           ),
 
           subtitle: Text(
             subtitle,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.grey[600]),
           ),
 
           trailing: Icon(Icons.keyboard_arrow_right,
-              color: Colors.white, size: 30.0),
+              color: Colors.grey[600], size: 40.0),
 
           onTap: onTap,
         ),
