@@ -7,6 +7,7 @@ import 'package:lhs_connections/widgets/bottom_nav_bar/search_widgets/search_bar
 import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
 import 'package:lhs_connections/widgets/custom_widgets/right_arrow_card.dart';
 import 'package:lhs_connections/models/class.dart';
+import 'package:lhs_connections/widgets/class_club_widgets/potential_class_screen.dart';
 
 class SearchForm extends StatefulWidget {
   final AlgoliaRepository _algoliaRepository;
@@ -114,6 +115,12 @@ class _SearchFormState extends State<SearchForm>
                         headerIcon: currentClass.icon,
                         title: currentClass.name,
                         subtitle: currentClass.tags.join(", "),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PotentialClassPage(potentialClass: currentClass)));
+                        }
                       );
 
                     },
@@ -130,6 +137,10 @@ class _SearchFormState extends State<SearchForm>
 
   void querySubmitted(String query) {
     _searchBloc.dispatch(QuerySearchClasses(query: query));
+  }
+
+  void classTapped(Class tapped) {
+
   }
 
 }

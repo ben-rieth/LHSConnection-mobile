@@ -26,8 +26,9 @@ class SearchBar extends StatelessWidget {
           fillColor: Colors.white,
           hintText: "Search",
           prefixIcon: Icon(Icons.search, size: 25.0, color: Colors.grey[600],),
-          //border: OutlineInputBorder(
-          //    borderRadius: BorderRadius.all(Radius.circular(25.0))),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5.0))),
+
         ),
       ),
     );
