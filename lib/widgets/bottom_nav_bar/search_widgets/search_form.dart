@@ -4,6 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lhs_connections/repositories/algolia_repository.dart';
 import 'package:lhs_connections/blocs/search_bloc/bloc.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/search_widgets/search_bar.dart';
+import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
+import 'package:lhs_connections/widgets/custom_widgets/right_arrow_card.dart';
+import 'package:lhs_connections/models/class.dart';
 
 class SearchForm extends StatefulWidget {
   final AlgoliaRepository _algoliaRepository;
@@ -24,6 +27,19 @@ class _SearchFormState extends State<SearchForm>
 
   SearchBloc _searchBloc;
 
+  List<Class> areResultsShowing(SearchState state) {
+    if(state is SuccessfulSearchClasses) {
+      return state.returnedClasses;
+    }
+    return null;
+  }
+
+
+
+  bool isSearching(SearchState state) {
+    return state is Searching;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -33,19 +49,16 @@ class _SearchFormState extends State<SearchForm>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener(
+    return BlocBuilder(
       bloc: _searchBloc,
-      listener: (BuildContext context, SearchState state) {
-
-      },
-
-      child: BlocBuilder(
-        bloc: _searchBloc,
-        builder: (BuildContext context, SearchState state) {
-          return CustomScrollView(
+      builder: (BuildContext context, SearchState state) {
+        return LoadingScreen (
+          inAsyncCall: isSearching(state),
+          child: CustomScrollView(
             slivers: <Widget>[
+
               SliverAppBar(
-                title: SearchBar(searchController: _searchBarController, onSearchChange: function),
+                title: SearchBar(searchController: _searchBarController, onSearchChange: querySubmitted),
                 floating: true,
                 expandedHeight: 110.0,
                 backgroundColor: Colors.green,
@@ -59,24 +72,39 @@ class _SearchFormState extends State<SearchForm>
                   unselectedLabelColor: Colors.grey[600],
                   indicatorColor: Colors.white,
                   tabs: <Widget>[
-                    //Tab(text: "EVERYTHING"),
                     Tab(text: "CLASSES"),
                     Tab(text: "CLUBS"),
                     Tab(text: "TUTORS"),
                   ],
                 ),
               ),
+
+              areResultsShowing(state) != null ?
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+
+                      Class currentClass = areResultsShowing(state)[index];
+                      return RightArrowCard(
+                        headerIcon: currentClass.icon,
+                        title: currentClass.name,
+                        subtitle: currentClass.tags.join(", "),
+                      );
+
+                    },
+                    childCount: areResultsShowing(state).length,
+                  ),
+                ) : SliverList(delegate: SliverChildListDelegate([])),
+
             ],
-          );
-
-        },
-      ),
-
+          ),
+        );
+      },
     );
   }
 
-  void function(String query) {
-
+  void querySubmitted(String query) {
+    _searchBloc.dispatch(QuerySearchClasses(query: query));
   }
 
 }
