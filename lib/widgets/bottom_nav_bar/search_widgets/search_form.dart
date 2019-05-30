@@ -27,9 +27,9 @@ class _SearchFormState extends State<SearchForm>
 
   SearchBloc _searchBloc;
 
-  List<Class> areResultsShowing(SearchState state) {
+  SuccessfulSearchClasses areResultsShowing(SearchState state) {
     if(state is SuccessfulSearchClasses) {
-      return state.returnedClasses;
+      return state;
     }
     return null;
   }
@@ -81,10 +81,35 @@ class _SearchFormState extends State<SearchForm>
 
               areResultsShowing(state) != null ?
                 SliverList(
+                  delegate: SliverChildListDelegate([
+                    Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+                      child: Text(
+                        areResultsShowing(state).numResults.toString() + " Results Found",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ),
+
+                    Container(
+                      padding: EdgeInsets.only(bottom: 10.0),
+                      color: Colors.grey[400],
+                      width: MediaQuery.of(context).size.width,
+                      height: 2.0,
+                    ),
+
+                  ]),
+                ) : SliverList(delegate: SliverChildListDelegate([])),
+
+
+              areResultsShowing(state) != null ?
+                SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
 
-                      Class currentClass = areResultsShowing(state)[index];
+                      Class currentClass = areResultsShowing(state).returnedClasses[index];
                       return RightArrowCard(
                         headerIcon: currentClass.icon,
                         title: currentClass.name,
@@ -92,7 +117,7 @@ class _SearchFormState extends State<SearchForm>
                       );
 
                     },
-                    childCount: areResultsShowing(state).length,
+                    childCount: areResultsShowing(state).returnedClasses.length,
                   ),
                 ) : SliverList(delegate: SliverChildListDelegate([])),
 
