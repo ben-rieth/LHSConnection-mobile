@@ -10,6 +10,7 @@ import 'package:lhs_connections/widgets/login_widgets/login_screen.dart';
 import 'package:lhs_connections/widgets/login_widgets/login_form.dart';
 import 'package:lhs_connections/blocs/login_bloc/bloc.dart';
 import 'package:lhs_connections/widgets/login_widgets/login_button.dart';
+import 'package:lhs_connections/widgets/onboarding/intro_slideshow.dart';
 
 class AppRoot extends StatefulWidget {
   State<AppRoot> createState() => _AppRootState();
@@ -46,7 +47,7 @@ class _AppRootState extends State<AppRoot> {
               return LoginScreen(userRepository: _userRepository);
             }
             if (state is Authenticated) {
-              return Home(user: state.userInfo);
+              return IntroSlideshowScreen();
             }
           },
         ),
