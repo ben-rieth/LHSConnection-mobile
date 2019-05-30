@@ -7,7 +7,7 @@ import 'package:lhs_connections/widgets/bottom_nav_bar/search_widgets/search_bar
 import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
 import 'package:lhs_connections/widgets/custom_widgets/right_arrow_card.dart';
 import 'package:lhs_connections/models/class.dart';
-import 'package:lhs_connections/widgets/class_club_widgets/potential_class_screen.dart';
+import 'package:lhs_connections/widgets/class_club_widgets/results_puruse_screen.dart';
 
 class SearchForm extends StatefulWidget {
   final AlgoliaRepository _algoliaRepository;
@@ -119,7 +119,10 @@ class _SearchFormState extends State<SearchForm>
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PotentialClassPage(potentialClass: currentClass)));
+                              builder: (context) => ResultsPuruseScreen(
+                                classes: areResultsShowing(state).returnedClasses,
+                                initialPageIndex: index,
+                              )));
                         }
                       );
 

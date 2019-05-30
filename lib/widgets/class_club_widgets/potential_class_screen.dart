@@ -41,7 +41,7 @@ class PotentialClassPage extends StatelessWidget {
         SizedBox(height: 10.0),
         Text(
           potentialClass.name,
-          style: TextStyle(color: Colors.white, fontSize: 40.0),
+          style: TextStyle(color: Colors.white, fontSize: 30.0),
         ),
         SizedBox(height: 15.0),
         Row(
@@ -82,17 +82,6 @@ class PotentialClassPage extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Center(
             child: topContentText,
-          ),
-        ),
-
-        Positioned(
-          left: 8.0,
-          top: 60.0,
-          child: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.arrow_back, color: Colors.white),
           ),
         ),
 
