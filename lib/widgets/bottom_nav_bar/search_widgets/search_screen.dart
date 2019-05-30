@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:lhs_connections/repositories/algolia_repository.dart';
 import 'package:lhs_connections/blocs/search_bloc/bloc.dart';
+import 'package:lhs_connections/widgets/bottom_nav_bar/search_widgets/search_form.dart';
 
 class SearchScreen extends StatefulWidget {
 
@@ -27,8 +28,12 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    return Scaffold(
+      body: BlocProvider(
+        bloc: _searchBloc,
+        child: SearchForm(algoliaRepository: _algoliaRepository),
+      ),
+    );
   }
 
   @override
