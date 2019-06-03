@@ -8,7 +8,7 @@ import 'package:lhs_connections/widgets/class_club_widgets/potential_class_scree
 class ResultsPuruseScreen extends StatefulWidget {
 
   final List<Class> classes;
-  int initialPageIndex;
+  final int initialPageIndex;
 
   ResultsPuruseScreen({
     @required this.classes,
@@ -20,7 +20,18 @@ class ResultsPuruseScreen extends StatefulWidget {
 }
 
 class _ResultsPuruseScreenState extends State<ResultsPuruseScreen> {
-  final IndexController _indexController = IndexController();
+
+  IndexController _indexController;
+  TransformerPageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _indexController = IndexController();
+    _pageController = TransformerPageController(initialPage: widget.initialPageIndex);
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +42,7 @@ class _ResultsPuruseScreenState extends State<ResultsPuruseScreen> {
         pageSnapping: true,
         loop: true,
         controller: _indexController,
+        pageController: _pageController,
         transformer: _ScaleAndFadeTransformer(),
         itemBuilder: (BuildContext context, int index) {
           return PotentialClassPage(potentialClass: widget.classes[index]);
@@ -39,6 +51,13 @@ class _ResultsPuruseScreenState extends State<ResultsPuruseScreen> {
     );
 
   }
+
+  @override
+  void dispose() {
+    _indexController.dispose();
+    super.dispose();
+  }
+
 }
 
 class _ScaleAndFadeTransformer extends PageTransformer {

@@ -38,7 +38,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           results.add(Class.fromMap(aos.data));
         });
 
-        yield SuccessfulSearchClasses(returnedClasses: results, numResults: snap.nbHits);
+        yield SuccessfulSearchClasses(returnedClasses: results, numResults: results.length);
 
       }
 
