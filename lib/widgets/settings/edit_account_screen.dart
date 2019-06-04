@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:lhs_connections/widgets/settings/interest_select/interest_select_screen.dart';
+
 class EditAccount extends StatefulWidget {
   State<EditAccount> createState() => _EditAccountState();
 }
@@ -65,18 +67,18 @@ class _EditAccountState extends State<EditAccount> {
                 },
               ),*/
               SizedBox(height: 20.0),
-              /*FlatButton(
+              FlatButton(
                 color: Colors.green,
                 onPressed: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              Interests()
+                              InterestSelectScreen()
                       ));
                 },
                 child: Text("Edit Interests"),
-              ),*/
+              ),
 
               _nameChanged ? Text("Change!") : Container(),
 

@@ -43,7 +43,7 @@ class _SwitchIconButtonState extends State<SwitchIconButton> {
               padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
               child: Icon(
                 widget.icon,
-                size: 40.0,
+                size: 35.0,
                 color: widget.activated ? widget.activatedColor : widget.color,
               ),
             ),

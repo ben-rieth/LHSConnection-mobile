@@ -21,7 +21,7 @@ class InterestGrid extends StatelessWidget {
               icon: interest.icon,
               title: interest.name,
               activatedColor: Theme.of(context).primaryColor,
-              color: Colors.grey[600]));
+              color: Colors.grey[500]));
     });
 
     return SliverGrid.count(
