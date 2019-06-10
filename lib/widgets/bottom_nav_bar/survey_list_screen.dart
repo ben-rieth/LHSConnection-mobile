@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class SurveySelectScreen extends StatefulWidget {
-  State<SurveySelectScreen> createState() => _SurveySelectScreenState();
+class FeedScreen extends StatefulWidget {
+  State<FeedScreen> createState() => _FeedScreenState();
 }
 
-class _SurveySelectScreenState extends State<SurveySelectScreen> {
+class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(

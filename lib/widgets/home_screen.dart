@@ -48,8 +48,8 @@ class _HomeState extends State<Home> {
                   text: "Search",
                 ),
                 Tab(
-                  icon: Icon(FontAwesomeIcons.questionCircle),
-                  text: "Surveys",
+                  icon: Icon(FontAwesomeIcons.utensils),
+                  text: "Feed",
                 ),
                 Tab(
                   icon: new Icon(Icons.whatshot),
