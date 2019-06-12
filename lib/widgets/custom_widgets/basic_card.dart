@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 
-class RightArrowCard extends StatelessWidget {
+class BasicCard extends StatelessWidget {
 
   IconData headerIcon;
+  IconData trailingIcon;
   final String title;
   final String subtitle;
   final GestureTapCallback onTap;
 
-  RightArrowCard({@required this.headerIcon, @required this.title,
-    @required this.subtitle, this.onTap});
+  BasicCard({@required this.headerIcon, @required this.title,
+    @required this.subtitle, this.trailingIcon, this.onTap});
+
+  factory BasicCard.rightArrowCard(IconData headerIcon, String title, String subtitle, GestureTapCallback onTap) {
+    return BasicCard(
+      headerIcon: headerIcon,
+      trailingIcon: Icons.keyboard_arrow_right,
+      title: title,
+      subtitle: subtitle,
+      onTap: onTap
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +47,22 @@ class RightArrowCard extends StatelessWidget {
           title: Text(
             title,
             style:
-            TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold),
+            TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.bold
+            ),
           ),
 
-          subtitle: Text(
+          subtitle: subtitle != null ?
+          Text(
             subtitle,
             style: TextStyle(color: Colors.grey[600]),
-          ),
+          ) : Container(),
 
-          trailing: Icon(Icons.keyboard_arrow_right,
-              color: Colors.grey[600], size: 40.0),
+          trailing: trailingIcon != null ?
+          Icon(
+            trailingIcon,
+            color: Colors.grey[600], size: 40.0) : Container(),
 
           onTap: onTap,
         ),

@@ -5,7 +5,7 @@ import 'package:lhs_connections/repositories/algolia_repository.dart';
 import 'package:lhs_connections/blocs/search_bloc/bloc.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/search_widgets/search_bar.dart';
 import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
-import 'package:lhs_connections/widgets/custom_widgets/right_arrow_card.dart';
+import 'package:lhs_connections/widgets/custom_widgets/basic_card.dart';
 import 'package:lhs_connections/models/class.dart';
 import 'package:lhs_connections/widgets/class_club_widgets/results_puruse_screen.dart';
 
@@ -111,19 +111,22 @@ class _SearchFormState extends State<SearchForm>
                     (BuildContext context, int index) {
 
                       Class currentClass = areResultsShowing(state).returnedClasses[index];
-                      return RightArrowCard(
-                        headerIcon: currentClass.icon,
-                        title: currentClass.name,
-                        subtitle: currentClass.tags.join(", "),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ResultsPuruseScreen(
-                                classes: areResultsShowing(state).returnedClasses,
-                                initialPageIndex: index,
-                              )));
-                        }
+
+                      return BasicCard.rightArrowCard(
+                          currentClass.icon,
+                          currentClass.name,
+                          currentClass.tags.join(", "),
+
+                          () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ResultsPuruseScreen(
+                                      classes: areResultsShowing(state).returnedClasses,
+                                      initialPageIndex: index,
+                                    )));
+                          }
+
                       );
 
                     },
