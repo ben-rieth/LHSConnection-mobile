@@ -10,6 +10,7 @@ import 'package:lhs_connections/widgets/settings/settings_home_screen.dart';
 import 'package:lhs_connections/widgets/settings/edit_account_screen.dart';
 import 'package:lhs_connections/blocs/authentication_bloc/bloc.dart';
 import 'package:lhs_connections/widgets/tutor/current_tutor.dart';
+import 'package:lhs_connections/widgets/custom_widgets/basic_card.dart';
 
 class AccountPage extends StatefulWidget {
 
@@ -72,6 +73,7 @@ class _AccountPageState extends State<AccountPage>
           child: ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
+
               UserAccountsDrawerHeader(
                 accountName: Text(
                   "${widget.user.fName} " +
@@ -219,68 +221,19 @@ class _AccountPageState extends State<AccountPage>
         physics: BouncingScrollPhysics(),
         itemCount: type.length,
         itemBuilder: (BuildContext context, int index) {
-          return makeCard(type[index]);
+
+          dynamic current = type[index];
+
+          return BasicCard.rightArrowCard(
+            current.icon,
+            current.name,
+            null,
+            () {}
+          );
+
         },
       );
     }
   }
 
-  Widget makeCard(dynamic act) {
-
-    return Card(
-      elevation: 8.0,
-      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-      color: Colors.transparent,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        ),
-
-        child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          leading: Container(
-            padding: EdgeInsets.only(right: 12.0),
-            decoration: new BoxDecoration(
-                border: new Border(
-                    right: new BorderSide(width: 1.0, color: Colors.white))),
-            child: Icon(act.icon, color: Colors.white),
-          ),
-
-          title: Text(
-            act.name,
-            style:
-            TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0),
-          ),
-
-          trailing: Icon(Icons.keyboard_arrow_right,
-              color: Colors.white, size: 30.0),
-
-          /*onTap: () {
-            if(act is Class) {
-              /*Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          PotentialClassPage(potentialClass: act)));*/
-            } else if (act is Club){
-
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          CurrentClubPage(act)
-                  ));
-            } else {
-
-            }
-          },*/
-        ),
-      ),
-    );
-
-  }
 }
