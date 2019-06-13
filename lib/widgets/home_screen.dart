@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:lhs_connections/models/user.dart';
 import 'package:lhs_connections/Widgets/bottom_nav_bar/placeholder_screen.dart';
+import 'package:lhs_connections/Widgets/bottom_nav_bar/feed_screen.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/account_screen.dart';
 import 'package:lhs_connections/widgets/bottom_nav_bar/search_widgets/search_screen.dart';
 
@@ -32,7 +33,7 @@ class _HomeState extends State<Home> {
               children: [
                 AccountPage(user: widget.user),
                 SearchScreen(),
-                Placeholder(color: Colors.blue),
+                FeedScreen(),
                 Placeholder(color: Colors.green),
               ],
             ),
