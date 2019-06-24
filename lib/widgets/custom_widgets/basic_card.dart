@@ -23,17 +23,16 @@ class BasicCard extends StatelessWidget {
         subtitle: subtitle,
         onTap: onTap);
   }
-  factory BasicCard.infoCard(
-      String title, String subtitle, GestureTapCallback onTap) {
-    return BasicCard(
-      headerIcon: Icons.speaker_notes,
-      trailingIcon: Icons.keyboard_arrow_right,
-      title: title,
-      subtitle: subtitle,
-      onTap: onTap,
-    );
-  }
 
+  factory BasicCard.expandable(IconData headerIcon, String title,
+      String subtitle, GestureTapCallback onTap) {
+    return BasicCard(
+        headerIcon: headerIcon,
+        trailingIcon: Icons.keyboard_arrow_right,
+        title: title,
+        subtitle: subtitle,
+        onTap: onTap);
+  }
   @override
   Widget build(BuildContext context) {
     return Card(
