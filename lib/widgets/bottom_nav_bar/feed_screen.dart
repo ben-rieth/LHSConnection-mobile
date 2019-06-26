@@ -21,14 +21,15 @@ class _FeedScreenState extends State<FeedScreen> {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('feed').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
+        if (!snapshot.hasData) return CircularProgressIndicator();
 
         return _buildList(context, snapshot.data.documents);
       },
     );
   }
 
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot)
+  {
     return ListView(
       padding: const EdgeInsets.only(top: 20.0),
       children: snapshot.map((data) => _buildListItem(context, data)).toList(),
@@ -38,8 +39,8 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final post = feedPost.fromSnapshot(data);
     return ExpansionTile(
-      leading: Text(post.title),
-      title: Text(post.title),
+      leading: Text('From: ' + post.poster),
+      title: Text(post.title + '  ' + post.postedOn),
       children: <Widget> [
         Text(post.body),
       ]
