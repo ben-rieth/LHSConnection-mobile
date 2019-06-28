@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
               children: [
                 AccountPage(user: widget.user),
                 SearchScreen(),
-                FeedScreen(),
+                FeedScreen(user: widget.user),
                 Placeholder(color: Colors.green),
               ],
             ),
