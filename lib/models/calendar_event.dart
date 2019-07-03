@@ -1,13 +1,17 @@
+
+enum CalendarEventType {
+  school,
+  sport
+}
+
 class CalendarEvent {
 
   String eventName;
   DateTime startTime;
   DateTime endTime;
-  DateTime day;
+  CalendarEventType eventType;
 
-  CalendarEvent({this.eventName, this.startTime, this.endTime, this.day});
-
-
-
+  CalendarEvent({this.eventName, this.startTime, this.endTime,
+    this.eventType});
 
 }

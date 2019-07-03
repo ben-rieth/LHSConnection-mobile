@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import 'package:lhs_connections/widgets/bottom_nav_bar/calendar_widgets/event_marker.dart';
+
 class CalendarScreen extends StatefulWidget {
   State<CalendarScreen> createState() => _CalendarScreenState();
 }
@@ -10,9 +12,13 @@ class _CalendarScreenState extends State<CalendarScreen>
 
   DateTime _selectedDay;
   Map<DateTime, List> _events;
+  Map<DateTime, List> _holidays;
   Map<DateTime, List> _visibleEvents;
+  Map<DateTime, List> _visibleHolidays;
   List _selectedEvents;
   AnimationController _controller;
+
+  TabController _tabController;
 
   @override
   void initState() {
@@ -41,6 +47,9 @@ class _CalendarScreenState extends State<CalendarScreen>
     _selectedEvents = _events[_selectedDay] ?? [];
     _visibleEvents = _events;
 
+    _holidays = {};
+    _visibleHolidays = _holidays;
+
     _controller = AnimationController(
         vsync: this,
         duration: const Duration(milliseconds:  400)
@@ -48,6 +57,7 @@ class _CalendarScreenState extends State<CalendarScreen>
 
     _controller.forward();
 
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -63,18 +73,82 @@ class _CalendarScreenState extends State<CalendarScreen>
 
         children: <Widget>[
           TableCalendar(
+            events: _visibleEvents,
+            holidays: _visibleHolidays,
             availableCalendarFormats: {CalendarFormat.week : "Week", CalendarFormat.twoWeeks : "Two Week"},
             initialCalendarFormat: CalendarFormat.twoWeeks,
             onDaySelected: _onDaySelected,
             onVisibleDaysChanged: _onVisibleDaysChanged,
+            builders: CalendarBuilders(
+              markersBuilder: (context, date, events, holidays) {
+                final children = <Widget>[];
 
+                int schoolActivities = 0;
+                int sportActivities = 0;
+
+                if (events.isNotEmpty) {
+
+                  children.add(
+                    Positioned(
+                      right: 1,
+                      bottom: 1,
+                      child: EventMarker(
+                        numEvents: schoolActivities,
+                        date: date,
+                        selectedDay : _selectedDay,
+                      ),
+                    ),
+                  );
+
+                  children.add(
+                    Positioned(
+                      left: 1,
+                      bottom: 1,
+                      child: EventMarker(
+                        numEvents: sportActivities,
+                        date: date,
+                        selectedDay : _selectedDay,
+                      ),
+                    ),
+                  );
+
+                  return children;
+
+                }
+              }
+            ),
+          ),
+
+          TabBar(
+            controller: _tabController,
+            tabs: <Widget> [
+              Tab(text: "School"),
+              Tab(text: "Sports"),
+            ],
+            labelColor: Colors.green,
+            unselectedLabelColor: Colors.grey,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicatorPadding: EdgeInsets.all(5.0),
+            indicatorColor: Colors.lightGreen,
           ),
 
           const SizedBox(height: 8.0),
 
           Expanded(
-            child: ListView(
 
+            child: ListView(
+              shrinkWrap: true,
+              children: _selectedEvents
+                .map((event) => Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 0.8, color: Colors.green),
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                child: ListTile(
+                  title: Text(event.toString()),
+                )))
+                .toList(),
             ),
           ),
 
