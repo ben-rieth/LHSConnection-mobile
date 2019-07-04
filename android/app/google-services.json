@@ -29,24 +29,24 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAi_ZIeubNx22YqnR4xtabNOV0xDEi1asw"
+          "current_key": "AIzaSyD5amrhM0la1bAcgWr1Nf9Xa-NkHhdzmdw"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "59430807920-g76jumcfl2jgn29e7gafgsqu625u28qn.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "59430807920-cpd65gmdonoj7vch96mgf8ptg6s3kkm9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lhscompsci.lhsConnections"
+              }
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
