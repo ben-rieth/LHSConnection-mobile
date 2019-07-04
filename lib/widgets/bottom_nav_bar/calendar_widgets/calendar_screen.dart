@@ -1,7 +1,21 @@
+import 'package:http/http.dart';
+
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:googleapis/calendar/v3.dart' as gCal;
+import 'package:googleapis_auth/auth_io.dart';
 
 import 'package:lhs_connections/widgets/bottom_nav_bar/calendar_widgets/event_marker.dart';
+
+var accountCredentials = ServiceAccountCredentials.fromJson({
+  "private_key_id": "",
+  "private_key": "",
+  "client_email": "",
+  "client_id": "",
+  "type": "service_account",
+});
+
+var scopes = [gCal.CalendarApi.CalendarScope];
 
 class CalendarScreen extends StatefulWidget {
   State<CalendarScreen> createState() => _CalendarScreenState();
