@@ -41,6 +41,7 @@ class UserRepository {
   }
 
   Future<User> retrieveUserInformation() async {
+    print("Retrieve user is called");
     return await dbUsers
         .document(
           await getUserEmail().then((String email) {
@@ -48,8 +49,8 @@ class UserRepository {
           }))
         .get()
         .then((DocumentSnapshot ds) {
-      return User.fromSnapshot(ds);
-    });
+          return User.fromSnapshot(ds);
+        });
 
   }
 }
