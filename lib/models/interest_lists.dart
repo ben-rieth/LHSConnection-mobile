@@ -1,6 +1,6 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:lhs_connections/models/interest.dart';
+import 'package:Gamut/models/interest.dart';
 
 
 final List<Interest> athleticInterests = [

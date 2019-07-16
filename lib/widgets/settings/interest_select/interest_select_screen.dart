@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:lhs_connections/widgets/settings/interest_select/interest_group_header.dart';
-import 'package:lhs_connections/widgets/settings/interest_select/interest_grid.dart';
-import 'package:lhs_connections/models/interest_lists.dart';
+import 'package:Gamut/widgets/settings/interest_select/interest_group_header.dart';
+import 'package:Gamut/widgets/settings/interest_select/interest_grid.dart';
+import 'package:Gamut/models/interest_lists.dart';
 
 class InterestSelectScreen extends StatefulWidget {
   State<InterestSelectScreen> createState() => _InterestSelectScreenState();

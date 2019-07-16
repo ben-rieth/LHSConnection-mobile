@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:swipedetector/swipedetector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:lhs_connections/models/class.dart';
-import 'package:lhs_connections/models/club.dart';
-import 'package:lhs_connections/models/user.dart';
+import 'package:Gamut/models/class.dart';
+import 'package:Gamut/models/club.dart';
+import 'package:Gamut/models/user.dart';
 //import 'package:lhs_connections/widgets/class_clubs_widgets/current_club_widget.dart';
-import 'package:lhs_connections/widgets/settings/settings_home_screen.dart';
-import 'package:lhs_connections/widgets/settings/edit_account_screen.dart';
-import 'package:lhs_connections/blocs/authentication_bloc/bloc.dart';
-import 'package:lhs_connections/widgets/tutor/current_tutor.dart';
-import 'package:lhs_connections/widgets/custom_widgets/basic_card.dart';
+import 'package:Gamut/widgets/settings/settings_home_screen.dart';
+import 'package:Gamut/widgets/settings/edit_account_screen.dart';
+import 'package:Gamut/blocs/authentication_bloc/bloc.dart';
+import 'package:Gamut/widgets/tutor/current_tutor.dart';
+import 'package:Gamut/widgets/custom_widgets/basic_card.dart';
 
 class AccountPage extends StatefulWidget {
 

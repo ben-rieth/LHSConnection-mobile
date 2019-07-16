@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:lhs_connections/models/user.dart';
+import 'package:Gamut/models/user.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;

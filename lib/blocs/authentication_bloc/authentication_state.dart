@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import 'package:lhs_connections/models/user.dart';
+import 'package:Gamut/models/user.dart';
 
 @immutable
 abstract class AuthenticationState extends Equatable {

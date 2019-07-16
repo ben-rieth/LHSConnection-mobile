@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:lhs_connections/widgets/settings/interest_select/interest_select_screen.dart';
+import 'package:Gamut/widgets/settings/interest_select/interest_select_screen.dart';
 
 class EditAccount extends StatefulWidget {
   State<EditAccount> createState() => _EditAccountState();

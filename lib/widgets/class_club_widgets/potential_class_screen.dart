@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:lhs_connections/models/class.dart';
+import 'package:Gamut/models/class.dart';
 
 class PotentialClassPage extends StatelessWidget {
 

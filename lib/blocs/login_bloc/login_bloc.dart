@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:lhs_connections/repositories/user_repository.dart';
-import 'package:lhs_connections/utils/validators.dart';
+import 'package:Gamut/repositories/user_repository.dart';
+import 'package:Gamut/utils/validators.dart';
 
-import 'package:lhs_connections/widgets/login_widgets/login_screen.dart';
-import 'package:lhs_connections/widgets/login_widgets/login_form.dart';
-import 'package:lhs_connections/blocs/login_bloc/bloc.dart';
-import 'package:lhs_connections/widgets/login_widgets/login_button.dart';
+import 'package:Gamut/widgets/login_widgets/login_screen.dart';
+import 'package:Gamut/widgets/login_widgets/login_form.dart';
+import 'package:Gamut/blocs/login_bloc/bloc.dart';
+import 'package:Gamut/widgets/login_widgets/login_button.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository _userRepository;

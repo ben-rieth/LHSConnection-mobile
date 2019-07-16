@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:transformer_page_view/transformer_page_view.dart';
 import 'package:vector_math/vector_math_64.dart';
 
-import 'package:lhs_connections/models/class.dart';
-import 'package:lhs_connections/widgets/class_club_widgets/potential_class_screen.dart';
+import 'package:Gamut/models/class.dart';
+import 'package:Gamut/widgets/class_club_widgets/potential_class_screen.dart';
 
 class ResultsPuruseScreen extends StatefulWidget {
 

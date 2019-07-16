@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:lhs_connections/models/User.dart';
+import 'package:Gamut/models/User.dart';
 
 class Club {
 

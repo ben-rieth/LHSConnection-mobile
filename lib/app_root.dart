@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:lhs_connections/blocs/authentication_bloc/bloc.dart';
-import 'package:lhs_connections/repositories/user_repository.dart';
-import 'package:lhs_connections/widgets/home_screen.dart';
-import 'package:lhs_connections/widgets/login_widgets/splash_screen.dart';
+import 'package:Gamut/blocs/authentication_bloc/bloc.dart';
+import 'package:Gamut/repositories/user_repository.dart';
+import 'package:Gamut/widgets/home_screen.dart';
+import 'package:Gamut/widgets/login_widgets/splash_screen.dart';
 
-import 'package:lhs_connections/widgets/login_widgets/login_screen.dart';
-import 'package:lhs_connections/widgets/login_widgets/login_form.dart';
-import 'package:lhs_connections/blocs/login_bloc/bloc.dart';
-import 'package:lhs_connections/widgets/login_widgets/login_button.dart';
-import 'package:lhs_connections/widgets/onboarding/intro_slideshow.dart';
+import 'package:Gamut/widgets/login_widgets/login_screen.dart';
+import 'package:Gamut/widgets/login_widgets/login_form.dart';
+import 'package:Gamut/blocs/login_bloc/bloc.dart';
+import 'package:Gamut/widgets/login_widgets/login_button.dart';
+import 'package:Gamut/widgets/onboarding/intro_slideshow.dart';
 
 class AppRoot extends StatefulWidget {
   State<AppRoot> createState() => _AppRootState();

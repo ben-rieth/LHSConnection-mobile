@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:lhs_connections/widgets/tutor/tutor_console_card.dart';
+import 'package:Gamut/widgets/tutor/tutor_console_card.dart';
 
 class CurrentTutorScreen extends StatefulWidget {
 

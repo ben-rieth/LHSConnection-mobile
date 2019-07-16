@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:lhs_connections/repositories/algolia_repository.dart';
-import 'package:lhs_connections/blocs/search_bloc/bloc.dart';
-import 'package:lhs_connections/widgets/bottom_nav_bar/search_widgets/search_bar.dart';
-import 'package:lhs_connections/widgets/custom_widgets/loading.dart';
-import 'package:lhs_connections/widgets/custom_widgets/basic_card.dart';
-import 'package:lhs_connections/models/class.dart';
-import 'package:lhs_connections/widgets/class_club_widgets/results_puruse_screen.dart';
+import 'package:Gamut/repositories/algolia_repository.dart';
+import 'package:Gamut/blocs/search_bloc/bloc.dart';
+import 'package:Gamut/widgets/bottom_nav_bar/search_widgets/search_bar.dart';
+import 'package:Gamut/widgets/custom_widgets/loading.dart';
+import 'package:Gamut/widgets/custom_widgets/basic_card.dart';
+import 'package:Gamut/models/class.dart';
+import 'package:Gamut/widgets/class_club_widgets/results_puruse_screen.dart';
 
 class SearchForm extends StatefulWidget {
   final AlgoliaRepository _algoliaRepository;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:lhs_connections/widgets/custom_widgets/sliver_header_delegate.dart';
+import 'package:Gamut/widgets/custom_widgets/sliver_header_delegate.dart';
 
 class InterestGroupHeader extends StatelessWidget {
 

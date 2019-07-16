@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lhs_connections/repositories/user_repository.dart';
+import 'package:Gamut/repositories/user_repository.dart';
 
-import 'package:lhs_connections/widgets/login_widgets/login_screen.dart';
-import 'package:lhs_connections/widgets/login_widgets/login_form.dart';
-import 'package:lhs_connections/blocs/login_bloc/bloc.dart';
-import 'package:lhs_connections/widgets/login_widgets/login_button.dart';
+import 'package:Gamut/widgets/login_widgets/login_screen.dart';
+import 'package:Gamut/widgets/login_widgets/login_form.dart';
+import 'package:Gamut/blocs/login_bloc/bloc.dart';
+import 'package:Gamut/widgets/login_widgets/login_button.dart';
 
 class LoginScreen extends StatefulWidget {
   final UserRepository _userRepository;

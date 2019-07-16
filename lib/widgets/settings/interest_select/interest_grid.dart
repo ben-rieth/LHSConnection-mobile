@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:lhs_connections/models/interest.dart';
-import 'package:lhs_connections/widgets/custom_widgets/switch_icon_button.dart';
+import 'package:Gamut/models/interest.dart';
+import 'package:Gamut/widgets/custom_widgets/switch_icon_button.dart';
 
 class InterestGrid extends StatelessWidget {
 

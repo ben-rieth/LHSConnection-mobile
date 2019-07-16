@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:lhs_connections/models/feedPost.dart';
-import 'package:lhs_connections/models/user.dart';
+import 'package:Gamut/models/feedPost.dart';
+import 'package:Gamut/models/user.dart';
 
 TextEditingController _titleController = TextEditingController();
 TextEditingController _contentController = TextEditingController();

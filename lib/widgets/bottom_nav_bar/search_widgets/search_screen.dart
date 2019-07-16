@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:lhs_connections/repositories/algolia_repository.dart';
-import 'package:lhs_connections/blocs/search_bloc/bloc.dart';
-import 'package:lhs_connections/widgets/bottom_nav_bar/search_widgets/search_form.dart';
+import 'package:Gamut/repositories/algolia_repository.dart';
+import 'package:Gamut/blocs/search_bloc/bloc.dart';
+import 'package:Gamut/widgets/bottom_nav_bar/search_widgets/search_form.dart';
 
 class SearchScreen extends StatefulWidget {
 

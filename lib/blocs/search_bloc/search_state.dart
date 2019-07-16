@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import 'package:lhs_connections/models/class.dart';
+import 'package:Gamut/models/class.dart';
 
 @immutable
 abstract class SearchState extends Equatable {

@@ -3,9 +3,9 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:lhs_connections/blocs/authentication_bloc/bloc.dart';
-import 'package:lhs_connections/repositories/user_repository.dart';
-import 'package:lhs_connections/models/user.dart';
+import 'package:Gamut/blocs/authentication_bloc/bloc.dart';
+import 'package:Gamut/repositories/user_repository.dart';
+import 'package:Gamut/models/user.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {

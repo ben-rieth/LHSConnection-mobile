@@ -3,9 +3,9 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:algolia/algolia.dart';
 
-import 'package:lhs_connections/blocs/search_bloc/bloc.dart';
-import 'package:lhs_connections/repositories/algolia_repository.dart';
-import 'package:lhs_connections/models/class.dart';
+import 'package:Gamut/blocs/search_bloc/bloc.dart';
+import 'package:Gamut/repositories/algolia_repository.dart';
+import 'package:Gamut/models/class.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
 

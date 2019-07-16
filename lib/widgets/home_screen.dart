@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:lhs_connections/models/user.dart';
-import 'package:lhs_connections/Widgets/bottom_nav_bar/placeholder_screen.dart';
-import 'package:lhs_connections/Widgets/bottom_nav_bar/feed_screen.dart';
-import 'package:lhs_connections/widgets/bottom_nav_bar/account_screen.dart';
-import 'package:lhs_connections/widgets/bottom_nav_bar/search_widgets/search_screen.dart';
+import 'package:Gamut/models/user.dart';
+import 'package:Gamut/Widgets/bottom_nav_bar/placeholder_screen.dart';
+import 'package:Gamut/Widgets/bottom_nav_bar/feed_screen.dart';
+import 'package:Gamut/widgets/bottom_nav_bar/account_screen.dart';
+import 'package:Gamut/widgets/bottom_nav_bar/search_widgets/search_screen.dart';
 
 class Home extends StatefulWidget {
   final User user;
